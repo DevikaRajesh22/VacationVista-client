@@ -63,11 +63,11 @@ const Login = () => {
 
               <div className="mb-3">
                 <button className="mb-1.5 block w-full text-center text-white bg-blue-700 hover:bg-blue-900 px-2 py-1.5 rounded-md">
-                  Sign in
+                  Log in
                 </button>
                 <button className="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md">
                   <img className="w-5 mr-2" src={google} />
-                  <Link to="/">Sign in with Google</Link>
+                  <Link to="/">Log in with Google</Link>
                 </button>
               </div>
             </form>
