@@ -1,4 +1,3 @@
-import "./Home.css";
 import Navbar from "../../../Components/Common/Navbar";
 import Carousel from "../../../Components/Buyer/Carousel";
 import Choose from "../../../Components/Buyer/Choose";

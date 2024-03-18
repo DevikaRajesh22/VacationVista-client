@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
 const Navbar = () => {
@@ -11,12 +12,17 @@ const Navbar = () => {
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link
+          to="/"
+          className="flex items-center space-x-3 rtl:space-x-reverse"
+        >
+          {" "}
+          {/* Use Link component */}
           <img src={logo} className="h-8" alt="Flowbite Logo" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap text-blue-700">
             Vacation Vista
           </span>
-        </a>
+        </Link>
         {/* Button to toggle sidebar on small screens */}
         <button
           data-collapse-toggle="navbar-default"
@@ -47,60 +53,61 @@ const Navbar = () => {
         <div className="hidden md:flex md:w-auto" id="navbar-default">
           <ul className="font-medium flex flex-col md:flex-row md:space-x-8 rtl:space-x-reverse">
             <li>
-              <a
-                href="#"
+              <Link
+                to="/sell"
                 className="py-2 px-3 text-blue-700 hover:text-blue-900 dark:text-blue-300"
-                aria-current="page"
               >
                 Sell your home
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/login" // Set the 'to' prop to the login page path
                 className="py-2 px-3 text-gray-700 hover:text-gray-900 dark:text-gray-300"
               >
                 Login
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/signup"
                 className="py-2 px-3 text-gray-700 hover:text-gray-900 dark:text-gray-300"
               >
                 Signup
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
       </div>
       {/* Sidebar for small screens */}
-      <div className={`md:hidden ${isSidebarOpen ? 'block' : 'hidden'}`} id="navbar-default">
+      <div
+        className={`md:hidden ${isSidebarOpen ? "block" : "hidden"}`}
+        id="navbar-default"
+      >
         <ul className="font-medium flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50">
           <li>
-            <a
-              href="#"
+            <Link
+              to="/sell"
               className="block py-2 px-3 text-blue-700 hover:text-blue-900 dark:text-blue-300"
-              aria-current="page"
             >
               Sell your home
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#"
+            <Link
+              to="/login"
               className="block py-2 px-3 text-gray-700 hover:text-gray-900 dark:text-gray-300"
             >
               Login
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#"
+            <Link
+              to="/signup"
               className="block py-2 px-3 text-gray-700 hover:text-gray-900 dark:text-gray-300"
             >
               Signup
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
