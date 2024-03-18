@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Signup = () => {
   return (
-     // <!-- component -->
+    // <!-- component -->
     // <!-- Container -->
     <div className="flex flex-wrap min-h-screen w-full content-center justify-center bg-gray-200 py-10">
       {/* <!-- Login component --> */}
@@ -16,12 +16,20 @@ const Signup = () => {
           <div className="w-72">
             {/* <!-- Heading --> */}
             <h1 className="text-xl font-semibold">Sign up</h1>
-            <small className="text-gray-400">
-              Please enter your details
-            </small>
+            <small className="text-gray-400">Please enter your details</small>
 
             {/* <!-- Form --> */}
             <form className="mt-4">
+              <div className="mb-3">
+                <label className="mb-2 block text-xs font-semibold">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-500"
+                />
+              </div>
               <div className="mb-3">
                 <label className="mb-2 block text-xs font-semibold">
                   Email
@@ -32,7 +40,6 @@ const Signup = () => {
                   className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-500"
                 />
               </div>
-
               <div className="mb-3">
                 <label className="mb-2 block text-xs font-semibold">
                   Password
@@ -45,7 +52,7 @@ const Signup = () => {
               </div>
               <div className="mb-3">
                 <label className="mb-2 block text-xs font-semibold">
-                 Confirm Password
+                  Confirm Password
                 </label>
                 <input
                   type="password"
@@ -70,10 +77,7 @@ const Signup = () => {
               <span className="text-xs text-gray-400 font-semibold">
                 Already have account?
               </span>
-              <Link
-                to="/login"
-                className="text-xs font-semibold text-blue-700"
-              >
+              <Link to="/login" className="text-xs font-semibold text-blue-700">
                 Login
               </Link>
             </div>
@@ -81,7 +85,7 @@ const Signup = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;
