@@ -7,10 +7,10 @@ import Footer from "../../../Components/Common/Footer";
 
 const Home = () => {
   return (
-    <main className="mt-8 mb-10">
+    <main className="mt-8">
       <Navbar />
       <Carousel />
-      <div className="my-4 sm:my-8"> {/* Reduced spacing for small devices */}
+      <div className="my-4"> {/* Reduced spacing for small devices */}
         <Choose />
       </div>
       <div className="my-8">
