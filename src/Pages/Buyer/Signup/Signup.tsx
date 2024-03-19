@@ -1,7 +1,47 @@
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { signup } from "../../../Api/buyer";
+import "react-toastify/dist/ReactToastify.css";
 import google from "../../../assets/google.png";
-import { Link } from "react-router-dom";
 
 const Signup = () => {
+  const [error, setError] = useState(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpassword, setCpassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("handle submit method");
+    try {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (name.trim().length < 4) {
+        toast.error("Name should have more than 3 letters !!!");
+        return;
+      } else if (!emailRegex.test(email)) {
+        toast.error("Wrong email format !!!");
+        return;
+      } else if (password.trim().length < 6) {
+        toast.error("Invalid password !!!");
+        return;
+      } else if (password !== cpassword) {
+        toast.error("Passwords doesnt match !!!");
+        return;
+      }
+      const res = await signup(name, email, password);
+      console.log("a", res);
+      if (!res.data.data) {
+        navigate("/otp");
+      }
+    } catch (error) {
+     console.log(error);
+    } finally {
+      setError(null);
+    }
+  };
   return (
     // <!-- component -->
     // <!-- Container -->
@@ -19,15 +59,17 @@ const Signup = () => {
             <small className="text-gray-400">Please enter your details</small>
 
             {/* <!-- Form --> */}
-            <form className="mt-4">
+            <form className="mt-4" onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label className="mb-2 block text-xs font-semibold">
                   Full Name
                 </label>
                 <input
                   type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Enter your name"
-                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-500"
+                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-900"
                 />
               </div>
               <div className="mb-3">
@@ -36,8 +78,10 @@ const Signup = () => {
                 </label>
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-500"
+                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-900"
                 />
               </div>
               <div className="mb-3">
@@ -46,8 +90,10 @@ const Signup = () => {
                 </label>
                 <input
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="*****"
-                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-500"
+                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-900"
                 />
               </div>
               <div className="mb-3">
@@ -56,9 +102,14 @@ const Signup = () => {
                 </label>
                 <input
                   type="password"
+                  value={cpassword}
+                  onChange={(e) => setCpassword(e.target.value)}
                   placeholder="*****"
-                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-500"
+                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-900"
                 />
+              </div>
+              <div>
+                <p style={{ color: "red" }}>{error}</p>
               </div>
 
               <div className="mb-3">

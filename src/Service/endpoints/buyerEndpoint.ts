@@ -1,5 +1,5 @@
 const buyerRoutes={
-    buyerLogin:'/buyer/login',
+    buyerSignup:'/buyer/verifymail'
 }
 
 export default buyerRoutes;

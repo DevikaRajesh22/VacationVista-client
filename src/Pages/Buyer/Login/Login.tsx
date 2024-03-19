@@ -29,7 +29,7 @@ const Login = () => {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-500"
+                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-900"
                 />
               </div>
 
@@ -40,22 +40,11 @@ const Login = () => {
                 <input
                   type="password"
                   placeholder="*****"
-                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-500"
+                  className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-900"
                 />
               </div>
 
               <div className="mb-3 flex flex-wrap content-center">
-                <input
-                  id="remember"
-                  type="checkbox"
-                  className="mr-1 checked:bg-blue-700"
-                />{" "}
-                <label
-                  htmlFor="remember"
-                  className="mr-auto text-xs font-semibold"
-                >
-                  Remember for 30 days
-                </label>
                 <a href="#" className="text-xs font-semibold text-blue-700">
                   Forgot password?
                 </a>
