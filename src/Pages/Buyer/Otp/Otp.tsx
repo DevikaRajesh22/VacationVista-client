@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import { toast } from "react-toastify";
-import { useNavigate, Link } from "react-router-dom";
-import { verifyOtp } from "../../../Api/buyer";
+import { useNavigate } from "react-router-dom";
+import { verifyOtp, otpResend } from "../../../Api/buyer";
 
 const Otp = () => {
   const [otp, setOtp] = useState("");
-  const [seconds, setSeconds] = useState(59);
+  const [seconds, setSeconds] = useState(10);
   const [resendOtp, setResendOtp] = useState(false);
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ const Otp = () => {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [seconds]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log("handle submit");
@@ -44,12 +44,12 @@ const Otp = () => {
     }
   };
 
-  const handleResendOtp = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleResendOtp = async (e: MouseEvent<HTMLButtonElement>) => {
     console.log("handle resend otp");
     e.preventDefault();
     setResendOtp(false);
-    setSeconds(59);
-    const res = await verifyOtp(otp);
+    setSeconds(10);
+    const res = await otpResend(otp);
     console.log("reotp", res);
     if (res?.data.status) {
       toast.success("Signed up successfully. Please login");
@@ -90,8 +90,7 @@ const Otp = () => {
               </button>
             ) : (
               <button
-                type="submit"
-                onSubmit={handleResendOtp}
+                onClick={handleResendOtp}
                 className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-medium border-blue-500 bg-blue-500 text-white"
               >
                 Resend OTP

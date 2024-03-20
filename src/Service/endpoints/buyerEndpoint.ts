@@ -1,6 +1,7 @@
 const buyerRoutes={
-    buyerSignup:'/buyer/verifymail',
+    buyerSignup:'/buyer/verifyMail',
     buyerVerifyOtp:'/buyer/verifyOtp',
+    buyerResendOtp:'/buyer/resendOtp',
 }
 
 export default buyerRoutes;
