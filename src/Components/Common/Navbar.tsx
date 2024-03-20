@@ -54,24 +54,8 @@ const Navbar = () => {
           <ul className="font-medium flex flex-col md:flex-row md:space-x-8 rtl:space-x-reverse">
             <li>
               <Link
-                to="/sell"
-                className="py-2 px-3 text-blue-700 hover:text-blue-900 dark:text-blue-300"
-              >
-                Sell your home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/login" // Set the 'to' prop to the login page path
-                className="py-2 px-3 text-gray-700 hover:text-gray-900 dark:text-gray-300"
-              >
-                Login
-              </Link>
-            </li>
-            <li>
-              <Link
                 to="/signup"
-                className="py-2 px-3 text-gray-700 hover:text-gray-900 dark:text-gray-300"
+                className="py-2 px-3 text-gray-700 hover:text-white  inline-block rounded-lg border border-gray-700 hover:border-blue-500 bg-white hover:bg-blue-500 transition duration-300"
               >
                 Signup
               </Link>
@@ -85,22 +69,6 @@ const Navbar = () => {
         id="navbar-default"
       >
         <ul className="font-medium flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50">
-          <li>
-            <Link
-              to="/sell"
-              className="block py-2 px-3 text-blue-700 hover:text-blue-900 dark:text-blue-300"
-            >
-              Sell your home
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/login"
-              className="block py-2 px-3 text-gray-700 hover:text-gray-900 dark:text-gray-300"
-            >
-              Login
-            </Link>
-          </li>
           <li>
             <Link
               to="/signup"
