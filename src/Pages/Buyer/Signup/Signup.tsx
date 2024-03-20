@@ -31,9 +31,10 @@ const Signup = () => {
         toast.error("Passwords doesnt match !!!");
         return;
       }
+      console.log('1')
       const res = await signup(name, email, password);
       console.log("a", res);
-      if (!res.data.data) {
+      if (!res?.data.data) {
         navigate("/otp");
       }
     } catch (error) {

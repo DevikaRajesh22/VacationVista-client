@@ -1,56 +1,39 @@
+// import { useState, useEffect } from "react";
+// import { toast } from "react-toastify";
+// import { useNavigate, Link } from "react-router-dom";
+// import Api from "../../../Service/axios";
+
 const Otp = () => {
+  // const [otp, setOtp] = useState(["", "", "", ""]);
+  // const [seconds, setSeconds] = useState(59);
+  // const [resendOtp, setResendOtp] = useState(false);
+  // const navigate = useNavigate();
   return (
-    <div>
-      {/* <!-- component --> */}
-<div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-12">
-  <div className="relative bg-white px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
-    <div className="mx-auto flex w-full max-w-md flex-col space-y-16">
-      <div className="flex flex-col items-center justify-center text-center space-y-2">
-        <div className="font-semibold text-3xl">
-          <p>Email Verification</p>
-        </div>
-        <div className="flex flex-row text-sm font-medium text-gray-400">
-          <p>We have sent a code to your email ba**@dipainhouse.com</p>
-        </div>
+    <div className="flex justify-center items-center h-screen">
+  <div className="w-full md:max-w-lg mx-auto bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+    <div className="flex flex-col justify-center space-y-5 p-6">
+      <div className="flex flex-col space-y-2 text-center">
+        <h6 className="md:text-2xl font-bold text-left">Verify OTP</h6>
       </div>
-
-      <div>
-        <form action="" method="post">
-          <div className="flex flex-col space-y-16">
-            <div className="flex flex-row items-center justify-between mx-auto w-full max-w-xs">
-              <div className="w-16 h-16 ">
-                <input className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id=""/>
-              </div>
-              <div className="w-16 h-16 ">
-                <input className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id=""/>
-              </div>
-              <div className="w-16 h-16 ">
-                <input className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id=""/>
-              </div>
-              <div className="w-16 h-16 ">
-                <input className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700" type="text" name="" id=""/>
-              </div>
-            </div>
-
-            <div className="flex flex-col space-y-5">
-              <div>
-                <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm">
-                  Verify Account
-                </button>
-              </div>
-
-              <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
-                <p>Didn't recieve code?</p> <a className="flex flex-row items-center text-blue-600" href="http://" target="_blank" rel="noopener noreferrer">Resend</a>
-              </div>
-            </div>
-          </div>
-        </form>
+      <div className="flex flex-col space-y-5">
+        <input
+          type="text"
+          placeholder="Enter OTP"
+          className="px-3 py-2 md:px-4 md:py-3 border-2 border-black-500 rounded-lg font-medium placeholder:font-normal"
+        />
+        <div className="flex justify-between items-center">
+          <p>Time remaining: 00:23</p>
+          <p>Resend code</p>
+        </div>
+        <button className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-medium border-blue-500 bg-blue-500 text-white">
+          Confirm
+        </button>
       </div>
     </div>
   </div>
 </div>
-    </div>
-  )
-}
 
-export default Otp
+  );
+};
+
+export default Otp;
