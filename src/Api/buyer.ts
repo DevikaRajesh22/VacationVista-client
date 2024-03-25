@@ -12,7 +12,6 @@ export const signup=async(name:string,email:string,password:string)=>{
 
 export const verifyOtp=async(otp:string)=>{
     try{
-        console.log('verify')
         const res=await Api.post(BuyerEndpoint.buyerVerifyOtp,{otp})
         return res
     }catch(error){
@@ -22,8 +21,16 @@ export const verifyOtp=async(otp:string)=>{
 
 export const otpResend=async(otp:string)=>{
     try{
-        console.log('resend')
         const res=await Api.post(BuyerEndpoint.buyerResendOtp,{otp})
+        return res
+    }catch(error){
+        console.log(error)
+    }
+};
+
+export const login=async(email:string,password:string)=>{
+    try{
+        const res=await Api.post(BuyerEndpoint.buyerLogin,{email,password})
         return res
     }catch(error){
         console.log(error)

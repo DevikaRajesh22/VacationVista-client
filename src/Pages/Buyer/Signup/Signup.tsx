@@ -15,25 +15,22 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("handle submit method");
     try {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (name.trim().length < 4) {
         toast.error("Name should have more than 3 letters !!!");
         return;
       } else if (!emailRegex.test(email)) {
-        toast.error("Wrong email format !!!");
+        toast.error("Please enter valid email!!!");
         return;
       } else if (password.trim().length < 6) {
-        toast.error("Invalid password !!!");
+        toast.error("Please enter valid password !!!");
         return;
       } else if (password !== cpassword) {
         toast.error("Passwords doesnt match !!!");
         return;
       }
-      console.log('1')
       const res = await signup(name, email, password);
-      console.log("a", res);
       if (!res?.data.data) {
         navigate("/otp");
       }

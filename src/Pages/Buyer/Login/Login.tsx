@@ -1,7 +1,33 @@
-import google from "../../../assets/google.png";
+import React,{useState} from 'react'
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { login } from '../../../Api/buyer';
+import "react-toastify/dist/ReactToastify.css";
+import google from "../../../assets/google.png";
 
 const Login = () => {
+
+  const [email,setEmail]=useState('');
+  const [password,setPassword]=useState('');
+
+  const handleSubmit= async (e: React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault();
+    console.log('handle submit')
+    try{
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailRegex.test(email)){
+        toast.error('Please enter valid email !!')
+        return
+      }else if(password.trim().length<6){
+        toast.error('Please enter valid password !!')
+        return
+      }
+      const res=await login(email,password)
+      console.log('res',res)
+    }catch(error){
+      console.log(error)
+    }
+  }
   return (
     // <!-- component -->
     // <!-- Container -->
@@ -21,13 +47,15 @@ const Login = () => {
             </small>
 
             {/* <!-- Form --> */}
-            <form className="mt-4">
+            <form className="mt-4" onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label className="mb-2 block text-xs font-semibold">
                   Email
                 </label>
                 <input
                   type="email"
+                  value={email}
+                  onChange={(e)=>setEmail(e.target.value)}
                   placeholder="Enter your email"
                   className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-900"
                 />
@@ -39,6 +67,8 @@ const Login = () => {
                 </label>
                 <input
                   type="password"
+                  value={password}
+                  onChange={(e)=>setPassword(e.target.value)}
                   placeholder="*****"
                   className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-900"
                 />

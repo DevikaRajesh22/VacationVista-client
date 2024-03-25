@@ -5,7 +5,7 @@ import { verifyOtp, otpResend } from "../../../Api/buyer";
 
 const Otp = () => {
   const [otp, setOtp] = useState("");
-  const [seconds, setSeconds] = useState(10);
+  const [seconds, setSeconds] = useState(59);
   const [resendOtp, setResendOtp] = useState(false);
   const navigate = useNavigate();
 
@@ -48,7 +48,7 @@ const Otp = () => {
     console.log("handle resend otp");
     e.preventDefault();
     setResendOtp(false);
-    setSeconds(10);
+    setSeconds(59);
     const res = await otpResend(otp);
     console.log("reotp", res);
     if (res?.data.status) {
