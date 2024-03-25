@@ -9,7 +9,7 @@ const Home = () => {
     <main className="mt-8">
       <Navbar />
       <Carousel />
-      <div className="my-4"> {/* Reduced spacing for small devices */}
+      <div className="my-4">
         <Choose />
       </div>
       <div className="my-8">

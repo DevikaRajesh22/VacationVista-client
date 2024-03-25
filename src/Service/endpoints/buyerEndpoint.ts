@@ -3,6 +3,7 @@ const buyerRoutes={
     buyerVerifyOtp:'/buyer/verifyOtp',
     buyerResendOtp:'/buyer/resendOtp',
     buyerLogin:'/buyer/login',
+    buyerLogout:'/buyer/logout'
 }
 
 export default buyerRoutes;

@@ -36,3 +36,12 @@ export const login=async(email:string,password:string)=>{
         console.log(error)
     }
 };
+
+export const buyerLogout=async()=>{
+    try{
+        const res=await Api.post(BuyerEndpoint.buyerLogout)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+};
