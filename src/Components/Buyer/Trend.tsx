@@ -95,17 +95,21 @@ const Trend = () => {
           Trending
         </h3>
       </div>
-      <div className="flex justify-center space-x-6 mb-8">
+      <div className="container px-4 py-8 mx-auto lg:px-8">  
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <Cards image={trend1} title="Jambiani, Tanzania" price="19,843" />
+        <Cards image={trend2} title="Kecamatan, Indonesia" price="26,335" />
+        <Cards image={trend3} title="Vagator, India" price="1,11,400" />
+        <Cards image={trend4} title="Goa, India" price="2,03,400" />
+        <Cards image={trend1} title="Jambiani, Tanzania" price="19,843" />
+        <Cards image={trend2} title="Kecamatan, Indonesia" price="26,335" />
+        <Cards image={trend3} title="Vagator, India" price="1,11,400" />
+        <Cards image={trend4} title="Goa, India" price="2,03,400" />
         <Cards image={trend1} title="Jambiani, Tanzania" price="19,843" />
         <Cards image={trend2} title="Kecamatan, Indonesia" price="26,335" />
         <Cards image={trend3} title="Vagator, India" price="1,11,400" />
         <Cards image={trend4} title="Goa, India" price="2,03,400" />
       </div>
-      <div className="flex justify-center space-x-6">
-        <Cards image={trend1} title="Jambiani, Tanzania" price="19,843" />
-        <Cards image={trend2} title="Kecamatan, Indonesia" price="26,335" />
-        <Cards image={trend3} title="Vagator, India" price="1,11,400" />
-        <Cards image={trend4} title="Goa, India" price="2,03,400" />
       </div>
     </div>
   );

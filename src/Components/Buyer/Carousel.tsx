@@ -21,15 +21,15 @@ const Carousel = () => {
   return (
     <div
       id="default-carousel"
-      className="relative w-full h-screen md:h-auto lg:h-auto overflow-x-hidden overflow-y-hidden"
+      className="relative w-full md:h-auto lg:h-auto overflow-x-hidden overflow-y-hidden"
       data-carousel="slide"
     >
       <Slider {...settings}>
         <div className="duration-700 ease-in-out" data-carousel-item>
-          <div className="w-full h-auto md:h-full lg:h-full relative">
+          <div className="w-full h-[250px] md:h-full lg:h-full relative">
             <img
               src={banner1}
-              className="w-full h-auto md:h-full lg:h-full"
+              className="w-full h-[250px] md:h-full lg:h-full"
               alt="banner1"
             />
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center">
@@ -66,7 +66,7 @@ const Carousel = () => {
           <div className="w-full h-auto md:h-full lg:h-full relative">
             <img
               src={banner2}
-              className="w-full h-auto md:h-full lg:h-full"
+              className="w-full h-[250px] md:h-full lg:h-full"
               alt="banner1"
             />
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center">
@@ -103,7 +103,7 @@ const Carousel = () => {
           <div className="w-full h-auto md:h-full lg:h-full relative">
             <img
               src={banner3}
-              className="w-full h-auto md:h-full lg:h-full"
+              className="w-full h-[250px] md:h-full lg:h-full"
               alt="banner1"
             />
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center">
@@ -140,7 +140,7 @@ const Carousel = () => {
           <div className="w-full h-auto md:h-full lg:h-full relative">
             <img
               src={banner4}
-              className="w-full h-auto md:h-full lg:h-full"
+              className="w-full h-[250px] md:h-full lg:h-full"
               alt="banner1"
             />
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center">
@@ -177,7 +177,7 @@ const Carousel = () => {
           <div className="w-full h-auto md:h-full lg:h-full relative">
             <img
               src={banner5}
-              className="w-full h-auto md:h-full lg:h-full"
+              className="w-full h-[250px] md:h-full lg:h-full"
               alt="banner1"
             />
             <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center">
