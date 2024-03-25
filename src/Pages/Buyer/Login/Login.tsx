@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import GoogleAuthSignUp from '../../../Components/Buyer/GoogleAuthSignUp';
 import { Link, useNavigate } from "react-router-dom";
 import { login } from '../../../Api/buyer';
-import "react-toastify/dist/ReactToastify.css";
-import google from "../../../assets/google.png";
 import { useDispatch } from "react-redux";
 import { setCredentials } from '../../../Store/slice/authSlice';
 
@@ -84,21 +84,11 @@ const Login = () => {
                   className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-900"
                 />
               </div>
-
-              <div className="mb-3 flex flex-wrap content-center">
-                <a href="#" className="text-xs font-semibold text-blue-700">
-                  Forgot password?
-                </a>
-              </div>
-
               <div className="mb-3">
                 <button className="mb-1.5 block w-full text-center text-white bg-blue-700 hover:bg-blue-900 px-2 py-1.5 rounded-md">
                   Log in
                 </button>
-                <button className="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md">
-                  <img className="w-5 mr-2" src={google} />
-                  <Link to="/">Log in with Google</Link>
-                </button>
+                <GoogleAuthSignUp  buyerLogin={true} buyer={true}/>
               </div>
             </form>
 

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../../../Api/buyer";
-import "react-toastify/dist/ReactToastify.css";
-import google from "../../../assets/google.png";
+import GoogleAuthSignUp from "../../../Components/Buyer/GoogleAuthSignUp";
 
 const Signup = () => {
   const [error, setError] = useState(null);
@@ -114,10 +114,7 @@ const Signup = () => {
                 <button className="mb-1.5 block w-full text-center text-white bg-blue-700 hover:bg-blue-900 px-2 py-1.5 rounded-md">
                   Sign up
                 </button>
-                <button className="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md">
-                  <img className="w-5 mr-2" src={google} />
-                  <Link to="/">Sign up with Google</Link>
-                </button>
+                <GoogleAuthSignUp buyerLogin={false} buyer={true}/>
               </div>
             </form>
 

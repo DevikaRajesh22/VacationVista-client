@@ -45,3 +45,12 @@ export const buyerLogout=async()=>{
         console.log(error)
     }
 };
+
+export const gsignup=async(name:string,email:string,password:string)=>{
+    try{
+        const res=await Api.post(BuyerEndpoint.buyerGsignup,{name,email,password})
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
