@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 
 const initialState={
     buyerInfo: localStorage.getItem('buyerInfo') ? JSON.parse(localStorage.getItem('buyerInfo') as string) : null,
+    adminInfo:localStorage.getItem('adminInfo')?JSON.parse(localStorage.getItem('adminInfo') as string):null,
 }
 
 const authSlice=createSlice({
@@ -16,8 +17,12 @@ const authSlice=createSlice({
             state.buyerInfo=null
             localStorage.removeItem('buyerInfo')
         },
+        setAdminCredentials:(state,action)=>{
+            state.adminInfo=action.payload
+            localStorage.setItem('adminInfo',JSON.stringify(action.payload))
+        },
     }
 })
 
-export const {setCredentials,logout}=authSlice.actions;
+export const {setCredentials,logout,setAdminCredentials}=authSlice.actions;
 export default authSlice.reducer
