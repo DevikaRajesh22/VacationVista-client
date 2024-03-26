@@ -1,10 +1,11 @@
-
+import {Route,Routes} from 'react-router-dom'
+import Home from '../Pages/Admin/Home/Home'
 
 const adminRoute = () => {
   return (
-    <div>
-      
-    </div>
+    <Routes>
+      <Route path='' element={<Home/>}/>
+    </Routes>
   )
 }
 
