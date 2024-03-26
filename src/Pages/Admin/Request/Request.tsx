@@ -1,12 +1,12 @@
 import SidebarWithLogo from "../../../Components/Admin/Sidebar"
 
-const Home = () => {
+const Request = () => {
   return (
     <>
-      <SidebarWithLogo/>
-      <p>Dashboard</p>
+    <SidebarWithLogo/>
+    <p>Request</p>
     </>
   )
 }
 
-export default Home
+export default Request
