@@ -2,9 +2,30 @@ import logo from '../../assets/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBuilding, faMoneyBillAlt, faInbox, faSignOut, faUsers, faUserGroup, faChartPie, faTags  } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { adminLogout } from '../../Api/admin';
+import { admLogout } from '../../Store/slice/authSlice';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom';
 
 const SidebarWithLogo = () => {
-  
+
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
+
+  const handleLogout=async()=>{
+    try{
+      console.log('handle logout')
+      const res=await adminLogout()
+      if(res?.data.success){
+        dispatch(admLogout())
+        toast.success('Logged out successfully..')
+        navigate('/admin/login')
+      }
+    }catch(error){
+      console.log(error)
+    }
+  }
   return (
     <>
     <button
@@ -116,6 +137,7 @@ const SidebarWithLogo = () => {
             <a
               href="#"
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              onClick={handleLogout}
             >
              <FontAwesomeIcon icon={faSignOut} className="h-5 w-5" />
               <span className="flex-1 ms-3 whitespace-nowrap">Logout</span>

@@ -8,4 +8,13 @@ export const login=async(email:string,password:string)=>{
     }catch(error){
         console.log(error)
     }
+};
+
+export const adminLogout=async()=>{
+    try{
+        const res=await Api.post(AdminEndpoint.adminLogout)
+        return res
+    }catch(error){
+        console.log(error)
+    }
 }
