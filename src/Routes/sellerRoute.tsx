@@ -1,10 +1,11 @@
-import React from 'react'
+import {Route,Routes} from "react-router-dom"
+import Home from '../Pages/Seller/Home/Home'
 
 const sellerRoute = () => {
   return (
-    <div>
-      
-    </div>
+    <Routes>
+      <Route path="" element={<Home/>}/>
+    </Routes>
   )
 }
 

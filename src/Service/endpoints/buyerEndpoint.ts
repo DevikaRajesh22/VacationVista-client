@@ -5,6 +5,7 @@ const buyerRoutes={
     buyerLogin:'/buyer/login',
     buyerLogout:'/buyer/logout',
     buyerGsignup:'/buyer/gsignup',
+    buyerProfile:'/buyer/profile',
 }
 
 export default buyerRoutes;

@@ -3,11 +3,13 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { verifyOtp, otpResend } from "../../../Api/buyer";
 
+
 const Otp = () => {
   const [otp, setOtp] = useState("");
   const [seconds, setSeconds] = useState(59);
   const [resendOtp, setResendOtp] = useState(false);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,10 +35,10 @@ const Otp = () => {
       }
       const res = await verifyOtp(otp);
       console.log("otp response", res);
-      if (res?.data.status) {
+      if (res?.data.success) {
         toast.success("Signed up successfully. Please login");
         navigate("/login");
-      } else if (!res?.data.status) {
+      } else if (!res?.data.success) {
         toast.error(res?.data.message);
       }
     } catch (error) {

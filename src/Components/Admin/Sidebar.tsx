@@ -15,7 +15,6 @@ const SidebarWithLogo = () => {
 
   const handleLogout=async()=>{
     try{
-      console.log('handle logout')
       const res=await adminLogout()
       if(res?.data.success){
         dispatch(admLogout())

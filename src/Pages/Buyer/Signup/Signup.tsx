@@ -31,8 +31,13 @@ const Signup = () => {
         return;
       }
       const res = await signup(name, email, password);
+      console.log(res)
       if (!res?.data.data) {
+        localStorage.setItem('verificationToken',res?.data.token)
         navigate("/otp");
+      }else if(res?.data.data){
+        toast.error('User already exists !!')
+        navigate('/login')
       }
     } catch (error) {
      console.log(error);

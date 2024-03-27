@@ -77,12 +77,12 @@ const Navbar = () => {
               {isOpen && ( // Conditionally render dropdown menu
                 <div className="absolute right-0 z-10 origin-top-right focus:block">
                   <div className="rounded-lg shadow-lg bg-white dark:bg-gray-800 w-48">
-                    <a
-                      href="/profile"
+                    <Link
+                      to="/profile"
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200"
                     >
                       Profile
-                    </a>
+                    </Link>
                     <a
                       href="#" // Set the actual logout URL
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200"
