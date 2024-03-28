@@ -6,7 +6,7 @@ import { verifyOtp, otpResend } from "../../../Api/buyer";
 
 const Otp = () => {
   const [otp, setOtp] = useState("");
-  const [seconds, setSeconds] = useState(59);
+  const [seconds, setSeconds] = useState(15);
   const [resendOtp, setResendOtp] = useState(false);
   const navigate = useNavigate();
 
@@ -33,6 +33,7 @@ const Otp = () => {
         toast.error("OTP is invalid");
         return;
       }
+      console.log(otp)
       const res = await verifyOtp(otp);
       console.log("otp response", res);
       if (res?.data.success) {
@@ -50,14 +51,13 @@ const Otp = () => {
     console.log("handle resend otp");
     e.preventDefault();
     setResendOtp(false);
-    setSeconds(59);
+    setSeconds(15);
     const res = await otpResend(otp);
     console.log("reotp", res);
-    if (res?.data.status) {
-      toast.success("Signed up successfully. Please login");
-      navigate("/login");
-    } else if (!res?.data.status) {
-      toast.error(res?.data.message);
+    if(res?.data.success){
+      toast.success(res.data.message)
+    } else if (!res?.data.success) {
+      toast.error(res?.data.success);
     }
   };
 

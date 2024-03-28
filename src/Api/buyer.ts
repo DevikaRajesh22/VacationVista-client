@@ -18,7 +18,8 @@ export const verifyOtp=async(otp:string)=>{
             headers: {
                 'authorization': `Bearer ${token}`
             }
-        });        
+        });     
+        console.log('res',res)   
         return res
     }catch(error){
         console.log(error);
@@ -27,7 +28,12 @@ export const verifyOtp=async(otp:string)=>{
 
 export const otpResend=async(otp:string)=>{
     try{
-        const res=await Api.post(BuyerEndpoint.buyerResendOtp,{otp})
+        const token=localStorage.getItem('verificationToken')
+        const res=await Api.post(BuyerEndpoint.buyerResendOtp, {otp}, {
+            headers:{
+                'authorization': `Bearer ${token}`
+            }
+        });
         return res
     }catch(error){
         console.log(error)
