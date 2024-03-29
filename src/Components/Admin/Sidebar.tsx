@@ -68,7 +68,7 @@ const SidebarWithLogo = () => {
         <ul className="space-y-2 font-medium">
           <li>
             <Link
-              to="/admin/"
+              to="/admin/dashboard"
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
               <FontAwesomeIcon icon={faChartPie} className="h-5 w-5" />

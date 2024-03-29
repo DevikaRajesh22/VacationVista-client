@@ -2,13 +2,16 @@ import { useState, useEffect, MouseEvent } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { verifyOtp, otpResend } from "../../../Api/buyer";
+import { setCredentials } from "../../../Store/slice/authSlice";
+import { useDispatch } from "react-redux";
 
 
 const Otp = () => {
   const [otp, setOtp] = useState("");
-  const [seconds, setSeconds] = useState(15);
+  const [seconds, setSeconds] = useState(59);
   const [resendOtp, setResendOtp] = useState(false);
   const navigate = useNavigate();
+  const dispatch=useDispatch();
 
 
   useEffect(() => {
@@ -36,7 +39,8 @@ const Otp = () => {
       console.log(otp)
       const res = await verifyOtp(otp);
       console.log("otp response", res);
-      if (res?.data.success) {
+      if (res?.data.saveBuyer.success) {
+        dispatch(setCredentials(res.data.token))
         toast.success("Signed up successfully. Please login");
         navigate("/login");
       } else if (!res?.data.success) {
@@ -51,7 +55,7 @@ const Otp = () => {
     console.log("handle resend otp");
     e.preventDefault();
     setResendOtp(false);
-    setSeconds(15);
+    setSeconds(59);
     const res = await otpResend(otp);
     console.log("reotp", res);
     if(res?.data.success){

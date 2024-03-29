@@ -1,14 +1,17 @@
-import SidebarWithLogo from "../../../Components/Admin/Sidebar"
+import SidebarWithLogo from "../../../Components/Admin/Sidebar";
+import Dashboard from '../../../Components/Admin/Dashboard';
 
 const Home = () => {
   return (
-    <div className="flex"> {/* Use flexbox for side-by-side layout */}
-      <SidebarWithLogo />  {/* Render the sidebar */}
-      <main className="flex-grow px-4 py-8 z-index-2"> {/* Main content area with z-index */}
-        <p>Dashboard</p>  {/* Display the "Dashboard" text */}
-      </main>
+    <div className="flex">
+      <div className="w-1/4">
+        <SidebarWithLogo />
+      </div>
+      <div className="w-3/4 mt-20">
+        <Dashboard />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

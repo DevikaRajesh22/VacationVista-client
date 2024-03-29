@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from '../../Store/slice/authSlice'
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { buyerLogout } from "../../Api/buyer";
+import {profile} from '../../Api/buyer'
+import user from '../../assets/user.png'
 
 interface RootState {
   auth: {
@@ -22,10 +22,29 @@ const Navbar = () => {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [name,setName]=useState('')
+  const [image, setImage] = useState('');
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  useEffect(()=>{
+    const fetchUserData=async()=>{
+      try{
+        console.log('fetch')
+        const res=await profile()
+        if(res?.data?.buyerProfile){
+          setName(res.data.buyerProfile.name);
+          setImage(res.data.buyerProfile.image || user);
+        }
+
+      }catch(error){
+        console.log(error)
+      }
+    }
+    fetchUserData()
+  },[])
 
   const sidebarClass = `items-center justify-between ${isSidebarOpen ? "visible" : "hidden"
     } w-full md:flex md:w-auto md:order-1`;
@@ -64,14 +83,14 @@ const Navbar = () => {
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex items-center focus:outline-none border border-gray-300 rounded-full px-2 py-1"
               >
-                <FontAwesomeIcon
-                  icon={faUserCircle}
-                  className="h-6 w-6 text-black mr-2"
-                />{" "}
+                <img
+                  src={image}
+                  className="h-6 w-6 text-black mr-2 rounded-full"
+                />
                 {/* User icon with margin */}
                 <span className="text-sm font-medium text-gray-700">
-                  user
-                </span>{" "}
+                  {name}
+                </span>
                 {/* Username display */}
               </button>
               {isOpen && ( // Conditionally render dropdown menu

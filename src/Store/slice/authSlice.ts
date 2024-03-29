@@ -18,11 +18,15 @@ const authSlice=createSlice({
             localStorage.removeItem('buyerInfo')
         },
         setAdminCredentials:(state,action)=>{
+            console.log('cre')
             state.adminInfo=action.payload
+            console.log(state.adminInfo)
             localStorage.setItem('adminInfo',JSON.stringify(action.payload))
         },
         admLogout:(state)=>{
+            console.log('log cre')
             state.adminInfo=null
+            console.log(state.adminInfo)
             localStorage.removeItem('adminInfo')
         }
     }

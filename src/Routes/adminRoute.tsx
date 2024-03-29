@@ -1,4 +1,4 @@
-import {Route,Routes} from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import Login from '../Pages/Admin/Login/Login'
 import Home from '../Pages/Admin/Home/Home'
 import User from '../Pages/Admin/User/User'
@@ -7,18 +7,25 @@ import Property from '../Pages/Admin/Property/Property'
 import Category from '../Pages/Admin/Category/Category'
 import Request from '../Pages/Admin/Request/Request'
 import Wallet from '../Pages/Admin/Wallet/Wallet'
+import AdminLoggedIn from '../Components/Admin/AdminLoggedIn'
+import AdminLoggedOut from '../Components/Admin/AdminLoggedOut'
 
 const adminRoute = () => {
   return (
+
     <Routes>
-      <Route path='login' element={<Login/>}/>
-      <Route path='' element={<Home/>}/>
-      <Route path='user' element={<User/>}/>
-      <Route path='host' element={<Host/>}/>
-      <Route path='property' element={<Property/>}/>
-      <Route path='category' element={<Category/>}/>
-      <Route path='request' element={<Request/>}/>
-      <Route path='wallet' element={<Wallet/>}/>
+      <Route path='' element={<AdminLoggedOut />}>
+        <Route path='login' element={<Login />} />
+      </Route>
+      <Route path='' element={<AdminLoggedIn />}>
+        <Route path='dashboard' element={<Home />} />
+        <Route path='user' element={<User />} />
+        <Route path='host' element={<Host />} />
+        <Route path='property' element={<Property />} />
+        <Route path='category' element={<Category />} />
+        <Route path='request' element={<Request />} />
+        <Route path='wallet' element={<Wallet />} />
+      </Route>
     </Routes>
   )
 }
