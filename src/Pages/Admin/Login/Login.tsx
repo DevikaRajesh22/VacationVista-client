@@ -30,7 +30,7 @@ const Login = () => {
             if (res?.data.success) {
                 dispatch(setAdminCredentials(res.data.token))
                 toast.success('Sign in successfull...')
-                navigate('/admin/')
+                navigate('/admin/dashboard')
             } else if (!res?.data.status) {
                 toast.error(res?.data.message)
             }

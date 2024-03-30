@@ -16,7 +16,6 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('handle submit')
     try {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
@@ -27,12 +26,11 @@ const Login = () => {
         return
       }
       const res = await login(email, password)
-      console.log('res', res)
       if (res?.data.success) {
         dispatch(setCredentials(res.data.token))
         toast.success('Successfully logged in..')
         navigate('/')
-      } else if (!res?.data.status) {
+      } else if (!res?.data.success) {
         toast.error(res?.data.message)
       }
     } catch (error) {

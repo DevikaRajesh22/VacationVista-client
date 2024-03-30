@@ -50,7 +50,6 @@ export const otpResend = async (otp: string) => {
 export const login = async (email: string, password: string) => {
     try {
         const res = await Api.post(BuyerEndpoint.buyerLogin, { email, password })
-        console.log('login api',res)
         return res
     } catch (error) {
         console.log(error)

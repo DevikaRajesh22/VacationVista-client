@@ -1,7 +1,11 @@
+import Dashboard from '../../../Components/Seller/Dashboard'
+import Navbar from '../../../Components/Seller/Navbar'
+
 const Home = () => {
   return (
     <div>
-      <p>Home</p>
+      <Navbar/>
+      <Dashboard/>
     </div>
   )
 }

@@ -1,5 +1,49 @@
-import user from '../../assets/user.png'
+import userimg from '../../assets/userimg.png'
+import { useState,useEffect } from 'react';
+import {users} from '../../Api/admin'
+import { blockUser } from '../../Api/admin';
+
+interface User{
+  id:string,
+  name:string,
+  email:string,
+  isBlocked:boolean,
+  image:string,
+  phone:string,
+}
+
 const User = () => {
+  const[user,setUser]=useState<User[]>([])
+  const [block,setBlock]=useState(false)
+
+  useEffect(()=>{
+    const fetchUserData=async()=>{
+      try{
+        const res=await users()
+        console.log(res)
+        if(res?.data.success){
+          setUser(res.data.getUser)
+        }
+      }catch(error){
+        console.log(error)
+      }
+    }
+    fetchUserData()
+  },[block])
+
+  const handleBlock=async(id:string)=>{
+    try{
+      console.log(id)
+      const res=await blockUser(id)
+      console.log('res',res)
+      if(res?.data.success){
+        setBlock(!block)
+      }
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   return (
     <div className="max-w-xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
       <div className="overflow-x-auto">
@@ -15,39 +59,42 @@ const User = () => {
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <tbody>{user.map((val)=>{
+            return(
+              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <th
                 scope="row"
                 className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
               >
                 <img
                   className="w-10 h-10 rounded-full"
-                  src={user}
+                  src={val.image?val.image:userimg}
                   alt="Jese image"
                 />
               </th>
               <td className="px-6 py-4">
                 <div className="ps-3">
                   <div className="text-base text-black font-semibold">
-                    Neil Sims
+                   {val.name}
                   </div>
                   <div className="font-normal text-gray-600">
-                    neil.sims@flowbite.com
+                   {val.email}
+                  </div>
+                  <div className="font-normal text-gray-600">
+                   {val.phone}
                   </div>
                 </div>
               </td>
               <td className="px-6 py-4">
                 <div className="flex space-x-4">
-                  <button className="text-sm px-3 py-1 rounded-md bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                    Block
-                  </button>
-                  <button className="text-sm px-3 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                    View Details
+                  <button className="text-sm px-3 py-1 rounded-md bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:bg-red-600 " onClick={()=>handleBlock(val.id)}>
+                  {val.isBlocked ? 'Unblock': 'Block'}
                   </button>
                 </div>
               </td>
             </tr>
+            )
+          })}
           </tbody>
         </table>
       </div>
