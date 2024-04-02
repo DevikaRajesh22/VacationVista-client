@@ -12,9 +12,7 @@ const AdminLoggedIn = ()=>{
     const {adminInfo} = useSelector((state:RootState)=>state.auth);
     console.log('in adminLoggedIn'+adminInfo)
     return (
-
         adminInfo ? <Outlet/> : < Navigate to='/admin/login' />
-
     )
 }
 
