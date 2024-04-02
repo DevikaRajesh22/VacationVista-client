@@ -9,7 +9,6 @@ interface RootState{
 
 const SellerLoggedIn=()=>{
     const sellerInfo=useSelector((state:RootState)=>state.auth);
-    console.log('sellerLoggedIn',sellerInfo)
     return(
         sellerInfo.sellerInfo ? <Outlet/> : <Navigate to='/seller/login'/>
     )

@@ -2,6 +2,7 @@ import userimg from '../../assets/userimg.png'
 import { useState,useEffect } from 'react';
 import {users} from '../../Api/admin'
 import { blockUser } from '../../Api/admin';
+import { toast } from "react-toastify";
 
 interface User{
   id:string,
@@ -38,6 +39,7 @@ const User = () => {
       console.log('res',res)
       if(res?.data.success){
         setBlock(!block)
+        toast.success('Succcessfully changed access...')
       }
     }catch(error){
       console.log(error)

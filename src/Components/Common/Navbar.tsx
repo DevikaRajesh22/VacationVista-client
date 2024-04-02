@@ -6,7 +6,7 @@ import { logout } from '../../Store/slice/authSlice'
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify'
 import { buyerLogout } from "../../Api/buyer";
-import {profile} from '../../Api/buyer'
+import { profile } from '../../Api/buyer'
 import user from '../../assets/user.png'
 
 interface RootState {
@@ -22,29 +22,29 @@ const Navbar = () => {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [name,setName]=useState('')
+  const [name, setName] = useState('')
   const [image, setImage] = useState('');
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  useEffect(()=>{
-    const fetchUserData=async()=>{
-      try{
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
         console.log('fetch')
-        const res=await profile()
-        if(res?.data?.buyerProfile){
+        const res = await profile()
+        if (res?.data?.buyerProfile) {
           setName(res.data.buyerProfile.name);
           setImage(res.data.buyerProfile.image || user);
         }
 
-      }catch(error){
+      } catch (error) {
         console.log(error)
       }
     }
     fetchUserData()
-  },[])
+  }, [])
 
   const sidebarClass = `items-center justify-between ${isSidebarOpen ? "visible" : "hidden"
     } w-full md:flex md:w-auto md:order-1`;

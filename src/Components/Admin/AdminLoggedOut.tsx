@@ -10,7 +10,6 @@ interface RootState{
 const AdminLoggedOut = ()=>{
 
     const {adminInfo} = useSelector((state:RootState)=>state.auth);
-    console.log('in adminLoggedOut'+adminInfo)
 
     return (
 

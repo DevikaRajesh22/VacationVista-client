@@ -4,7 +4,8 @@ import Home from '../Pages/Admin/Home/Home'
 import User from '../Pages/Admin/User/User'
 import Host from '../Pages/Admin/Host/Host'
 import Property from '../Pages/Admin/Property/Property'
-import Category from '../Pages/Admin/Category/Category'
+import CategoryPage from '../Pages/Admin/Category/CategoryPage'
+import AddCategory from '../Pages/Admin/Category/CategoryForm'
 import Request from '../Pages/Admin/Request/Request'
 import Wallet from '../Pages/Admin/Wallet/Wallet'
 import AdminLoggedIn from '../Components/Admin/AdminLoggedIn'
@@ -22,7 +23,8 @@ const adminRoute = () => {
         <Route path='user' element={<User />} />
         <Route path='host' element={<Host />} />
         <Route path='property' element={<Property />} />
-        <Route path='category' element={<Category />} />
+        <Route path='category' element={<CategoryPage />} />
+        <Route path='addCategory' element={<AddCategory/>}/>
         <Route path='request' element={<Request />} />
         <Route path='wallet' element={<Wallet />} />
       </Route>
