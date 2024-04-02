@@ -4,7 +4,6 @@ import BuyerEndpoint from "../Service/endpoints/buyerEndpoint";
 export const signup = async (name: string, email: string, password: string) => {
     try {
         const res = await Api.post(BuyerEndpoint.buyerSignup, { name, email, password })
-        console.log('signup api',res)
         const token=res.data.token
         localStorage.setItem('buyerotp', token)
         console.log(res)

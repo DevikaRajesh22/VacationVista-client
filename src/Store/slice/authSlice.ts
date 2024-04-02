@@ -1,36 +1,41 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
-const initialState={
+const initialState = {
     buyerInfo: localStorage.getItem('buyerInfo') ? JSON.parse(localStorage.getItem('buyerInfo') as string) : null,
-    adminInfo:localStorage.getItem('adminInfo')?JSON.parse(localStorage.getItem('adminInfo') as string):null,
+    adminInfo: localStorage.getItem('adminInfo') ? JSON.parse(localStorage.getItem('adminInfo') as string) : null,
+    sellerInfo: localStorage.getItem('sellerInfo') ? JSON.parse(localStorage.getItem('buyerInfo') as string) : null,
 }
 
-const authSlice=createSlice({
-    name:'auth',
+const authSlice = createSlice({
+    name: 'auth',
     initialState,
-    reducers:{
-        setCredentials:(state,action)=>{
-            state.buyerInfo=action.payload
-            localStorage.setItem('buyerInfo',JSON.stringify(action.payload))
+    reducers: {
+        setCredentials: (state, action) => {
+            state.buyerInfo = action.payload
+            localStorage.setItem('buyerInfo', JSON.stringify(action.payload))
         },
-        logout:(state) =>{
-            state.buyerInfo=null
+        logout: (state) => {
+            state.buyerInfo = null
             localStorage.removeItem('buyerInfo')
         },
-        setAdminCredentials:(state,action)=>{
-            console.log('cre')
-            state.adminInfo=action.payload
-            console.log(state.adminInfo)
-            localStorage.setItem('adminInfo',JSON.stringify(action.payload))
+        setAdminCredentials: (state, action) => {
+            state.adminInfo = action.payload
+            localStorage.setItem('adminInfo', JSON.stringify(action.payload))
         },
-        admLogout:(state)=>{
-            console.log('log cre')
-            state.adminInfo=null
-            console.log(state.adminInfo)
+        admLogout: (state) => {
+            state.adminInfo = null
             localStorage.removeItem('adminInfo')
+        },
+        setSellerCredentials:(state,action)=>{
+            state.sellerInfo=action.payload
+            localStorage.setItem('sellerInfo',JSON.stringify(action.payload))
+        },
+        sellLogout:(state)=>{
+            state.sellerInfo=null
+            localStorage.removeItem('sellerInfo')
         }
     }
 })
 
-export const {setCredentials,logout,setAdminCredentials,admLogout}=authSlice.actions;
+export const { setCredentials, logout, setAdminCredentials, admLogout, setSellerCredentials, sellLogout } = authSlice.actions;
 export default authSlice.reducer

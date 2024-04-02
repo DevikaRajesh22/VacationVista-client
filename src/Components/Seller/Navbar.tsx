@@ -1,14 +1,60 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { profile } from '../../Api/seller'
+import { sellerLogout } from "../../Api/seller";
+import { toast } from 'react-toastify'
+import { sellLogout } from "../../Store/slice/authSlice";
+
+interface RootState {
+  auth: {
+    sellerInfo: string;
+  };
+}
 
 const Navbar = () => {
+  const { sellerInfo } = useSelector((state: RootState) => state.auth)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const [dropdownToggle, setDropdownToogle] = useState(false);
-  // const [toggleSidebar,setToggleSidebar]=useState(false)
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await profile();
+        console.log('jooo', res)
+        // if (res?.data?.sellerProfile) {
+        //   setName(res.data.sellerProfile.name);
+        //   setImage(res.data.sellerProfile.image || user);
+        // }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchUserData()
+  }, [])
 
   const dropDownToggle = () => {
     setDropdownToogle(!dropdownToggle);
   };
+
+  const handleLogout=async()=>{
+    try{
+      console.log('handle logout')
+      const res=await sellerLogout()
+      console.log('res',res)
+      if (res?.data.success) {
+        dispatch(sellLogout())
+        toast.success('Logged out successfully..')
+        navigate('/seller/login')
+      }
+    }catch(error){
+      console.log(error)
+    }
+  }
 
   // const sidebarToggle=()=>{
   //   setToggleSidebar(!toggleSidebar)
@@ -27,12 +73,21 @@ const Navbar = () => {
           </span>
         </Link>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button
-            type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Get started
-          </button>
+          {sellerInfo ?
+            <button
+            onClick={handleLogout}
+              type="button"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Logout
+            </button>
+            : <button
+              type="button"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Get started
+            </button>
+          }
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
@@ -59,7 +114,7 @@ const Navbar = () => {
             </svg>
           </button>
         </div>
-        {<div
+        { sellerInfo && <div
           className="items-center justify-between w-full md:flex md:w-auto md:order-1"
           id="navbar-sticky"
         >
@@ -117,30 +172,30 @@ const Navbar = () => {
                 {/* Dropdown menu */}
                 {dropdownToggle && (
                   <div
-                  className="absolute top-full left-0 mt-1 w-full md:w-auto md:left-auto md:top-auto md:right-0 md:mt-0 md:border md:border-gray-100 rounded-lg bg-gray-50 md:bg-white dark:bg-gray-800 dark:border-gray-700"
-                  id="navbar-dropdown"
-                >
-                  <ul className="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton" style={{ width: '120px' }}>
-                    <li>
-                      <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reservations</a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ratings</a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Payments</a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Insights</a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New listing</a>
-                    </li>
-                    <li>
-                      <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sellers</a>
-                    </li>
-                  </ul>
-              </div>
+                    className="absolute top-full left-0 mt-1 w-full md:w-auto md:left-auto md:top-auto md:right-0 md:mt-0 md:border md:border-gray-100 rounded-lg bg-gray-50 md:bg-white dark:bg-gray-800 dark:border-gray-700"
+                    id="navbar-dropdown"
+                  >
+                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton" style={{ width: '120px' }}>
+                      <li>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reservations</a>
+                      </li>
+                      <li>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ratings</a>
+                      </li>
+                      <li>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Payments</a>
+                      </li>
+                      <li>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Insights</a>
+                      </li>
+                      <li>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New listing</a>
+                      </li>
+                      <li>
+                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sellers</a>
+                      </li>
+                    </ul>
+                  </div>
                 )}
               </div>
             </li>

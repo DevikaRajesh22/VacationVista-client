@@ -43,7 +43,7 @@ const Otp = () => {
         dispatch(setCredentials(res.data.token))
         toast.success("Signed up successfully. Please login");
         navigate("/login");
-      } else if (!res?.data.success) {
+      } else if (!res?.data.saveBuyer.success) {
         toast.error(res?.data.message);
       }
     } catch (error) {
