@@ -65,3 +65,21 @@ export const hideCategory=async(id:string)=>{
         console.log(error)
     }
 }
+
+export const property=async()=>{
+    try{
+        const res=await Api.get(AdminEndpoint.adminProperty)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+
+export const changePropertyStatus=async(id:string,status:string)=>{
+    try{
+        const res=await Api.post(AdminEndpoint.propertyStatusChange,{id,status});
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
