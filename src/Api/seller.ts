@@ -28,29 +28,42 @@ export const verifyOtp = async (otp: string) => {
     }
 }
 
-export const login=async(email:string,password:string)=>{
-    try{
-        const res=await Api.post(sellerEndpoint.sellerLogin,{email,password})
+export const login = async (email: string, password: string) => {
+    try {
+        const res = await Api.post(sellerEndpoint.sellerLogin, { email, password })
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const profile=async()=>{
-    try{
-        const res=await Api.get(sellerEndpoint.sellerProfile)
+export const profile = async () => {
+    try {
+        const res = await Api.get(sellerEndpoint.sellerProfile)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const sellerLogout=async()=>{
-    try{
-        const res=await Api.post(sellerEndpoint.sellerLogout)
+export const sellerLogout = async () => {
+    try {
+        const res = await Api.post(sellerEndpoint.sellerLogout)
         return res
-    }catch(error){
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const createProperty = async (formData: FormData) => {
+    try {
+        const res = await Api.post(sellerEndpoint.sellerCreateProperty,formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return res;
+    } catch (error) {
         console.log(error)
     }
 }
