@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
 import { property } from '../../Api/admin';
-import { changePropertyStatus } from '../../Api/admin';
 import { toast } from 'react-toastify';
+import { hideProperty } from '../../Api/admin';
 
 interface Property {
     id: string,
     title: string,
     address: string,
     status: string,
-    photos: string
+    photos: string,
+    isBlocked: boolean
 }
 
-const Request = () => {
+const Property = () => {
     const [properties, setProperties] = useState<Property[]>([]);
+    const [block,setBlock]=useState(false)
 
     useEffect(() => {
         const fetchPropertyData = async () => {
@@ -26,29 +28,17 @@ const Request = () => {
                 console.log(error)
             }
         }
-        fetchPropertyData();
-    })
+        fetchPropertyData()
+    },[block]);
 
-    const handleAccept = async (id: string, status: string) => {
+    const handleHide = async (id: string) => {
         try {
-            const res = await changePropertyStatus(id, status);
-            if (res?.data.success) {
-                toast.success('Status changed successfully...')
-            }else{
-                toast.error('Something went wrong')
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const handleReject = async (id: string, status: string) => {
-        try {
-            const res = await changePropertyStatus(id, status);
-            console.log('res', res)
-            if (res?.data.success) {
-                toast.success('Status changed successfully...')
-            }
+            const res=await hideProperty(id)
+            console.log('res',res)
+            if(res?.data.success){
+                setBlock(!block)
+                toast.success('Succcessfully changed access...')
+              }
         } catch (error) {
             console.log(error)
         }
@@ -59,7 +49,7 @@ const Request = () => {
             {
                 properties.map((val) => {
                     return (
-                        <div key={val.id} className={`max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-3 ${val.status !== 'Verification Required' && 'hidden'}`}>
+                        <div className={`max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-4 ${(val.status == 'Verification Required' || val.status == "Rejected") && 'hidden'}`}>
                             <a href="#">
                                 <img className="rounded-t-lg h-40 w-full" src={val.photos[0]} alt="" />
                             </a>
@@ -76,16 +66,10 @@ const Request = () => {
                                     {val.status}
                                 </p>
                                 <button
-                                    onClick={() => handleAccept(val.id, 'Accepted')}
-                                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mr-5"
-                                >
-                                    Accept
-                                </button>
-                                <button
-                                    onClick={() => handleReject(val.id, 'Rejected')}
+                                    onClick={() => handleHide(val.id)}
                                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-500 rounded-lg hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-700 dark:hover:bg-red-800 dark:focus:ring-red-500"
                                 >
-                                    Reject
+                                   {val.isBlocked ? 'Show': 'Hide'}
                                 </button>
 
                             </div>
@@ -93,8 +77,11 @@ const Request = () => {
                     )
                 })
             }
+
         </div>
+
+
     )
 }
 
-export default Request
+export default Property

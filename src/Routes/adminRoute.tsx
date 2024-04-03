@@ -3,7 +3,7 @@ import Login from '../Pages/Admin/Login/Login'
 import Home from '../Pages/Admin/Home/Home'
 import User from '../Pages/Admin/User/User'
 import Host from '../Pages/Admin/Host/Host'
-import Property from '../Pages/Admin/Property/Property'
+import PropertyPage from '../Pages/Admin/Property/PropertyPage'
 import CategoryPage from '../Pages/Admin/Category/CategoryPage'
 import AddCategory from '../Pages/Admin/Category/CategoryForm'
 import RequestPage from '../Pages/Admin/Request/RequestPage'
@@ -22,7 +22,7 @@ const adminRoute = () => {
         <Route path='dashboard' element={<Home />} />
         <Route path='user' element={<User />} />
         <Route path='host' element={<Host />} />
-        <Route path='property' element={<Property />} />
+        <Route path='property' element={<PropertyPage />} />
         <Route path='category' element={<CategoryPage />} />
         <Route path='addCategory' element={<AddCategory />} />
         <Route path='request' element={<RequestPage />} />

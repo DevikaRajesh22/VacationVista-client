@@ -83,3 +83,12 @@ export const changePropertyStatus=async(id:string,status:string)=>{
         console.log(error)
     }
 }
+
+export const hideProperty=async(id:string)=>{
+    try{
+        const res=await Api.post(AdminEndpoint.hideProperty,{id})
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}

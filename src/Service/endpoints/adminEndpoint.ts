@@ -8,6 +8,7 @@ const adminRoutes={
     hideCategory:'/admin/hideCategory',
     adminProperty:'/admin/property',
     propertyStatusChange:'/admin/propertyStatusChange',
+    hideProperty:'/admin/hideProperty',
 }
 
 export default adminRoutes
