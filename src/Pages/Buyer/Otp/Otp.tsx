@@ -29,7 +29,6 @@ const Otp = () => {
   }, [seconds]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("handle submit");
     e.preventDefault();
     try {
       if (otp.trim().length !== 4) {
@@ -38,13 +37,14 @@ const Otp = () => {
       }
       console.log(otp)
       const res = await verifyOtp(otp);
-      console.log("otp response", res);
       if (res?.data.saveBuyer.success) {
         dispatch(setCredentials(res.data.token))
-        toast.success("Signed up successfully. Please login");
+        toast.success("Signed up successfully..");
         navigate("/login");
       } else if (!res?.data.saveBuyer.success) {
         toast.error(res?.data.message);
+      }else{
+        toast.error('Something went wrong...')
       }
     } catch (error) {
       console.log(error);
@@ -52,16 +52,14 @@ const Otp = () => {
   };
 
   const handleResendOtp = async (e: MouseEvent<HTMLButtonElement>) => {
-    console.log("handle resend otp");
     e.preventDefault();
+    const res = await otpResend();
     setResendOtp(false);
     setSeconds(59);
-    const res = await otpResend(otp);
-    console.log("reotp", res);
     if(res?.data.success){
-      toast.success(res.data.message)
+      toast.success('new otp sent..')
     } else if (!res?.data.success) {
-      toast.error(res?.data.success);
+      toast.error('something went wrong');
     }
   };
 

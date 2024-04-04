@@ -15,31 +15,29 @@ export const signup = async (name: string, email: string, password: string) => {
 
 export const verifyOtp = async (otp: string) => {
     try {
-        console.log('verify otp')
-        console.log(localStorage)
         const token = localStorage.getItem('buyerotp')
-        console.log(token)
         const res = await Api.post(BuyerEndpoint.buyerVerifyOtp, { otp }, {
             headers: {
                 'authorization': `Bearer ${token}`
             }
         });
         localStorage.removeItem('buyerotp')
-        console.log('res', res)
         return res
     } catch (error) {
         console.log(error);
     }
 };
 
-export const otpResend = async (otp: string) => {
+export const otpResend = async () => {
     try {
-        const token = localStorage.getItem('verificationToken')
-        const res = await Api.post(BuyerEndpoint.buyerResendOtp, { otp }, {
+        const token = localStorage.getItem('buyerotp')
+        const res = await Api.post(BuyerEndpoint.buyerResendOtp, '',{
             headers: {
                 'authorization': `Bearer ${token}`,
             }
         });
+        const tokens=res.data.token
+        localStorage.setItem('buyerotp', tokens)
         return res
     } catch (error) {
         console.log(error)
