@@ -12,12 +12,12 @@ const sellerRoute = () => {
     <Routes>
       <Route path="" element={<SellerLoggedOut />}>
         <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path='otp' element={<Otp />} />
       </Route>
       <Route path="" element={<SellerLoggedIn />}>
         <Route path="dashboard" element={<Home />} />
-        <Route path="signup" element={<Signup />} />
-        <Route path='otp' element={<Otp />} />
-        <Route path="newListing" element={<NewList/>}/>
+        <Route path="newListing" element={<NewList />} />
       </Route>
     </Routes>
   )

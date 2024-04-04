@@ -14,10 +14,10 @@ const buyerRoute = () => {
       <Route path='' element={<Home />} />
       <Route path="" element={<BuyerLoggedOut />}>
         <Route path="login" element={<Login />} />
-      </Route>
-      <Route path="" element={<BuyerLoggedIn />}>
         <Route path="signup" element={<Signup />} />
         <Route path="otp" element={<Otp />} />
+      </Route>
+      <Route path="" element={<BuyerLoggedIn />}>
         <Route path='profile' element={<Profile />} />
         <Route path="editProfile" element={<EditProfile />} />
       </Route>
