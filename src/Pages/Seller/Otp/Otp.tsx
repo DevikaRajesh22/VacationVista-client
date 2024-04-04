@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { verifyOtp } from '../../../Api/seller'
 import { useDispatch } from "react-redux";
 import { setSellerCredentials } from '../../../Store/slice/authSlice'
+import { otpResend } from "../../../Api/seller";
 
 
 const Otp = () => {
     const [otp, setOtp] = useState("");
-    const [seconds, setSeconds] = useState(59);
+    const [seconds, setSeconds] = useState(15);
     const [resendOtp, setResendOtp] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -39,10 +40,12 @@ const Otp = () => {
             console.log('res', res)
             if (res?.data.saveSeller.success) {
                 dispatch(setSellerCredentials(res.data.token))
-                toast.success("Signed up successfully. Please login");
+                toast.success("Signed up successfully...");
                 navigate("/seller/login");
             } else if (!res?.data.saveSeller.success) {
                 toast.error(res?.data.message)
+            } else {
+                toast.error('Something went wrong...')
             }
         } catch (error) {
             console.log(error)
@@ -52,6 +55,14 @@ const Otp = () => {
     const handleResendOtp = async (e: MouseEvent<HTMLButtonElement>) => {
         console.log("handle submit");
         e.preventDefault();
+        const res = await otpResend();
+        setResendOtp(false);
+        setSeconds(15);
+        if (res?.data.success) {
+            toast.success('new otp sent..')
+        } else if (!res?.data.success) {
+            toast.error('something went wrong');
+        }
     }
 
     return (

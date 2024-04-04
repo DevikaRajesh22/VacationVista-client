@@ -28,6 +28,22 @@ export const verifyOtp = async (otp: string) => {
     }
 }
 
+export const otpResend=async()=>{
+    try{
+        const token=localStorage.getItem('sellerotp');
+        const res=await Api.post(sellerEndpoint.sellerResendOtp,'',{
+            headers: {
+                'authorization': `Bearer ${token}`,
+            }
+        });
+        const tokens=res.data.token
+        localStorage.setItem('sellerotp',tokens)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+
 export const login = async (email: string, password: string) => {
     try {
         const res = await Api.post(sellerEndpoint.sellerLogin, { email, password })
