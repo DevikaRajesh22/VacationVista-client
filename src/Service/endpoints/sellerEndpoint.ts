@@ -6,6 +6,7 @@ const sellerRoutes={
     sellerProfile:'/seller/profile',
     sellerLogout:'/seller/logout',
     sellerCreateProperty:'/seller/createProperty',
+    sellerList:'/seller/sellerList',
 }
 
 export default sellerRoutes

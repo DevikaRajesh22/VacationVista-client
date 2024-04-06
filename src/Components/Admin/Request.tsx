@@ -3,6 +3,7 @@ import { property } from '../../Api/admin';
 import { changePropertyStatus } from '../../Api/admin';
 import { toast } from 'react-toastify';
 
+
 interface Property {
     id: string,
     title: string,
@@ -18,7 +19,6 @@ const Request = () => {
         const fetchPropertyData = async () => {
             try {
                 const res = await property()
-                console.log(res)
                 if (res?.data.success) {
                     setProperties(res.data.getProperty)
                 }
@@ -34,7 +34,7 @@ const Request = () => {
             const res = await changePropertyStatus(id, status);
             if (res?.data.success) {
                 toast.success('Status changed successfully...')
-            }else{
+            } else {
                 toast.error('Something went wrong')
             }
         } catch (error) {
@@ -45,7 +45,6 @@ const Request = () => {
     const handleReject = async (id: string, status: string) => {
         try {
             const res = await changePropertyStatus(id, status);
-            console.log('res', res)
             if (res?.data.success) {
                 toast.success('Status changed successfully...')
             }
@@ -87,7 +86,6 @@ const Request = () => {
                                 >
                                     Reject
                                 </button>
-
                             </div>
                         </div>
                     )
@@ -97,4 +95,4 @@ const Request = () => {
     )
 }
 
-export default Request
+export default Request;

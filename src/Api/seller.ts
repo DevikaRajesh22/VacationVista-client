@@ -83,3 +83,12 @@ export const createProperty = async (formData: FormData) => {
         console.log(error)
     }
 }
+
+export const sellerList=async()=>{
+    try{
+        const res=await Api.get(sellerEndpoint.sellerList)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
