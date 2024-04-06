@@ -82,11 +82,14 @@ const Login = () => {
                   className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-900"
                 />
               </div>
+              <Link to='/forgotPassword'>
+                <p className="text-xs font-bold text-blue-600 font mb-1">Forgot password?</p>
+              </Link>
               <div className="mb-3">
                 <button className="mb-1.5 block w-full text-center text-white bg-blue-700 hover:bg-blue-900 px-2 py-1.5 rounded-md">
                   Log in
                 </button>
-                <GoogleAuthSignUp  buyerLogin={true} buyer={true}/>
+                <GoogleAuthSignUp buyerLogin={true} buyer={true} />
               </div>
             </form>
 

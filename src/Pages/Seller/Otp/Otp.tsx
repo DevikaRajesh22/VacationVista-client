@@ -9,7 +9,7 @@ import { otpResend } from "../../../Api/seller";
 
 const Otp = () => {
     const [otp, setOtp] = useState("");
-    const [seconds, setSeconds] = useState(15);
+    const [seconds, setSeconds] = useState(59);
     const [resendOtp, setResendOtp] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -57,7 +57,7 @@ const Otp = () => {
         e.preventDefault();
         const res = await otpResend();
         setResendOtp(false);
-        setSeconds(15);
+        setSeconds(59);
         if (res?.data.success) {
             toast.success('new otp sent..')
         } else if (!res?.data.success) {
