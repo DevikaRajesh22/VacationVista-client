@@ -12,18 +12,16 @@ const CategoryForm = () => {
     const handleSubmit=async(e: React.FormEvent<HTMLFormElement>)=>{
         try{
             e.preventDefault()
-            console.log('handle submit')
             if(name.trim().length<3){
                 toast.error('Name should have more than 3 characters')
                 return
             }
             const res=await addCategory(name,description)
-            console.log('res',res)
             if(res?.data.success){
-                toast.success('New category added')
+                toast.success(res.data.message)
                 navigate('/admin/category')
             }else if(!res?.data.success){
-                toast.error('Something went wrong !!')
+                toast.error(res?.data.message)
             }
         }catch(error){
             console.log(error)
