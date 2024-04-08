@@ -28,18 +28,18 @@ export const verifyOtp = async (otp: string) => {
     }
 }
 
-export const otpResend=async()=>{
-    try{
-        const token=localStorage.getItem('sellerotp');
-        const res=await Api.post(sellerEndpoint.sellerResendOtp,'',{
+export const otpResend = async () => {
+    try {
+        const token = localStorage.getItem('sellerotp');
+        const res = await Api.post(sellerEndpoint.sellerResendOtp, '', {
             headers: {
                 'authorization': `Bearer ${token}`,
             }
         });
-        const tokens=res.data.token
-        localStorage.setItem('sellerotp',tokens)
+        const tokens = res.data.token
+        localStorage.setItem('sellerotp', tokens)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
@@ -73,7 +73,7 @@ export const sellerLogout = async () => {
 
 export const createProperty = async (formData: FormData) => {
     try {
-        const res = await Api.post(sellerEndpoint.sellerCreateProperty,formData, {
+        const res = await Api.post(sellerEndpoint.sellerCreateProperty, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -84,11 +84,28 @@ export const createProperty = async (formData: FormData) => {
     }
 }
 
-export const sellerList=async()=>{
-    try{
-        const res=await Api.get(sellerEndpoint.sellerList)
+export const editProperty = async (formData: FormData) => {
+    try {
+        for (const entry of formData.entries()) {
+            const [key, value] = entry;
+            console.log(key, value);
+        }
+        const res = await Api.post(sellerEndpoint.sellerEditProperty, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
         return res
-    }catch(error){
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const sellerList = async () => {
+    try {
+        const res = await Api.get(sellerEndpoint.sellerList)
+        return res
+    } catch (error) {
         console.log(error)
     }
 }

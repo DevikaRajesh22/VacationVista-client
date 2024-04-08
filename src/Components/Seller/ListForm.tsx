@@ -108,7 +108,6 @@ const ListForm = () => {
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault()
-            console.log('property form submission')
             if(title.trim().length<3){
                 toast.error('Title should have more than 3 characters !!');
                 return;

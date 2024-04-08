@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { sellerList } from '../../Api/seller';
+import { useNavigate } from 'react-router-dom';
 
 interface Property {
-    id: string,
+    _id: string,
     title: string,
     address: string,
     status: string,
@@ -13,6 +14,7 @@ interface Property {
 
 const Listing = () => {
     const [properties, setProperties] = useState<Property[]>([]);
+    const navigate=useNavigate()
 
     useEffect(() => {
         const fetchPropertyData = async () => {
@@ -28,13 +30,21 @@ const Listing = () => {
         fetchPropertyData();
     });
 
+    const handleClick = async (id:string) => {
+        try{
+            navigate(`/seller/editProperty/${id}`)
+        }catch(error){
+            console.log(error)
+        }
+      };
+
     return (
         <section className="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
             <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                 <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
                     {properties.map((val) => {
                         return (
-                            <article className="relative flex flex-col overflow-hidden rounded-lg border">
+                            <article className="relative flex flex-col overflow-hidden rounded-lg border" key={val._id}>
                                 <div className="aspect-square overflow-hidden">
                                     <img
                                         className="h-full w-full object-cover transition-all duration-300 group-hover:scale-125"
@@ -52,7 +62,7 @@ const Listing = () => {
                                     <p className="text-sm text-black-500 ">{val.address}</p>
                                     <h3 className="mb-2 text-sm text-gray-400">₹{val.price} night</h3>
                                 </div>
-                                <button className="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
+                                <button onClick={()=>handleClick(val._id)} className="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
                                     <div className="flex w-full items-center justify-center bg-yellow-500 text-xs uppercase transition group-hover:bg-emerald-600 font-bold text-white">
                                         Edit
                                     </div>
