@@ -3,6 +3,8 @@ import { useState,useEffect } from 'react';
 import {users} from '../../Api/admin'
 import { blockUser } from '../../Api/admin';
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import {logout} from '../../Store/slice/authSlice'
 
 interface User{
   id:string,
@@ -16,6 +18,7 @@ interface User{
 const User = () => {
   const[user,setUser]=useState<User[]>([])
   const [block,setBlock]=useState(false)
+  const dispatch = useDispatch()
 
   useEffect(()=>{
     const fetchUserData=async()=>{
@@ -38,6 +41,7 @@ const User = () => {
       const res=await blockUser(id)
       console.log('res',res)
       if(res?.data.success){
+        dispatch(logout())
         setBlock(!block)
         toast.success('Succcessfully changed access...')
       }
