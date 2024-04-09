@@ -4,6 +4,7 @@ const sellerRoutes={
     sellerResendOtp:'/seller/resendOtp',
     sellerLogin:'/seller/login',
     sellerProfile:'/seller/profile',
+    sellerEditProfile:'/seller/editProfile',
     sellerLogout:'/seller/logout',
     sellerCreateProperty:'/seller/createProperty',
     sellerEditProperty:'/seller/editProperty',

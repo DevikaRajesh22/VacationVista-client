@@ -109,3 +109,16 @@ export const sellerList = async () => {
         console.log(error)
     }
 }
+
+export const editSellerProfile=async(formData: FormData)=>{
+    try{
+        const res=await Api.put(sellerEndpoint.sellerEditProfile,formData,{
+            headers:{
+                'Content-Type': 'multipart/form-data',
+            }
+        })
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}

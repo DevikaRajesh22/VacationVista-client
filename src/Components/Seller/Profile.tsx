@@ -1,33 +1,33 @@
 import user from '../../assets/user.png'
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {profile} from '../../Api/buyer'
+import {profile} from '../../Api/seller'
 
 const Profile = () => {
-  const [image, setImage] = useState<string | null>(null);
-  const [name,setName]=useState('');
-  const [email,setEmail]=useState('');
+    const [image, setImage] = useState<string | null>(null);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
 
-  useEffect(()=>{
-    const fetchUserData=async()=>{
-      try{
-        const res=await profile()
-        console.log('res',res?.data.buyerProfile)
-        if(res?.data?.buyerProfile){
-          setEmail(res.data.buyerProfile.email);
-          setName(res.data.buyerProfile.name);
-          setImage(res.data.buyerProfile.image || user);
+    useEffect(()=>{
+        const fetchSellerData=async()=>{
+            try{
+                const res=await profile()
+                if(res?.data.sellerProfile){
+                    setEmail(res.data.sellerProfile.email)
+                    setName(res.data.sellerProfile.name)
+                    setImage(res.data.sellerProfile.image || user)
+                }
+            }catch(error){
+                console.log(error)
+            }
         }
-      }catch(error){
-        console.log(error)
-      }
-    }
-    fetchUserData()
-  },[]);
+        fetchSellerData()
+    },[]);
 
-  const src = image || user;
-  return (
-    <div className="flex justify-center items-start h-screen">
+    const src = image || user;
+
+    return (
+        <div className="flex justify-center items-start h-screen mt-10">
         <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-center items-center mt-20">
         <div className="flex justify-end px-4 pt-4">
         </div>
@@ -45,7 +45,7 @@ const Profile = () => {
           </span>
           <div className="flex mt-4 md:mt-6">
             <Link
-              to='/editProfile'
+              to='/seller/editProfile'
               className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Edit
@@ -54,7 +54,7 @@ const Profile = () => {
         </div>
       </div>
     </div>
-  );
-};
+    )
+}
 
-export default Profile;
+export default Profile

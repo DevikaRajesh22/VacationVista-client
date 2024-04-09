@@ -195,7 +195,7 @@ const Navbar = () => {
                         <Link to="/seller/newListing" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New listing</Link>
                       </li>
                       <li>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sellers</a>
+                        <Link to="/seller/profile" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</Link>
                       </li>
                     </ul>
                   </div>
