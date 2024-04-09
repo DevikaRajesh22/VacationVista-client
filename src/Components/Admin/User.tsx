@@ -24,7 +24,6 @@ const User = () => {
     const fetchUserData=async()=>{
       try{
         const res=await users()
-        console.log(res)
         if(res?.data.success){
           setUser(res.data.getUser)
         }
@@ -37,9 +36,7 @@ const User = () => {
 
   const handleBlock=async(id:string)=>{
     try{
-      console.log(id)
       const res=await blockUser(id)
-      console.log('res',res)
       if(res?.data.success){
         dispatch(logout())
         setBlock(!block)

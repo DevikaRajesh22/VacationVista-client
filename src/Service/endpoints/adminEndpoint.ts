@@ -3,6 +3,8 @@ const adminRoutes={
     adminLogout:'/admin/logout',
     adminUser:'/admin/user',
     blockUser:'/admin/blockUser',
+    adminHost:'/admin/host',
+    blockSeller:'/admin/blockSeller',
     addCategory:'/admin/addCategory',
     adminCategory:'/admin/category',
     hideCategory:'/admin/hideCategory',

@@ -31,10 +31,27 @@ export const users = async () => {
 
 export const blockUser = async (id: string) => {
     try {
-        console.log('block user api')
         const res = await Api.post(`${adminRoute.blockUser}/${id}`)
         return res
     } catch (error) {
+        console.log(error)
+    }
+}
+
+export const hosts=async()=>{
+    try{
+        const res=await Api.get(AdminEndpoint.adminHost)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+
+export const blockSeller=async(id:string)=>{
+    try{
+        const res=await Api.post(`${adminRoute.blockSeller}/${id}`)
+        return res
+    }catch(error){
         console.log(error)
     }
 }
