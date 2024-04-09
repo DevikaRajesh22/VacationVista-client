@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { property } from '../../Api/admin';
-
+import { useNavigate } from 'react-router-dom';
 
 interface Property {
   id: string,
@@ -14,6 +14,7 @@ interface Property {
 
 const Property = () => {
   const [properties, setProperties] = useState<Property[]>([]);
+  const navigate=useNavigate()
 
   useEffect(() => {
     const fetchPropertyData = async () => {
@@ -29,6 +30,14 @@ const Property = () => {
     }
     fetchPropertyData()
   }, []);
+
+  const handleClick=async(id:string)=>{
+    try{
+      navigate(`/singleProperty/${id}`)
+    }catch(error){
+      console.log(error)
+    }
+  }
 
   return (
     <section className="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
@@ -52,6 +61,7 @@ const Property = () => {
                     className="group-hover:scale-125 h-full w-full object-cover transition-all duration-300"
                     src={val.photos[0]}
                     alt=""
+                    onClick={()=>handleClick(val.id)}
                   />
                 </div>
                 <div className="mt-4 flex items-start justify-between">

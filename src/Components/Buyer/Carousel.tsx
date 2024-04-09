@@ -6,6 +6,7 @@ import banner2 from "../../assets/banner2.png";
 import banner3 from "../../assets/banner3.png";
 import banner4 from "../../assets/banner4.png";
 import banner5 from "../../assets/banner5.png";
+import { Link } from "react-router-dom";
 
 const Carousel = () => {
   const settings = {
@@ -44,6 +45,7 @@ const Carousel = () => {
               >
                 Start your journey with us...
               </p>
+              <Link to='/property'>
               <button
                 style={{
                   backgroundColor: "#007FFF",
@@ -55,10 +57,10 @@ const Carousel = () => {
                   border: "none",
                   borderRadius: "5px",
                 }}
-                onClick={() => (window.location.href = "/your-page-url")}
               >
                 Learn More
               </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -81,6 +83,7 @@ const Carousel = () => {
               >
                 Start your journey with us...
               </p>
+              <Link to='/property'>
               <button
                 style={{
                   backgroundColor: "#007FFF",
@@ -92,10 +95,10 @@ const Carousel = () => {
                   border: "none",
                   borderRadius: "5px",
                 }}
-                onClick={() => (window.location.href = "/your-page-url")}
               >
                 Learn More
               </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -118,6 +121,7 @@ const Carousel = () => {
               >
                 Start your journey with us...
               </p>
+              <Link to='/property'>
               <button
                 style={{
                   backgroundColor: "#007FFF",
@@ -129,10 +133,10 @@ const Carousel = () => {
                   border: "none",
                   borderRadius: "5px",
                 }}
-                onClick={() => (window.location.href = "/your-page-url")}
               >
                 Learn More
               </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -155,6 +159,7 @@ const Carousel = () => {
               >
                 Start your journey with us...
               </p>
+              <Link to='/property'>
               <button
                 style={{
                   backgroundColor: "#007FFF",
@@ -166,10 +171,10 @@ const Carousel = () => {
                   border: "none",
                   borderRadius: "5px",
                 }}
-                onClick={() => (window.location.href = "/your-page-url")}
               >
                 Learn More
               </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -192,6 +197,7 @@ const Carousel = () => {
               >
                 Start your journey with us...
               </p>
+              <Link to='/property'>
               <button
                 style={{
                   backgroundColor: "#007FFF",
@@ -203,10 +209,10 @@ const Carousel = () => {
                   border: "none",
                   borderRadius: "5px",
                 }}
-                onClick={() => (window.location.href = "/your-page-url")}
               >
                 Learn More
               </button>
+              </Link>
             </div>
           </div>
         </div>

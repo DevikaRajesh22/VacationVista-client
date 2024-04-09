@@ -6,12 +6,22 @@ export const signup = async (name: string, email: string, password: string) => {
         const res = await Api.post(BuyerEndpoint.buyerSignup, { name, email, password })
         const token=res.data.token
         localStorage.setItem('buyerotp', token)
-        console.log(res)
         return res
     } catch (error) {
         console.log(error)
     }
 };
+
+export const forgotPassword=async(email:string)=>{
+    try{
+        const res=await Api.post(BuyerEndpoint.buyerForgotPassword,{email});
+        const token=res.data.token
+        localStorage.setItem('buyerotpforgotpassword',token)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
 
 export const verifyOtp = async (otp: string) => {
     try {
@@ -27,6 +37,21 @@ export const verifyOtp = async (otp: string) => {
         console.log(error);
     }
 };
+
+export const verifyOtpForgotPassword=async(otp:string)=>{
+    try{
+        const token=localStorage.getItem('buyerotpforgotpassword')
+        const res=await Api.post(BuyerEndpoint.buyerVerifyOtpForgotPassword,{otp},{
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        });
+        localStorage.removeItem('buyerotpforgotpassword')
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
 
 export const otpResend = async () => {
     try {
@@ -74,7 +99,6 @@ export const gsignup = async (name: string, email: string, password: string) => 
 export const profile = async () => {
     try {
         const res = await Api.get(BuyerEndpoint.buyerProfile);
-        console.log('profile api', res)
         return res
     } catch (error) {
         console.log(error)
@@ -90,6 +114,15 @@ export const editProfile = async (formData: FormData) => {
         })
         return res
     } catch (error) {
+        console.log(error)
+    }
+}
+
+export const singlePropertyList=async(id:string)=>{
+    try{
+        const res=await Api.get(`/buyer/singleProperty/${id}`);
+        return res
+    }catch(error){
         console.log(error)
     }
 }

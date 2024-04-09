@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { property } from '../../Api/admin';
 import { changePropertyStatus } from '../../Api/admin';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 
 interface Property {
@@ -14,6 +15,7 @@ interface Property {
 
 const Request = () => {
     const [properties, setProperties] = useState<Property[]>([]);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchPropertyData = async () => {
@@ -53,15 +55,21 @@ const Request = () => {
         }
     }
 
+    const handleImgClick = async (id: string) => {
+        try {
+            navigate(`/admin/requestDetails/${id}`)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <div className='grid md:grid-cols-3 grid-cols-2'>
             {
                 properties.map((val) => {
                     return (
                         <div key={val.id} className={`max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-3 ${val.status !== 'Verification Required' && 'hidden'}`}>
-                            <a href="#">
-                                <img className="rounded-t-lg h-40 w-full" src={val.photos[0]} alt="" />
-                            </a>
+                            <img className="rounded-t-lg h-40 w-full" src={val.photos[0]} alt="" onClick={() => handleImgClick(val.id)} />
                             <div className="p-5">
                                 <a href="#">
                                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

@@ -4,14 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { verifyOtp, otpResend } from "../../../Api/buyer";
 import { setCredentials } from "../../../Store/slice/authSlice";
 import { useDispatch } from "react-redux";
+import { verifyOtpForgotPassword } from "../../../Api/buyer";
 
+interface forgotPassword {
+  buyer: boolean
+}
 
-const Otp = () => {
+const Otp = ({ buyer }: forgotPassword) => {
   const [otp, setOtp] = useState("");
   const [seconds, setSeconds] = useState(59);
   const [resendOtp, setResendOtp] = useState(false);
   const navigate = useNavigate();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
@@ -36,15 +40,27 @@ const Otp = () => {
         return;
       }
       console.log(otp)
-      const res = await verifyOtp(otp);
-      if (res?.data.saveBuyer.success) {
-        dispatch(setCredentials(res.data.token))
-        toast.success("Signed up successfully..");
-        navigate("/login");
-      } else if (!res?.data.saveBuyer.success) {
-        toast.error(res?.data.message);
-      }else{
-        toast.error('Something went wrong...')
+      if (buyer) {
+        const res = await verifyOtpForgotPassword(otp)
+        if (res?.data.success) {
+          dispatch(setCredentials(res.data.token))
+          toast.success('Successfully logged in...')
+          navigate('/login')
+        }
+        else if (!res?.data.success) {
+          toast.error('Something went wrong !!')
+        }
+      } else {
+        const res = await verifyOtp(otp);
+        if (res?.data.saveBuyer.success) {
+          dispatch(setCredentials(res.data.token))
+          toast.success("Signed up successfully..");
+          navigate("/login");
+        } else if (!res?.data.saveBuyer.success) {
+          toast.error(res?.data.message);
+        } else {
+          toast.error('Something went wrong...')
+        }
       }
     } catch (error) {
       console.log(error);
@@ -56,7 +72,7 @@ const Otp = () => {
     const res = await otpResend();
     setResendOtp(false);
     setSeconds(59);
-    if(res?.data.success){
+    if (res?.data.success) {
       toast.success('new otp sent..')
     } else if (!res?.data.success) {
       toast.error('something went wrong');

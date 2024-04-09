@@ -2,9 +2,12 @@ import { Link } from "react-router-dom"
 import { useState } from "react"
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { forgotPassword } from "../../../Api/buyer";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('')
+    const navigate = useNavigate()
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -14,7 +17,14 @@ const ForgotPassword = () => {
                 toast.error('Please enter valid email !!')
                 return
             }
-        }catch(error){
+            const res = await forgotPassword(email)
+            if (res?.data.success) {
+                navigate("/forgotPasswordOtp");
+            } else {
+                toast.error('User doesnt exists !!')
+                navigate('/signup')
+            }
+        } catch (error) {
             console.log(error)
         }
     }

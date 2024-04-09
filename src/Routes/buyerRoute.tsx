@@ -18,14 +18,15 @@ const buyerRoute = () => {
       <Route path="" element={<BuyerLoggedOut />}>
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
-        <Route path="otp" element={<Otp />} />
+        <Route path="otp" element={<Otp buyer={false}/>} />
         <Route path='forgotPassword' element={<ForgotPassword />} />
+        <Route path='forgotPasswordOtp' element={<Otp buyer={true}/>}/>
       </Route>
       <Route path="" element={<BuyerLoggedIn />}>
         <Route path='profile' element={<Profile />} />
         <Route path="editProfile" element={<EditProfile />} />
         <Route path='property' element={<PropertyPage />} />
-        <Route path='singleProperty' element={<SinglePropertyPage />} />
+        <Route path='singleProperty/:id' element={<SinglePropertyPage />} />
       </Route>
     </Routes>
   )

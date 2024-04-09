@@ -135,8 +135,8 @@ const ListForm = () => {
             image.forEach((file) => {
                 formData.append(`image`, file);
             });
+            console.log(formData)
             const res=await createProperty(formData);
-            console.log('res',res)
             if(res?.data.success){
                 toast.success('Successfully added...')
                 navigate('/seller/dashboard')
@@ -385,7 +385,7 @@ const ListForm = () => {
                                 <input
                                     type="checkbox"
                                     id={`safety_${safety.value}`}
-                                    name="safety[]" // Use an array name for multiple selections
+                                    name="safeties[]" // Use an array name for multiple selections
                                     value={safety.value}
                                     className="w-4 h-4 border-gray-300 rounded-full bg-gray-100 focus:ring-blue-500 focus:ring-offset-0 dark:focus:ring-offset-gray-800 focus:outline-none"
                                     onChange={(event) => handleSafetyChange(event.target.checked, event)}

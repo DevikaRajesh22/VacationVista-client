@@ -1,5 +1,5 @@
-import Navbar from "../../../Components/Seller/Navbar"
-import SingleProperty from "../../../Components/Seller/SingleProperty"
+import Navbar from "../../../Components/Common/Navbar"
+import SingleProperty from "../../../Components/Buyer/SingleProperty"
 
 const SinglePropertyPage = () => {
   return (
