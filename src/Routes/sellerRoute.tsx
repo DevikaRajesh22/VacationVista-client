@@ -8,6 +8,7 @@ import ListingPage from '../Pages/Seller/Listing/ListingPage'
 import EditPropertyPage from "../Pages/Seller/EditProperty/EditPropertyPage"
 import ProfilePage from "../Pages/Seller/Profile/ProfilePage"
 import EditProfilePage from "../Pages/Seller/Profile/EditProfilePage"
+import InboxPage from '../Pages/Seller/Inbox/InboxPage'
 import SellerLoggedIn from "../Components/Seller/sellerLoggedIn"
 import SellerLoggedOut from "../Components/Seller/sellerLoggedOut"
 
@@ -22,10 +23,11 @@ const sellerRoute = () => {
       <Route path="" element={<SellerLoggedIn />}>
         <Route path="dashboard" element={<Home />} />
         <Route path="newListing" element={<NewList />} />
-        <Route path='listing' element={<ListingPage/>}/>
-        <Route path='editProperty/:id' element={<EditPropertyPage/>}/>
-        <Route path='profile' element={<ProfilePage/>}/>
-        <Route path='editProfile' element={<EditProfilePage/>}/>
+        <Route path='listing' element={<ListingPage />} />
+        <Route path='editProperty/:id' element={<EditPropertyPage />} />
+        <Route path='profile' element={<ProfilePage />} />
+        <Route path='editProfile' element={<EditProfilePage />} />
+        <Route path='inbox' element={<InboxPage />} />
       </Route>
     </Routes>
   )
