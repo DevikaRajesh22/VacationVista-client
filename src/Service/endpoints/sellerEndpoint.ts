@@ -9,6 +9,9 @@ const sellerRoutes={
     sellerCreateProperty:'/seller/createProperty',
     sellerEditProperty:'/seller/editProperty',
     sellerList:'/seller/sellerList',
+    sellerGetUser:'/seller/getUser',
+    sellerGetConversations:'/getConversation',
+    sellerFindUserById:'/findUserById',
 }
 
 export default sellerRoutes

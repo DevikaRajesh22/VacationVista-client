@@ -110,13 +110,40 @@ export const sellerList = async () => {
     }
 }
 
-export const editSellerProfile=async(formData: FormData)=>{
-    try{
-        const res=await Api.put(sellerEndpoint.sellerEditProfile,formData,{
-            headers:{
+export const editSellerProfile = async (formData: FormData) => {
+    try {
+        const res = await Api.put(sellerEndpoint.sellerEditProfile, formData, {
+            headers: {
                 'Content-Type': 'multipart/form-data',
             }
         })
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getSellerConversations = async (sellerId: string) => {
+    try {
+        const res = await Api.get(`${sellerEndpoint.sellerGetConversations}?sellerId=${sellerId}`)
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const findUserById=async(id:string)=>{
+    try{
+        const res=await Api.get(`${sellerEndpoint.sellerFindUserById}?buyerId=${id}`)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+
+export const getUser=async(userId:string)=>{
+    try{
+        const res=await Api.get(`${sellerEndpoint.sellerGetUser}?userId=${userId}`)
         return res
     }catch(error){
         console.log(error)

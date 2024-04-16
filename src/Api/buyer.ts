@@ -4,7 +4,7 @@ import BuyerEndpoint from "../Service/endpoints/buyerEndpoint";
 export const signup = async (name: string, email: string, password: string) => {
     try {
         const res = await Api.post(BuyerEndpoint.buyerSignup, { name, email, password })
-        const token=res.data.token
+        const token = res.data.token
         localStorage.setItem('buyerotp', token)
         return res
     } catch (error) {
@@ -12,13 +12,13 @@ export const signup = async (name: string, email: string, password: string) => {
     }
 };
 
-export const forgotPassword=async(email:string)=>{
-    try{
-        const res=await Api.post(BuyerEndpoint.buyerForgotPassword,{email});
-        const token=res.data.token
-        localStorage.setItem('buyerotpforgotpassword',token)
+export const forgotPassword = async (email: string) => {
+    try {
+        const res = await Api.post(BuyerEndpoint.buyerForgotPassword, { email });
+        const token = res.data.token
+        localStorage.setItem('buyerotpforgotpassword', token)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
@@ -38,17 +38,17 @@ export const verifyOtp = async (otp: string) => {
     }
 };
 
-export const verifyOtpForgotPassword=async(otp:string)=>{
-    try{
-        const token=localStorage.getItem('buyerotpforgotpassword')
-        const res=await Api.post(BuyerEndpoint.buyerVerifyOtpForgotPassword,{otp},{
+export const verifyOtpForgotPassword = async (otp: string) => {
+    try {
+        const token = localStorage.getItem('buyerotpforgotpassword')
+        const res = await Api.post(BuyerEndpoint.buyerVerifyOtpForgotPassword, { otp }, {
             headers: {
                 'authorization': `Bearer ${token}`
             }
         });
         localStorage.removeItem('buyerotpforgotpassword')
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
@@ -56,12 +56,12 @@ export const verifyOtpForgotPassword=async(otp:string)=>{
 export const otpResend = async () => {
     try {
         const token = localStorage.getItem('buyerotp')
-        const res = await Api.post(BuyerEndpoint.buyerResendOtp, '',{
+        const res = await Api.post(BuyerEndpoint.buyerResendOtp, '', {
             headers: {
                 'authorization': `Bearer ${token}`,
             }
         });
-        const tokens=res.data.token
+        const tokens = res.data.token
         localStorage.setItem('buyerotp', tokens)
         return res
     } catch (error) {
@@ -107,8 +107,8 @@ export const profile = async () => {
 
 export const editProfile = async (formData: FormData) => {
     try {
-        const res = await Api.put(BuyerEndpoint.buyerEditProfile,formData,{
-            headers:{
+        const res = await Api.put(BuyerEndpoint.buyerEditProfile, formData, {
+            headers: {
                 'Content-Type': 'multipart/form-data',
             }
         })
@@ -118,11 +118,38 @@ export const editProfile = async (formData: FormData) => {
     }
 }
 
-export const singlePropertyList=async(id:string)=>{
+export const singlePropertyList = async (id: string) => {
+    try {
+        const res = await Api.get(`/buyer/singleProperty/${id}`);
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getMessages = async (conversationId: string) => {
+    try {
+        const res = await Api.get(`${BuyerEndpoint.buyerGetMessages}?conversationId=${conversationId}`)
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const newConversation=async(sellerId:string)=>{
     try{
-        const res=await Api.get(`/buyer/singleProperty/${id}`);
+        const res=await Api.post(`${BuyerEndpoint.buyerNewConversation}?sellerId=${sellerId}`)
         return res
     }catch(error){
+        console.log(error)
+    }
+}
+
+export const newMessage = async (message: string, conversationId: string, buyerId: string) => {
+    try {
+        const res = await Api.post(BuyerEndpoint.buyerNewMessage, { message, conversationId, buyerId });
+        return res
+    } catch (error) {
         console.log(error)
     }
 }

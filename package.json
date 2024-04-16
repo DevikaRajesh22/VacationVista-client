@@ -28,7 +28,8 @@
     "react-router-dom": "^6.22.3",
     "react-slick": "^0.30.2",
     "react-toastify": "^10.0.4",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",

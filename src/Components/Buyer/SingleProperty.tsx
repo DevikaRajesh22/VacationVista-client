@@ -1,8 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { singlePropertyList } from '../../Api/buyer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
+import { io, Socket } from 'socket.io-client';
+import { useSelector } from 'react-redux';
+import { getMessages, newMessage, newConversation } from '../../Api/buyer';
+
+let buyerId: string | undefined;
 
 interface Property {
     id: string;
@@ -23,12 +28,98 @@ interface Property {
     safeties: string,
 }
 
+interface RootState {
+    auth: {
+        buyerInfo: string
+    }
+}
+
+interface Message {
+    senderId: string,
+    message: string,
+    conversationId: string,
+    createdAt: Date
+}
+
+interface MessageType {
+    sender: string,
+    text: string,
+    createdAt: Date,
+    conversationId: string
+}
+
+interface SocketMessage {
+    senderId: string;
+    text: string;
+    conversationId: string;
+}
 
 const SingleProperty = () => {
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [message, setMessage] = useState('');
+    const [user, setUser] = useState('');
+    const [conversationId, setConversationId] = useState('');
+    const scrollRef = useRef<HTMLDivElement | null>(null)
+    const [arrivalMessage, setArrivalMessage] = useState<MessageType | null>(null);
+    const socket = useRef<Socket | null>(null);
+
     const [singleProperty, setSingleProperty] = useState<Property>();
     const [largeImage, setLargeImage] = useState('');
     const [chatBox, setChatBox] = useState(false);
     const { id } = useParams()
+
+    const buyerInfo = useSelector((state: RootState) => state.auth.buyerInfo);
+
+    useEffect(() => {
+        socket.current = io('ws://localhost:3000');
+        socket.current.on('getMessage', (data: SocketMessage) => {
+            setArrivalMessage({
+                sender: data.senderId,
+                text: data.text,
+                createdAt: new Date(),
+                conversationId: data.conversationId
+            } as MessageType);
+        });
+        return () => {
+            if (socket.current) {
+                socket.current.disconnect();
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        arrivalMessage &&
+            setMessages(prev => [...prev, arrivalMessage] as Message[])
+    }, [arrivalMessage])
+
+    useEffect(() => {
+        const buyerData = localStorage.getItem('buyerInfo');
+        if (buyerData) {
+            const tokenPayload = buyerData.split('.')[1];
+            const decodedPayload = atob(tokenPayload);
+            const payloadObject = JSON.parse(decodedPayload);
+            buyerId = payloadObject.id;
+            socket.current?.emit('addUser', buyerId);
+        }
+    }, [buyerInfo])
+
+    useEffect(() => {
+        const fetchMessages = async () => {
+            try {
+                const messageResponse = await getMessages(conversationId);
+                const messages = messageResponse?.data.data
+                setMessages(messages);
+                setUser(buyerInfo);
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchMessages()
+    }, [conversationId, buyerInfo])
+
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }, [messages])
 
     useEffect(() => {
         const fetchPropertyData = async () => {
@@ -46,6 +137,26 @@ const SingleProperty = () => {
         }
         fetchPropertyData()
     }, [id])
+
+    const handleSend = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        try {
+            e.preventDefault()
+            if (buyerId) {
+                const res = await newMessage(message, conversationId, buyerId)
+                socket.current?.emit('sendMessage', {
+                    senderId: buyerId,
+                    receiverId: singleProperty?.sellerId,
+                    text: message
+                })
+                if (res?.data) {
+                    setMessages([...messages, res.data.message])
+                    setMessage('')
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const amenities = singleProperty?.amenities
     const parsedAmenities = [];
@@ -70,6 +181,19 @@ const SingleProperty = () => {
             console.log(error)
         }
     }
+
+    const handleConversation = async () => {
+        try {
+            setChatBox(true)
+            const sellerId = singleProperty?.sellerId;
+            const res = await newConversation(sellerId as string);
+            setConversationId(res?.data.data._id);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    console.log(user)
 
     return (
         <div>
@@ -289,7 +413,7 @@ const SingleProperty = () => {
                 <div className="fixed bottom-0 right-0 mb-4 mr-4">
                     <button
                         id="open-chat"
-                        onClick={() => setChatBox(true)}
+                        onClick={handleConversation}
                         className="bg-blue-800 text-white py-2 px-3 rounded-full hover:bg-blue-900 transition duration-300 flex items-center w-11"  >
                         <FontAwesomeIcon icon={faComment} className="w-6 h-6 mr-2 text-currentColor" />
                     </button>
@@ -298,7 +422,7 @@ const SingleProperty = () => {
                 <div id="chat-container" className={`fixed bottom-16 right-4 w-96 ${chatBox ? '' : 'hidden'}`}>
                     <div className="bg-white shadow-md rounded-lg max-w-lg w-full">
                         <div className="p-4 border-b bg-blue-900 text-white rounded-t-lg flex justify-between items-center">
-                            <p className="text-lg font-semibold">Admin Bot</p>
+                            <p className="text-lg font-semibold">Chat with host</p>
                             <button
                                 id="close-chat"
                                 onClick={() => setChatBox(false)}
@@ -322,45 +446,35 @@ const SingleProperty = () => {
                         </div>
                         <div id="chatbox" className="p-4 h-80 overflow-y-auto">
                             {/* Chat messages will be displayed here */}
-                            <div className="mb-2 text-right">
-                                <p className="bg-blue-900 text-white rounded-lg py-2 px-4 inline-block">
-                                    hello
-                                </p>
-                            </div>
-                            <div className="mb-2">
-                                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                                    This is a response from the chatbot.
-                                </p>
-                            </div>
-                            <div className="mb-2 text-right">
-                                <p className="bg-blue-900 text-white rounded-lg py-2 px-4 inline-block">
-                                    this example of chat
-                                </p>
-                            </div>
-                            <div className="mb-2">
-                                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                                    This is a response from the chatbot.
-                                </p>
-                            </div>
-                            <div className="mb-2 text-right">
-                                <p className="bg-blue-900 text-white rounded-lg py-2 px-4 inline-block">
-                                    design with tailwind
-                                </p>
-                            </div>
-                            <div className="mb-2">
-                                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                                    This is a response from the chatbot.
-                                </p>
-                            </div>
+                            {messages && messages.map((message: Message) => (
+                                <>
+                                    {message.senderId == buyerId ?
+                                        <div className="mb-2">
+                                            <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
+                                                {message.message}
+                                            </p>
+                                        </div>
+                                        :
+                                        <div className="mb-2 text-right">
+                                            <p className="bg-blue-900 text-white rounded-lg py-2 px-4 inline-block">
+                                                {message.message}
+                                            </p>
+                                        </div>
+                                    }
+                                </>
+                            ))}
                         </div>
                         <div className="p-4 border-t flex">
                             <input
                                 id="user-input"
                                 type="text"
                                 placeholder="Type a message"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
                                 className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                             <button
+                                onClick={handleSend}
                                 id="send-button"
                                 className="bg-blue-900 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition duration-300"
                             >

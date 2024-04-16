@@ -14,7 +14,6 @@ const Login = () => {
     const dispatch=useDispatch()
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        console.log('handle submit seller')
         e.preventDefault();
         try {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
