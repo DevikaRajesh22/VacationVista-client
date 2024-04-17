@@ -27,11 +27,6 @@ interface MessageType {
   conversationId: string
 }
 
-interface SocketMessage {
-  senderId: string;
-  text: string;
-  conversationId: string;
-}
 
 const Inbox = () => {
 
@@ -46,20 +41,16 @@ const Inbox = () => {
   const socket = useRef<Socket | undefined>()
 
   useEffect(() => {
+    console.log('socket connection')
     socket.current = io('ws://localhost:3000');
-    socket.current.on('getMessage', (data: SocketMessage) => {
+    socket.current.on('getMessage', (data) => {
+      console.log('data',data)
       setArrivalMessage({
         sender: data.senderId,
         text: data.text,
-        createdAt: new Date(),
-        conversationId: data.conversationId
       } as MessageType);
     });
-    return () => {
-      if (socket.current) {
-        socket.current.disconnect();
-      }
-    };
+    console.log('arrival',arrivalMessage)
   }, [])
 
   useEffect(() => {
@@ -98,7 +89,6 @@ const Inbox = () => {
   const handleClick = async (conversationId: string) => {
     setConversationId(conversationId)
     const res = await getMessages(conversationId)
-    console.log('eh', res?.data.data)
     if (res) {
       setMessages(res.data.data)
     }

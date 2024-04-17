@@ -48,12 +48,6 @@ interface MessageType {
     conversationId: string
 }
 
-interface SocketMessage {
-    senderId: string;
-    text: string;
-    conversationId: string;
-}
-
 const SingleProperty = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [message, setMessage] = useState('');
@@ -72,19 +66,14 @@ const SingleProperty = () => {
     useEffect(() => {
         console.log('socket connection')
         socket.current = io('ws://localhost:3000');
-        socket.current.on('getMessage', (data: SocketMessage) => {
+        socket.current.on('getMessage', (data) => {
+            console.log('data',data)
             setArrivalMessage({
                 sender: data.senderId,
                 text: data.text,
-                createdAt: new Date(),
-                conversationId: data.conversationId
             } as MessageType);
         });
-        return () => {
-            if (socket.current) {
-                socket.current.disconnect();
-            }
-        };
+        console.log('arrival',arrivalMessage)
     }, []);
 
     useEffect(() => {
@@ -143,7 +132,6 @@ const SingleProperty = () => {
             console.log('send msg')
             e.preventDefault()
             if (buyerId) {
-                console.log(buyerId)
                 const res = await newMessage(message, conversationId, buyerId)
                 socket.current?.emit('sendMessage', {
                     senderId: buyerId,
