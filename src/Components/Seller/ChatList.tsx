@@ -36,7 +36,7 @@ const ChatList = ({ conversation, handleClick, setReceiver }: Props) => {
             const payloadObject = JSON.parse(decodedPayload);
             sellerId = payloadObject.id;
         }
-    })
+    },[sellerInfo])
 
     
 
@@ -49,7 +49,7 @@ const ChatList = ({ conversation, handleClick, setReceiver }: Props) => {
             setUserId(id)
         }
         fetchData()
-    })
+    },[])
 
     const Conversation=(conversationId:string,userId:string)=>{
         setReceiver(userId)

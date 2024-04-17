@@ -148,7 +148,9 @@ export const newConversation = async (sellerId: string) => {
 
 export const newMessage = async (message: string, conversationId: string, sellerId: string) => {
     try {
+        console.log('new meg api')
         const res = await Api.post(BuyerEndpoint.buyerNewMessage, { message, conversationId, senderId: sellerId });
+        console.log('newmes api res',res)
         return res
     } catch (error) {
         console.log(error)

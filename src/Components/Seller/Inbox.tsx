@@ -77,7 +77,7 @@ const Inbox = () => {
       console.log('selid', sellerId)
       socket.current?.emit('addUser', sellerId);
     }
-  })
+  }, [sellerInfo])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,7 +89,7 @@ const Inbox = () => {
       }
     }
     fetchData()
-  }, [])
+  }, [sellerInfo])
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -110,6 +110,9 @@ const Inbox = () => {
       e.preventDefault()
       if (message.trim().length !== 0 && message[0] != ' ') {
         if (sellerId) {
+          console.log(sellerId)
+          console.log(message)
+          console.log(conversationId)
           const res = await newMessage(message, conversationId, sellerId)
           socket?.current?.emit('sendMessage', {
             senderId: sellerId,
@@ -154,27 +157,27 @@ const Inbox = () => {
                       <>
                         {
                           message.senderId == sellerId ?
-                            <div key={index} className="col-start-1 col-end-8 p-3 rounded-lg" ref={index === messages.length - 1 ? scrollRef : null}>
-                              <div className="flex flex-row items-center">
+                            <div key={index} className="col-start-6 col-end-13 p-3 rounded-lg" ref={index === messages.length - 1 ? scrollRef : null}>
+                              <div className="flex items-center justify-start flex-row-reverse">
                                 <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white flex-shrink-0">
-                                  Y
+                                  M
                                 </div>
-                                <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                                  <div>
-                                    {message.message}
-                                  </div>
+                                <div className="relative mr-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                                  <div>{message.message}</div>
                                 </div>
                               </div>
                             </div>
                             :
                             <>
-                              <div key={index} className="col-start-6 col-end-13 p-3 rounded-lg" ref={index === messages.length - 1 ? scrollRef : null}>
-                                <div className="flex items-center justify-start flex-row-reverse">
+                              <div key={index} className="col-start-1 col-end-8 p-3 rounded-lg" ref={index === messages.length - 1 ? scrollRef : null}>
+                                <div className="flex flex-row items-center">
                                   <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white flex-shrink-0">
-                                    M
+                                    Y
                                   </div>
-                                  <div className="relative mr-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                                    <div>{message.message}</div>
+                                  <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                                    <div>
+                                      {message.message}
+                                    </div>
                                   </div>
                                 </div>
                               </div>

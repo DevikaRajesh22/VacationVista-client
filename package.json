@@ -21,6 +21,7 @@
     "axios": "^1.6.8",
     "firebase": "^10.9.0",
     "jwt-decode": "^4.0.0",
+    "mongoose": "^8.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
