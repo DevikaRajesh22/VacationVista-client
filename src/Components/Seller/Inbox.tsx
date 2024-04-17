@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import { io, Socket } from 'socket.io-client'
 import { getSellerConversations } from '../../Api/seller'
 import ChatList from "./ChatList"
-import { getMessages } from "../../Api/buyer"
+import { getMessages, newMessage } from "../../Api/buyer"
 
 let sellerId: string | undefined;
 
@@ -15,7 +15,7 @@ interface RootState {
 
 interface Message {
   senderId: string,
-  text: string,
+  message: string,
   conversationId: string,
   createdAt: string
 }
@@ -38,14 +38,12 @@ const Inbox = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversations, setConversations] = useState([]);
   const [message, setMessage] = useState('')
-  const [user, setUser] = useState('')
-  const [arrivalMessage, setArrivalMessage] = useState<Message[] | null>(null)
+  const [arrivalMessage, setArrivalMessage] = useState<MessageType | null>(null)
   const [conversationId, setConversationId] = useState('')
   const [receiver, setReceiver] = useState('')
   const scrollRef = useRef<HTMLDivElement>(null)
-  const { sellerInfo } = useSelector((state: RootState) => state.auth.sellerInfo)
+  const sellerInfo = useSelector((state: RootState) => state.auth.sellerInfo)
   const socket = useRef<Socket | undefined>()
-  const [currentChat, setCurrentChat] = useState(null)
 
   useEffect(() => {
     socket.current = io('ws://localhost:3000');
@@ -76,6 +74,7 @@ const Inbox = () => {
       const decodedPayload = atob(tokenPayload);
       const payloadObject = JSON.parse(decodedPayload);
       sellerId = payloadObject.id;
+      console.log('selid', sellerId)
       socket.current?.emit('addUser', sellerId);
     }
   })
@@ -99,8 +98,32 @@ const Inbox = () => {
   const handleClick = async (conversationId: string) => {
     setConversationId(conversationId)
     const res = await getMessages(conversationId)
+    console.log('eh', res?.data.data)
     if (res) {
-      setMessages(res.data)
+      setMessages(res.data.data)
+    }
+  }
+
+  const sendMessage = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    try {
+      console.log('handle send')
+      e.preventDefault()
+      if (message.trim().length !== 0 && message[0] != ' ') {
+        if (sellerId) {
+          const res = await newMessage(message, conversationId, sellerId)
+          socket?.current?.emit('sendMessage', {
+            senderId: sellerId,
+            receiverId: receiver,
+            text: message
+          })
+          if (res?.data) {
+            setMessages([...messages, res.data])
+            setMessage('')
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -127,90 +150,38 @@ const Inbox = () => {
               <div className="flex flex-col h-full overflow-x-auto mb-4">
                 <div className="flex flex-col h-full">
                   <div className="grid grid-cols-12 gap-y-2">
-                    <div className="col-start-1 col-end-8 p-3 rounded-lg">
-                      <div className="flex flex-row items-center">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white flex-shrink-0">
-                          A
-                        </div>
-                        <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>Hey How are you today?</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-start-1 col-end-8 p-3 rounded-lg">
-                      <div className="flex flex-row items-center">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white flex-shrink-0">
-                          A
-                        </div>
-                        <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Vel ipsa commodi illum saepe numquam maxime
-                            asperiores voluptate sit, minima perspiciatis.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-start-6 col-end-13 p-3 rounded-lg">
-                      <div className="flex items-center justify-start flex-row-reverse">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white flex-shrink-0">
-                          A
-                        </div>
-                        <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                          <div>I'm ok what about you?</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-start-6 col-end-13 p-3 rounded-lg">
-                      <div className="flex items-center justify-start flex-row-reverse">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white flex-shrink-0">
-                          A
-                        </div>
-                        <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                          <div>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing. ?
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-start-1 col-end-8 p-3 rounded-lg">
-                      <div className="flex flex-row items-center">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white flex-shrink-0">
-                          A
-                        </div>
-                        <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>Lorem ipsum dolor sit amet !</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-start-6 col-end-13 p-3 rounded-lg">
-                      <div className="flex items-center justify-start flex-row-reverse">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white flex-shrink-0">
-                          A
-                        </div>
-                        <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                          <div>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing. ?
-                          </div>
-                          <div className="absolute text-xs bottom-0 right-0 -mb-5 mr-2 text-gray-500">
-                            Seen
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-start-1 col-end-8 p-3 rounded-lg">
-                      <div className="flex flex-row items-center">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white flex-shrink-0">
-                          A
-                        </div>
-                        <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Perspiciatis, in.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    {messages && messages.map((message, index) => (
+                      <>
+                        {
+                          message.senderId == sellerId ?
+                            <div key={index} className="col-start-1 col-end-8 p-3 rounded-lg" ref={index === messages.length - 1 ? scrollRef : null}>
+                              <div className="flex flex-row items-center">
+                                <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white flex-shrink-0">
+                                  Y
+                                </div>
+                                <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                                  <div>
+                                    {message.message}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            :
+                            <>
+                              <div key={index} className="col-start-6 col-end-13 p-3 rounded-lg" ref={index === messages.length - 1 ? scrollRef : null}>
+                                <div className="flex items-center justify-start flex-row-reverse">
+                                  <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-900 text-white flex-shrink-0">
+                                    M
+                                  </div>
+                                  <div className="relative mr-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                                    <div>{message.message}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                        }
+                      </>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -236,6 +207,8 @@ const Inbox = () => {
                 <div className="flex-grow ml-4">
                   <div className="relative w-full">
                     <input
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
                       type="text"
                       className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                     />
@@ -258,7 +231,7 @@ const Inbox = () => {
                   </div>
                 </div>
                 <div className="ml-4">
-                  <button className="flex items-center justify-center bg-blue-900 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0">
+                  <button onClick={sendMessage} className="flex items-center justify-center bg-blue-900 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0">
                     <span>Send</span>
                     <span className="ml-2">
                       <svg

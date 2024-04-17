@@ -129,6 +129,7 @@ export const singlePropertyList = async (id: string) => {
 
 export const getMessages = async (conversationId: string) => {
     try {
+        console.log('get msg', conversationId)
         const res = await Api.get(`${BuyerEndpoint.buyerGetMessages}?conversationId=${conversationId}`)
         return res
     } catch (error) {
@@ -136,18 +137,18 @@ export const getMessages = async (conversationId: string) => {
     }
 }
 
-export const newConversation=async(sellerId:string)=>{
-    try{
-        const res=await Api.post(`${BuyerEndpoint.buyerNewConversation}?sellerId=${sellerId}`)
+export const newConversation = async (sellerId: string) => {
+    try {
+        const res = await Api.post(`${BuyerEndpoint.buyerNewConversation}?sellerId=${sellerId}`)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const newMessage = async (message: string, conversationId: string, buyerId: string) => {
+export const newMessage = async (message: string, conversationId: string, sellerId: string) => {
     try {
-        const res = await Api.post(BuyerEndpoint.buyerNewMessage, { message, conversationId, buyerId });
+        const res = await Api.post(BuyerEndpoint.buyerNewMessage, { message, conversationId, senderId: sellerId });
         return res
     } catch (error) {
         console.log(error)

@@ -108,6 +108,7 @@ const SingleProperty = () => {
             try {
                 const messageResponse = await getMessages(conversationId);
                 const messages = messageResponse?.data.data
+                console.log('mes',messageResponse?.data.data)
                 setMessages(messages);
                 setUser(buyerInfo);
             } catch (error) {
@@ -140,8 +141,10 @@ const SingleProperty = () => {
 
     const handleSend = async (e: React.MouseEvent<HTMLButtonElement>) => {
         try {
+            console.log('send msg')
             e.preventDefault()
             if (buyerId) {
+                console.log(buyerId)
                 const res = await newMessage(message, conversationId, buyerId)
                 socket.current?.emit('sendMessage', {
                     senderId: buyerId,
@@ -446,16 +449,16 @@ const SingleProperty = () => {
                         </div>
                         <div id="chatbox" className="p-4 h-80 overflow-y-auto">
                             {/* Chat messages will be displayed here */}
-                            {messages && messages.map((message: Message) => (
+                            {messages && messages.map((message: Message,index) => (
                                 <>
                                     {message.senderId == buyerId ?
-                                        <div className="mb-2">
+                                        <div className="mb-2" ref={index === messages.length - 1 ? scrollRef : null}>
                                             <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
                                                 {message.message}
                                             </p>
                                         </div>
                                         :
-                                        <div className="mb-2 text-right">
+                                        <div className="mb-2 text-right" ref={index === messages.length - 1 ? scrollRef : null}>
                                             <p className="bg-blue-900 text-white rounded-lg py-2 px-4 inline-block">
                                                 {message.message}
                                             </p>
