@@ -23,6 +23,7 @@ interface Property {
 
 const RequestDetails = () => {
     const [singleProperty, setSingleProperty] = useState<Property>();
+    const [largeImage, setLargeImage] = useState('');
     const { id } = useParams()
 
     useEffect(() => {
@@ -34,6 +35,7 @@ const RequestDetails = () => {
                     console.log(res?.data.getProperty)
                     if (res?.data.success) {
                         setSingleProperty(res.data.getProperty)
+                        setLargeImage(res.data.getProperty.photos[0])
                     }
                 }
             } catch (error) {
@@ -59,6 +61,14 @@ const RequestDetails = () => {
         }
     }
 
+    const handleImageClick = async (imageUrl: string) => {
+        try {
+            setLargeImage(imageUrl)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <section className="">
             <div className="container mx-auto px-4">
@@ -69,7 +79,7 @@ const RequestDetails = () => {
                                 <div className="max-w-xl overflow-hidden rounded-lg">
                                     <img
                                         className="h-[450px] w-[700px] max-w-full object-cover"
-                                        src={singleProperty?.photos[0]}
+                                        src={largeImage}
                                         alt=""
                                     />
                                 </div>
@@ -78,12 +88,17 @@ const RequestDetails = () => {
                                 <div className="flex flex-row items-start lg:flex-col">
                                     <button
                                         type="button"
-                                        className="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-gray-900 text-center"
+                                        className="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center"
                                     >
                                         <img
                                             className="h-full w-full object-cover"
                                             src={singleProperty?.photos[0]}
                                             alt=""
+                                            onClick={() => {
+                                                if (singleProperty?.photos[0]) {
+                                                    handleImageClick(singleProperty?.photos[0]);
+                                                }
+                                            }}
                                         />
                                     </button>
                                     <button
@@ -94,6 +109,11 @@ const RequestDetails = () => {
                                             className="h-full w-full object-cover"
                                             src={singleProperty?.photos[1]}
                                             alt=""
+                                            onClick={() => {
+                                                if (singleProperty?.photos[1]) {
+                                                    handleImageClick(singleProperty?.photos[1]);
+                                                }
+                                            }}
                                         />
                                     </button>
                                     <button
@@ -104,6 +124,11 @@ const RequestDetails = () => {
                                             className="h-full w-full object-cover"
                                             src={singleProperty?.photos[2]}
                                             alt=""
+                                            onClick={() => {
+                                                if (singleProperty?.photos[2]) {
+                                                    handleImageClick(singleProperty?.photos[2]);
+                                                }
+                                            }}
                                         />
                                     </button>
                                     <button
@@ -114,6 +139,11 @@ const RequestDetails = () => {
                                             className="h-full w-full object-cover"
                                             src={singleProperty?.photos[3]}
                                             alt=""
+                                            onClick={() => {
+                                                if (singleProperty?.photos[3]) {
+                                                    handleImageClick(singleProperty?.photos[3]);
+                                                }
+                                            }}
                                         />
                                     </button>
                                     <button
@@ -124,6 +154,11 @@ const RequestDetails = () => {
                                             className="h-full w-full object-cover"
                                             src={singleProperty?.photos[4]}
                                             alt=""
+                                            onClick={() => {
+                                                if (singleProperty?.photos[4]) {
+                                                    handleImageClick(singleProperty?.photos[4]);
+                                                }
+                                            }}
                                         />
                                     </button>
                                 </div>

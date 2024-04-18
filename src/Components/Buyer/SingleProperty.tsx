@@ -6,6 +6,7 @@ import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { io, Socket } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { getMessages, newMessage, newConversation } from '../../Api/buyer';
+import Calender from './Calender/Calender'
 
 let buyerId: string | undefined;
 
@@ -67,13 +68,13 @@ const SingleProperty = () => {
         console.log('socket connection')
         socket.current = io('ws://localhost:3000');
         socket.current.on('getMessage', (data) => {
-            console.log('data',data)
+            console.log('data', data)
             setArrivalMessage({
                 sender: data.senderId,
                 text: data.text,
             } as MessageType);
         });
-        console.log('arrival',arrivalMessage)
+        console.log('arrival', arrivalMessage)
     }, []);
 
     useEffect(() => {
@@ -310,6 +311,9 @@ const SingleProperty = () => {
                                         </li>
                                     ))}
                                 </ul>
+                            </div>
+                            <div className='mt-10'>
+                                <Calender />
                             </div>
                             <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
                                 <div className="flex items-end">
