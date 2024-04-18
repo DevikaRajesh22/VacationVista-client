@@ -31,7 +31,9 @@ export const verifyOtp = async (otp: string) => {
                 'authorization': `Bearer ${token}`
             }
         });
-        localStorage.removeItem('buyerotp')
+        if (res.data.success) {
+            localStorage.removeItem('buyerotp')
+        }
         return res
     } catch (error) {
         console.log(error);
@@ -164,11 +166,11 @@ export const book = async (id: string, buyerId: string, startDate: Date, endDate
     }
 }
 
-export const getCheckout=async(bookingId:string)=>{
-    try{
-        const res=await Api.get(`/book/getCheckout/${bookingId}`)
+export const getCheckout = async (bookingId: string) => {
+    try {
+        const res = await Api.get(`/book/getCheckout/${bookingId}`)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }

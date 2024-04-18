@@ -39,7 +39,6 @@ const Otp = ({ buyer }: forgotPassword) => {
         toast.error("OTP is invalid");
         return;
       }
-      console.log(otp)
       if (buyer) {
         const res = await verifyOtpForgotPassword(otp)
         if (res?.data.success) {
@@ -48,15 +47,15 @@ const Otp = ({ buyer }: forgotPassword) => {
           navigate('/login')
         }
         else if (!res?.data.success) {
-          toast.error('Something went wrong !!')
+          toast.error(res?.data.message)
         }
       } else {
         const res = await verifyOtp(otp);
-        if (res?.data.saveBuyer.success) {
+        if (res?.data.success) {
           dispatch(setCredentials(res.data.token))
           toast.success("Signed up successfully..");
           navigate("/login");
-        } else if (!res?.data.saveBuyer.success) {
+        } else if (!res?.data.success) {
           toast.error(res?.data.message);
         } else {
           toast.error('Something went wrong...')

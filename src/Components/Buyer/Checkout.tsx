@@ -54,9 +54,9 @@ const Checkout = () => {
         const startDate: Date = new Date(startDateString);
         const differenceInMs: number = endDate.getTime() - startDate.getTime();
         const differenceInDays: number = differenceInMs / (1000 * 60 * 60 * 24);
-        roundedDifference = Math.round(differenceInDays)+1;
-        if(singleProperty){
-            totalPrice=roundedDifference*singleProperty?.price
+        roundedDifference = Math.round(differenceInDays) + 1;
+        if (singleProperty) {
+            totalPrice = roundedDifference * singleProperty?.price
         }
     } else {
         console.log("Either endDate or startDate is undefined.");
