@@ -12,7 +12,8 @@ const buyerRoutes={
     buyerNewConversation:'/chat/newConversation',
     buyerGetMessages:'/chat/getMessages',
     buyerNewMessage:'/chat/newMessage',
-    buyerBook:'/book/newBooking'
+    buyerBook:'/book/newBooking',
+    buyerGetCheckout:'/book/getCheckout',
 }
 
 export default buyerRoutes;

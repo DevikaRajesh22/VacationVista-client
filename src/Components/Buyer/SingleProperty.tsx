@@ -10,6 +10,7 @@ import { book } from '../../Api/buyer';
 import Calender from './Calender/Calender'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom'
 
 let buyerId: string | undefined;
 
@@ -75,6 +76,8 @@ const SingleProperty: React.FC = () => {
     const { id } = useParams()
 
     const buyerInfo = useSelector((state: RootState) => state.auth.buyerInfo);
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         console.log('socket connection')
@@ -198,16 +201,17 @@ const SingleProperty: React.FC = () => {
 
     const handleBook = async () => {
         try {
-            console.log('propertyId', id)
-            console.log('buyerId', buyerId)
-            console.log('start date', date.startDate)
-            console.log('end Date', date.endDate)
             const startDate = date.startDate
             const endDate = date.endDate
             if (id && buyerId) {
                 const res = await book(id, buyerId, startDate, endDate)
-                console.log('book res', res)
-            }else{
+                if (res?.data.success) {
+                    toast.success('Continue to payment')
+                    navigate(`/checkout/${res.data.data._id}`)
+                } else if (!res?.data.success) {
+                    toast.error('Something went wrong...')
+                }
+            } else {
                 toast.error('Something went wrong..')
             }
         } catch (error) {

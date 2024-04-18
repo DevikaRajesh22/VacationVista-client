@@ -7,6 +7,7 @@ import Profile from '../Pages/Buyer/Profile/Profile'
 import EditProfile from '../Pages/Buyer/Profile/EditProfile'
 import ForgotPassword from "../Pages/Buyer/ForgotPassword/ForgotPassword"
 import SinglePropertyPage from "../Pages/Buyer/SingleProperty/SinglePropertyPage"
+import CheckoutPage from '../Pages/Buyer/Checkout/CheckoutPage'
 import PropertyPage from '../Pages/Buyer/Property/PropertyPage'
 import BuyerLoggedIn from "../Components/Buyer/buyerLoggedIn"
 import BuyerLoggedOut from "../Components/Buyer/buyerLoggedOut"
@@ -18,15 +19,16 @@ const buyerRoute = () => {
       <Route path="" element={<BuyerLoggedOut />}>
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
-        <Route path="otp" element={<Otp buyer={false}/>} />
+        <Route path="otp" element={<Otp buyer={false} />} />
         <Route path='forgotPassword' element={<ForgotPassword />} />
-        <Route path='forgotPasswordOtp' element={<Otp buyer={true}/>}/>
+        <Route path='forgotPasswordOtp' element={<Otp buyer={true} />} />
       </Route>
       <Route path="" element={<BuyerLoggedIn />}>
         <Route path='profile' element={<Profile />} />
         <Route path="editProfile" element={<EditProfile />} />
         <Route path='property' element={<PropertyPage />} />
         <Route path='singleProperty/:id' element={<SinglePropertyPage />} />
+        <Route path='checkout/:id' element={<CheckoutPage />} />
       </Route>
     </Routes>
   )

@@ -157,10 +157,18 @@ export const newMessage = async (message: string, conversationId: string, seller
 
 export const book = async (id: string, buyerId: string, startDate: Date, endDate: Date) => {
     try {
-        console.log('book api')
         const res = await Api.post(BuyerEndpoint.buyerBook, { propertyId: id, buyerId: buyerId, startDate: startDate, endDate: endDate });
         return res
     } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getCheckout=async(bookingId:string)=>{
+    try{
+        const res=await Api.get(`/book/getCheckout/${bookingId}`)
+        return res
+    }catch(error){
         console.log(error)
     }
 }
