@@ -42,9 +42,11 @@ const Otp = ({ buyer }: forgotPassword) => {
       if (buyer) {
         const res = await verifyOtpForgotPassword(otp)
         if (res?.data.success) {
-          dispatch(setCredentials(res.data.token))
-          toast.success('Successfully logged in...')
-          navigate('/login')
+          toast.success('Success...')
+          navigate('/resetPassword')
+          // dispatch(setCredentials(res.data.token))
+          // toast.success('Otp correct...')
+          // navigate('/login')
         }
         else if (!res?.data.success) {
           toast.error(res?.data.message)
