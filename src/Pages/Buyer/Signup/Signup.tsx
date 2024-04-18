@@ -30,12 +30,14 @@ const Signup = () => {
         toast.error("Passwords doesnt match !!!");
         return;
       }
+      console.log('hi')
+      console.log(name,email,password)
       const res = await signup(name, email, password);
       console.log('no',res)
       if (res?.data.success) {
         navigate("/otp");
       }else if(!res?.data.success){
-        toast.error('User already exists !!')
+        toast.error(res?.data.message)
         navigate('/login')
       }
     } catch (error) {
