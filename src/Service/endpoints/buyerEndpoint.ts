@@ -9,9 +9,10 @@ const buyerRoutes={
     buyerGsignup:'/buyer/gsignup',
     buyerProfile:'/buyer/profile',
     buyerEditProfile:'/buyer/editprofile',
-    buyerNewConversation:'/newConversation',
-    buyerGetMessages:'/getMessages',
-    buyerNewMessage:'/newMessage',
+    buyerNewConversation:'/chat/newConversation',
+    buyerGetMessages:'/chat/getMessages',
+    buyerNewMessage:'/chat/newMessage',
+    buyerBook:'/book/newBooking'
 }
 
 export default buyerRoutes;

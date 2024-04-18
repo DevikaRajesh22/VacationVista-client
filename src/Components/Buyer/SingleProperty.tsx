@@ -6,7 +6,10 @@ import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { io, Socket } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { getMessages, newMessage, newConversation } from '../../Api/buyer';
+import { book } from '../../Api/buyer';
 import Calender from './Calender/Calender'
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 let buyerId: string | undefined;
 
@@ -49,7 +52,16 @@ interface MessageType {
     conversationId: string
 }
 
-const SingleProperty = () => {
+const SingleProperty: React.FC = () => {
+    const [date, setDate] = useState({
+        startDate: new Date(),
+        endDate: new Date()
+    });
+
+    const handleDateChange = (newDate: { startDate: Date; endDate: Date }) => {
+        setDate(newDate);
+    };
+
     const [messages, setMessages] = useState<Message[]>([]);
     const [message, setMessage] = useState('');
     const [conversationId, setConversationId] = useState('');
@@ -75,7 +87,7 @@ const SingleProperty = () => {
             } as MessageType);
         });
         console.log('arrival', arrivalMessage)
-    }, []);
+    }, [arrivalMessage]);
 
     useEffect(() => {
         arrivalMessage &&
@@ -179,6 +191,25 @@ const SingleProperty = () => {
             const sellerId = singleProperty?.sellerId;
             const res = await newConversation(sellerId as string);
             setConversationId(res?.data.data._id);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleBook = async () => {
+        try {
+            console.log('propertyId', id)
+            console.log('buyerId', buyerId)
+            console.log('start date', date.startDate)
+            console.log('end Date', date.endDate)
+            const startDate = date.startDate
+            const endDate = date.endDate
+            if (id && buyerId) {
+                const res = await book(id, buyerId, startDate, endDate)
+                console.log('book res', res)
+            }else{
+                toast.error('Something went wrong..')
+            }
         } catch (error) {
             console.log(error)
         }
@@ -313,7 +344,7 @@ const SingleProperty = () => {
                                 </ul>
                             </div>
                             <div className='mt-10'>
-                                <Calender />
+                                <Calender dateRange={date} onDateChange={handleDateChange} />
                             </div>
                             <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
                                 <div className="flex items-end">
@@ -321,6 +352,7 @@ const SingleProperty = () => {
                                     <span className="text-base">/night</span>
                                 </div>
                                 <button
+                                    onClick={handleBook}
                                     type="button"
                                     className="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-blue-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
                                 >

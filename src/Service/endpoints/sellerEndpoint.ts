@@ -10,8 +10,8 @@ const sellerRoutes={
     sellerEditProperty:'/seller/editProperty',
     sellerList:'/seller/sellerList',
     sellerGetUser:'/seller/getUser',
-    sellerGetConversations:'/getConversation',
-    sellerFindUserById:'/findUserById',
+    sellerGetConversations:'/chat/getConversation',
+    sellerFindUserById:'/chat/findUserById',
 }
 
 export default sellerRoutes
