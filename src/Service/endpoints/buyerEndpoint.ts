@@ -14,6 +14,7 @@ const buyerRoutes={
     buyerNewMessage:'/chat/newMessage',
     buyerBook:'/book/newBooking',
     buyerGetCheckout:'/book/getCheckout',
+    buyerProceedForPayment:'/book/proceedForPayment',
 }
 
 export default buyerRoutes;

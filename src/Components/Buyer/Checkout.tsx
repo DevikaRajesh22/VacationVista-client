@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { singlePropertyList } from '../../Api/buyer'
 import { getCheckout } from '../../Api/buyer'
+import { loadStripe } from '@stripe/stripe-js'
+import { proceedForPayment } from '../../Api/buyer'
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Property {
     id: string;
@@ -23,9 +27,13 @@ interface Property {
 }
 
 interface Book {
+    _id: string,
+    buyerId: string,
     propertyId: string,
+    bookingDate: Date,
+    endDate: Date,
     startDate: Date,
-    endDate: Date
+    paymentSuccess: false
 }
 
 const Checkout = () => {
@@ -78,6 +86,22 @@ const Checkout = () => {
         fetchPropertyData()
     }, [booking]);
 
+    const makePayment = async () => {
+        const stripe = await loadStripe('pk_test_51P7DM6SHI4Od2OhlymxMh88KtRWgBzBUUfjaagLHkphPgElrC70ssnKEGLIgI5bIL1wSSR1c9OxEAVLUSoJWZiFz00avORCeZL')
+        if (booking) {
+            const res = await proceedForPayment(booking)
+            if (res?.data.success) {
+                const sessionId = res?.data.data
+                const result = await stripe?.redirectToCheckout({
+                    sessionId: sessionId
+                })
+                console.log(result)
+            } else if (!res?.data.success) {
+                toast.error(res?.data.message)
+            }
+        }
+    }
+
     return (
         <div className="h-screen flex items-center justify-center">
             <div className="bg-white rounded-lg shadow-xl p-8 max-w-xl"> {/* Increased max-w-lg to max-w-xl */}
@@ -104,7 +128,7 @@ const Checkout = () => {
                     <span className="text-xl text-gray-700">Total</span>
                     <span className="text-xl text-gray-800 font-semibold">₹{totalPrice}</span>
                 </div>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-10 w-full">
+                <button onClick={makePayment} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-10 w-full">
                     Pay now
                 </button>
             </div>

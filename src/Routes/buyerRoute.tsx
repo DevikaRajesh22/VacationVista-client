@@ -10,6 +10,8 @@ import SinglePropertyPage from "../Pages/Buyer/SingleProperty/SinglePropertyPage
 import ResetPassword from '../Pages/Buyer/ForgotPassword/ResetPassword'
 import CheckoutPage from '../Pages/Buyer/Checkout/CheckoutPage'
 import PropertyPage from '../Pages/Buyer/Property/PropertyPage'
+import PaymentSuccess from '../Pages/Buyer/Payment/PaymentSuccess'
+import PaymentFail from '../Pages/Buyer/Payment/PaymentFail'
 import BuyerLoggedIn from "../Components/Buyer/buyerLoggedIn"
 import BuyerLoggedOut from "../Components/Buyer/buyerLoggedOut"
 
@@ -23,7 +25,7 @@ const buyerRoute = () => {
         <Route path="otp" element={<Otp buyer={false} />} />
         <Route path='forgotPassword' element={<ForgotPassword />} />
         <Route path='forgotPasswordOtp' element={<Otp buyer={true} />} />
-        <Route path='resetPassword' element={<ResetPassword/>}/>
+        <Route path='resetPassword' element={<ResetPassword />} />
       </Route>
       <Route path="" element={<BuyerLoggedIn />}>
         <Route path='profile' element={<Profile />} />
@@ -31,6 +33,8 @@ const buyerRoute = () => {
         <Route path='property' element={<PropertyPage />} />
         <Route path='singleProperty/:id' element={<SinglePropertyPage />} />
         <Route path='checkout/:id' element={<CheckoutPage />} />
+        <Route path='paymentSuccess' element={<PaymentSuccess />} />
+        <Route path='paymentFail' element={<PaymentFail />} />
       </Route>
     </Routes>
   )

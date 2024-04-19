@@ -1,11 +1,19 @@
 import Api from "../Service/axios";
 import BuyerEndpoint from "../Service/endpoints/buyerEndpoint";
 
+interface BookingDetails{
+    _id:string,
+    buyerId:string,
+    propertyId:string,
+    bookingDate:Date,
+    endDate:Date,
+    startDate:Date,
+    paymentSuccess:false
+}
+
 export const signup = async (name: string, email: string, password: string) => {
     try {
-        console.log('api')
         const res = await Api.post(BuyerEndpoint.buyerSignup, { name, email, password })
-        console.log('api re',res)
         const token = res.data.token
         localStorage.setItem('buyerotp', token)
         return res
@@ -133,7 +141,6 @@ export const singlePropertyList = async (id: string) => {
 
 export const getMessages = async (conversationId: string) => {
     try {
-        console.log('get msg', conversationId)
         const res = await Api.get(`${BuyerEndpoint.buyerGetMessages}?conversationId=${conversationId}`)
         return res
     } catch (error) {
@@ -173,6 +180,17 @@ export const getCheckout = async (bookingId: string) => {
         const res = await Api.get(`/book/getCheckout/${bookingId}`)
         return res
     } catch (error) {
+        console.log(error)
+    }
+}
+
+export const proceedForPayment=async(booking:BookingDetails)=>{
+    try{
+        console.log('payment api',booking)
+        const res=await Api.post(BuyerEndpoint.buyerProceedForPayment,{bookingDetails:booking})
+        console.log('payment api res',res)
+        return res
+    }catch(error){
         console.log(error)
     }
 }
