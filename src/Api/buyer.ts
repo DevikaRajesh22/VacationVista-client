@@ -186,9 +186,16 @@ export const getCheckout = async (bookingId: string) => {
 
 export const proceedForPayment=async(booking:BookingDetails)=>{
     try{
-        console.log('payment api',booking)
         const res=await Api.post(BuyerEndpoint.buyerProceedForPayment,{bookingDetails:booking})
-        console.log('payment api res',res)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+
+export const confirmBooking=async(bookingId:string)=>{
+    try{
+        const res=await Api.put(BuyerEndpoint.buyerConfirmPayment,{bookingId})
         return res
     }catch(error){
         console.log(error)
