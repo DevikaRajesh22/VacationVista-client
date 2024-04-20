@@ -5,6 +5,7 @@ import { verifyOtp, otpResend } from "../../../Api/buyer";
 import { setCredentials } from "../../../Store/slice/authSlice";
 import { useDispatch } from "react-redux";
 import { verifyOtpForgotPassword } from "../../../Api/buyer";
+import { useParams } from "react-router-dom";
 
 interface forgotPassword {
   buyer: boolean
@@ -16,6 +17,7 @@ const Otp = ({ buyer }: forgotPassword) => {
   const [resendOtp, setResendOtp] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {email}=useParams()
 
 
   useEffect(() => {
@@ -43,10 +45,7 @@ const Otp = ({ buyer }: forgotPassword) => {
         const res = await verifyOtpForgotPassword(otp)
         if (res?.data.success) {
           toast.success('Success...')
-          navigate('/resetPassword')
-          // dispatch(setCredentials(res.data.token))
-          // toast.success('Otp correct...')
-          // navigate('/login')
+          navigate(`/resetPassword/${email}`)
         }
         else if (!res?.data.success) {
           toast.error(res?.data.message)

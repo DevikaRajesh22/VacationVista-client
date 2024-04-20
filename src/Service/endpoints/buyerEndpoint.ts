@@ -4,6 +4,7 @@ const buyerRoutes={
     buyerVerifyOtp:'/buyer/verifyOtp',
     buyerVerifyOtpForgotPassword:'/buyer/verifyOtpForgotPassword',
     buyerResendOtp:'/buyer/resendOtp',
+    buyerResetPassword:'/buyer/resetPassword',
     buyerLogin:'/buyer/login',
     buyerLogout:'/buyer/logout',
     buyerGsignup:'/buyer/gsignup',

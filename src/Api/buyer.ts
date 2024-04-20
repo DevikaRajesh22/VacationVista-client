@@ -1,14 +1,14 @@
 import Api from "../Service/axios";
 import BuyerEndpoint from "../Service/endpoints/buyerEndpoint";
 
-interface BookingDetails{
-    _id:string,
-    buyerId:string,
-    propertyId:string,
-    bookingDate:Date,
-    endDate:Date,
-    startDate:Date,
-    paymentSuccess:false
+interface BookingDetails {
+    _id: string,
+    buyerId: string,
+    propertyId: string,
+    bookingDate: Date,
+    endDate: Date,
+    startDate: Date,
+    paymentSuccess: false
 }
 
 export const signup = async (name: string, email: string, password: string) => {
@@ -58,7 +58,6 @@ export const verifyOtpForgotPassword = async (otp: string) => {
                 'authorization': `Bearer ${token}`
             }
         });
-        localStorage.removeItem('buyerotpforgotpassword')
         return res
     } catch (error) {
         console.log(error)
@@ -80,6 +79,22 @@ export const otpResend = async () => {
         console.log(error)
     }
 };
+
+export const resetPassword = async (email: string, password: string) => {
+    try {
+        const token = localStorage.getItem('buyerotpforgotpassword')
+        console.log('token api',token)
+        const res = await Api.post(BuyerEndpoint.buyerResetPassword, { email, password },{
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        })
+        localStorage.removeItem('buyerotpforgotpassword')
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export const login = async (email: string, password: string) => {
     try {
@@ -184,20 +199,20 @@ export const getCheckout = async (bookingId: string) => {
     }
 }
 
-export const proceedForPayment=async(booking:BookingDetails)=>{
-    try{
-        const res=await Api.post(BuyerEndpoint.buyerProceedForPayment,{bookingDetails:booking})
+export const proceedForPayment = async (booking: BookingDetails) => {
+    try {
+        const res = await Api.post(BuyerEndpoint.buyerProceedForPayment, { bookingDetails: booking })
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const confirmBooking=async(bookingId:string)=>{
-    try{
-        const res=await Api.put(BuyerEndpoint.buyerConfirmPayment,{bookingId})
+export const confirmBooking = async (bookingId: string) => {
+    try {
+        const res = await Api.put(BuyerEndpoint.buyerConfirmPayment, { bookingId })
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
