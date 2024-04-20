@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { useState,useEffect } from 'react';
 import {category} from '../../Api/admin';
 import { hideCategory } from "../../Api/admin";
+import { useNavigate } from "react-router-dom";
 
 interface Category{
   id:string,
@@ -12,6 +13,7 @@ interface Category{
 const Category = () => {
   const [categories,setCategories]=useState<Category[]>([])
   const [hide,setHide]=useState(false)
+  const navigate=useNavigate()
 
   useEffect(()=>{
     const fetchCategoryData=async()=>{
@@ -38,6 +40,18 @@ const Category = () => {
       console.log(error)
     }
   }
+
+  const handleEdit=async(id:string)=>{
+    try{
+      if(id){
+        navigate(`/admin/editCategory/${id}`)
+      }
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+
 
   return (
     <div className="flex min-h-screen justify-center items-center w-full">
@@ -81,6 +95,13 @@ const Category = () => {
                   className="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   {val.isHidden?'Show':'Hide'}
+                </button>
+                <button
+                  type="button"
+                  onClick={()=>handleEdit(val.id)}
+                  className="ml-1 px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                 Edit
                 </button>
               </td>
             </tr>

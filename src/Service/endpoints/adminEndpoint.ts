@@ -8,6 +8,7 @@ const adminRoutes={
     addCategory:'/admin/addCategory',
     adminCategory:'/admin/category',
     hideCategory:'/admin/hideCategory',
+    adminEditCategory:'/admin/editCategory',
     adminProperty:'/admin/property',
     propertyStatusChange:'/admin/propertyStatusChange',
     hideProperty:'/admin/hideProperty',

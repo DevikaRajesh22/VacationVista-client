@@ -38,20 +38,20 @@ export const blockUser = async (id: string) => {
     }
 }
 
-export const hosts=async()=>{
-    try{
-        const res=await Api.get(AdminEndpoint.adminHost)
+export const hosts = async () => {
+    try {
+        const res = await Api.get(AdminEndpoint.adminHost)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const blockSeller=async(id:string)=>{
-    try{
-        const res=await Api.post(`${adminRoute.blockSeller}/${id}`)
+export const blockSeller = async (id: string) => {
+    try {
+        const res = await Api.post(`${adminRoute.blockSeller}/${id}`)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
@@ -65,47 +65,56 @@ export const addCategory = async (name: string, description: string) => {
     }
 }
 
-export const category=async()=>{
-    try{
-        const res=await Api.get(AdminEndpoint.adminCategory)
+export const editCategory = async (id: string, name: string, description: string) => {
+    try {
+        const res = await Api.post(AdminEndpoint.adminEditCategory, { id, name, description })
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const hideCategory=async(id:string)=>{
-    try{
-        const res=await Api.post(AdminEndpoint.hideCategory,{id})
+export const category = async () => {
+    try {
+        const res = await Api.get(AdminEndpoint.adminCategory)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const property=async()=>{
-    try{
-        const res=await Api.get(AdminEndpoint.adminProperty)
+export const hideCategory = async (id: string) => {
+    try {
+        const res = await Api.post(AdminEndpoint.hideCategory, { id })
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const changePropertyStatus=async(id:string,status:string)=>{
-    try{
-        const res=await Api.post(AdminEndpoint.propertyStatusChange,{id,status});
+export const property = async () => {
+    try {
+        const res = await Api.get(AdminEndpoint.adminProperty)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const hideProperty=async(id:string)=>{
-    try{
-        const res=await Api.post(AdminEndpoint.hideProperty,{id})
+export const changePropertyStatus = async (id: string, status: string) => {
+    try {
+        const res = await Api.post(AdminEndpoint.propertyStatusChange, { id, status });
         return res
-    }catch(error){
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const hideProperty = async (id: string) => {
+    try {
+        const res = await Api.post(AdminEndpoint.hideProperty, { id })
+        return res
+    } catch (error) {
         console.log(error)
     }
 }

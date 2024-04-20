@@ -1,29 +1,29 @@
 import SidebarWithLogo from "../../../Components/Admin/Sidebar"
 import { toast } from "react-toastify";
-import {useState} from 'react'
+import { useState } from 'react'
 import { addCategory } from "../../../Api/admin";
 import { useNavigate } from "react-router-dom";
 
 const CategoryForm = () => {
-    const [name,setName]=useState('');
-    const [description,setDescription]=useState('');
-    const navigate=useNavigate()
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const navigate = useNavigate()
 
-    const handleSubmit=async(e: React.FormEvent<HTMLFormElement>)=>{
-        try{
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        try {
             e.preventDefault()
-            if(name.trim().length<3){
+            if (name.trim().length < 3) {
                 toast.error('Name should have more than 3 characters')
                 return
             }
-            const res=await addCategory(name,description)
-            if(res?.data.success){
+            const res = await addCategory(name, description)
+            if (res?.data.success) {
                 toast.success(res.data.message)
                 navigate('/admin/category')
-            }else if(!res?.data.success){
+            } else if (!res?.data.success) {
                 toast.error(res?.data.message)
             }
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
     }
@@ -44,7 +44,7 @@ const CategoryForm = () => {
                             type="text"
                             id="category"
                             value={name}
-                            onChange={(e)=>setName(e.target.value)}
+                            onChange={(e) => setName(e.target.value)}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder=""
                         />
@@ -59,7 +59,7 @@ const CategoryForm = () => {
                         <textarea
                             id="description"
                             value={description}
-                            onChange={(e)=>setDescription(e.target.value)}
+                            onChange={(e) => setDescription(e.target.value)}
                             name="description"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             rows={4} // Optional: Set the initial number of visible rows
@@ -72,9 +72,7 @@ const CategoryForm = () => {
                         Submit
                     </button>
                 </form>
-
             </div>
-
         </div>
     )
 }
