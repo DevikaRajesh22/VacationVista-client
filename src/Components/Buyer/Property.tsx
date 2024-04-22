@@ -5,6 +5,7 @@ import { category } from '../../Api/admin'
 
 interface Property {
   id: string,
+  category: string,
   title: string,
   address: string,
   photos: string,
@@ -24,6 +25,7 @@ const Property = () => {
   const [categories, setCategories] = useState<Category[]>([])
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -63,8 +65,13 @@ const Property = () => {
     }
   }
 
+  const filterPropertiesByCategory = () => {
+    if (!selectedCategory) return properties;
+    return properties.filter(property => property.category === selectedCategory);
+  };
+
   const sortedProperties = () => {
-    const sorted = [...properties];
+    const sorted = [...filterPropertiesByCategory()];
     if (sortOption === 'Low to High') {
       sorted.sort((a: Property, b: Property) => a.price - b.price);
     } else if (sortOption === 'High to Low') {
@@ -86,7 +93,14 @@ const Property = () => {
           <div className="my-2 flex sm:flex-row flex-col">
             <div className="flex flex-row mb-1 sm:mb-0">
               <div className="relative">
-                <select onChange={(e) => setSortOption(e.target.value)} className="h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <select onChange={(e) => {
+                  const selectedOption = e.target.value;
+                  if (selectedOption == 'Sort') {
+                    setSortOption('')
+                  } else {
+                    setSortOption(selectedOption)
+                  }
+                }} className="h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                   <option>Sort</option>
                   <option>Low to High</option>
                   <option>High to Low</option>
@@ -102,7 +116,14 @@ const Property = () => {
                 </div>
               </div>
               <div className="relative w-full">
-                <select className="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
+                <select onChange={(e) => {
+                  const selectedOption = e.target.value
+                  if (selectedOption == 'Category') {
+                    setSelectedCategory('')
+                  } else {
+                    setSelectedCategory(selectedOption)
+                  }
+                }} className="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
                   <option>Category</option>
                   {categories.map((val) => {
                     return (
