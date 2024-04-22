@@ -14,6 +14,7 @@ import ContactPage from '../Pages/Buyer/Contact/ContactPage'
 import AboutPage from '../Pages/Buyer/About/AboutPage'
 import PaymentSuccess from '../Pages/Buyer/Payment/PaymentSuccess'
 import PaymentFail from '../Pages/Buyer/Payment/PaymentFail'
+import BookingPage from '../Pages/Buyer/Booking/BookingPage'
 import BuyerLoggedIn from "../Components/Buyer/buyerLoggedIn"
 import BuyerLoggedOut from "../Components/Buyer/buyerLoggedOut"
 
@@ -39,6 +40,7 @@ const buyerRoute = () => {
         <Route path='about' element={<AboutPage />} />
         <Route path='paymentSuccess' element={<PaymentSuccess />} />
         <Route path='paymentFail' element={<PaymentFail />} />
+        <Route path='booking' element={<BookingPage />} />
       </Route>
     </Routes>
   )

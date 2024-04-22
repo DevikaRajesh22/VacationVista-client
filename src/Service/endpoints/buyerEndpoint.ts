@@ -17,6 +17,8 @@ const buyerRoutes={
     buyerGetCheckout:'/book/getCheckout',
     buyerProceedForPayment:'/book/proceedForPayment',
     buyerSaveSession:'/book/saveSession',
+    buyerGetBookings:'/book/getBookings',
+    buyerCancel:'/book/cancelBooking',
 }
 
 export default buyerRoutes;

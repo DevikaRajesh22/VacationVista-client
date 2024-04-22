@@ -216,3 +216,21 @@ export const saveSession=async(sessionId:string,bookingId:string)=>{
         console.log(error)
     }
 }
+
+export const getBooking=async(buyerId:string)=>{
+    try{
+        const res=await Api.get(`/book/getBookings/${buyerId}`)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+
+export const cancelBooking=async(bookingId:string)=>{
+    try{
+        const res=await Api.post(BuyerEndpoint.buyerCancel,{bookingId})
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}

@@ -32,7 +32,6 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        console.log('fetch')
         const res = await profile()
         if (res?.data?.buyerProfile) {
           setName(res.data.buyerProfile.name);
@@ -101,6 +100,18 @@ const Navbar = () => {
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200"
                     >
                       Profile
+                    </Link>
+                    <Link
+                      to="/booking"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200"
+                    >
+                      Bookings
+                    </Link>
+                    <Link
+                      to="/trip"
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200"
+                    >
+                      Trips
                     </Link>
                     <Link
                       to="/seller/dashboard"

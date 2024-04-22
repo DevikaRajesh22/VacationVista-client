@@ -17,7 +17,7 @@ const Otp = ({ buyer }: forgotPassword) => {
   const [resendOtp, setResendOtp] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {email}=useParams()
+  const { email } = useParams()
 
 
   useEffect(() => {
