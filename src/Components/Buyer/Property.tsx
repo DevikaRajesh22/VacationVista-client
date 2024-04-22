@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { property } from '../../Api/admin';
 import { useNavigate } from 'react-router-dom';
-import {category} from '../../Api/admin'
+import { category } from '../../Api/admin'
 
 interface Property {
   id: string,
@@ -13,31 +13,32 @@ interface Property {
   isBlocked: boolean
 }
 
-interface Category{
-  id:string,
-  name:string,
-  isHidden:boolean
+interface Category {
+  id: string,
+  name: string,
+  isHidden: boolean
 }
 
 const Property = () => {
   const [properties, setProperties] = useState<Property[]>([]);
-  const [categories,setCategories]=useState<Category[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortOption, setSortOption] = useState('');
   const navigate = useNavigate()
 
-  useEffect(()=>{
-    const fetchCategoryData=async()=>{
-      try{
-        const res=await category()
-        if(res?.data.success){
+  useEffect(() => {
+    const fetchCategoryData = async () => {
+      try {
+        const res = await category()
+        if (res?.data.success) {
           setCategories(res.data.getCategory)
         }
-      }catch(error){
+      } catch (error) {
         console.log(error)
       }
     }
     fetchCategoryData()
-  },[])
+  }, [])
 
   useEffect(() => {
     const fetchPropertyData = async () => {
@@ -62,10 +63,21 @@ const Property = () => {
     }
   }
 
-  const filteredProperties = searchTerm ?
-    properties.filter((property) =>
-      property.title.toLowerCase().includes(searchTerm.toLowerCase())
-    ) : properties
+  const sortedProperties = () => {
+    const sorted = [...properties];
+    if (sortOption === 'Low to High') {
+      sorted.sort((a: Property, b: Property) => a.price - b.price);
+    } else if (sortOption === 'High to Low') {
+      sorted.sort((a: Property, b: Property) => b.price - a.price);
+    }
+    return sorted
+  }
+
+  const filteredAndSortedProperties = sortedProperties().filter((property) =>
+    property.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+
 
   return (
     <section className="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
@@ -74,7 +86,7 @@ const Property = () => {
           <div className="my-2 flex sm:flex-row flex-col">
             <div className="flex flex-row mb-1 sm:mb-0">
               <div className="relative">
-                <select className="h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <select onChange={(e) => setSortOption(e.target.value)} className="h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                   <option>Sort</option>
                   <option>Low to High</option>
                   <option>High to Low</option>
@@ -91,9 +103,9 @@ const Property = () => {
               </div>
               <div className="relative w-full">
                 <select className="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
-                <option>Category</option>
-                  {categories.map((val)=>{
-                    return(
+                  <option>Category</option>
+                  {categories.map((val) => {
+                    return (
                       <option>{val.name}</option>
                     )
                   })}
@@ -126,7 +138,7 @@ const Property = () => {
 
         </div>
         <div className="mt-10 grid grid-cols-2 gap-6 lg:mt-16 lg:grid-cols-4 lg:gap-4">
-          {filteredProperties.map((val) => {
+          {filteredAndSortedProperties.map((val) => {
             return (
               <div className={`${(val.status == 'Verification Required' || val.status == "Rejected" || val.isBlocked == true) && 'hidden'}`}>
                 <article className="relative">

@@ -17,16 +17,15 @@ const ResetPassword = () => {
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         try {
-            if (password.trim().length < 6) {
+            if (password.trim().length < 5) {
                 toast.error('Password should be more than 6 characters!')
-            } else if (confirmPassword.trim().length < 6) {
+            } else if (confirmPassword.trim().length < 5) {
                 toast.error('Password should be more that 6 characters!')
             } else if (password !== confirmPassword) {
                 toast.error('Passwords doesnt match!')
             }
             if (email) {
                 const res = await resetPassword(email, password);
-                console.log('resetpwd res', res)
                 if (res?.data.success) {
                     toast.success(res?.data.message)
                     dispatch(setCredentials(res.data.token))

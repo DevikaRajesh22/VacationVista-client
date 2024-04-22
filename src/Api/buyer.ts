@@ -207,12 +207,3 @@ export const proceedForPayment = async (booking: BookingDetails) => {
         console.log(error)
     }
 }
-
-export const confirmBooking = async (bookingId: string) => {
-    try {
-        const res = await Api.put(BuyerEndpoint.buyerConfirmPayment, { bookingId })
-        return res
-    } catch (error) {
-        console.log(error)
-    }
-}

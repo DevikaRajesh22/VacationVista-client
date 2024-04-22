@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { singlePropertyList } from '../../Api/buyer'
 import { getCheckout } from '../../Api/buyer'
 import { loadStripe } from '@stripe/stripe-js'
-import { proceedForPayment,confirmBooking } from '../../Api/buyer'
+import { proceedForPayment } from '../../Api/buyer'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -95,10 +95,7 @@ const Checkout = () => {
                 const result = await stripe?.redirectToCheckout({
                     sessionId: sessionId
                 })
-                if(result){
-                    const res=await confirmBooking(booking._id)
-                    console.log('confirm pay',res)
-                }
+                console.log(result)
             } else if (!res?.data.success) {
                 toast.error(res?.data.message)
             }
