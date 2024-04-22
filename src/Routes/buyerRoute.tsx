@@ -10,6 +10,8 @@ import SinglePropertyPage from "../Pages/Buyer/SingleProperty/SinglePropertyPage
 import ResetPassword from '../Pages/Buyer/ForgotPassword/ResetPassword'
 import CheckoutPage from '../Pages/Buyer/Checkout/CheckoutPage'
 import PropertyPage from '../Pages/Buyer/Property/PropertyPage'
+import ContactPage from '../Pages/Buyer/Contact/ContactPage'
+import AboutPage from '../Pages/Buyer/About/AboutPage'
 import PaymentSuccess from '../Pages/Buyer/Payment/PaymentSuccess'
 import PaymentFail from '../Pages/Buyer/Payment/PaymentFail'
 import BuyerLoggedIn from "../Components/Buyer/buyerLoggedIn"
@@ -33,6 +35,8 @@ const buyerRoute = () => {
         <Route path='property' element={<PropertyPage />} />
         <Route path='singleProperty/:id' element={<SinglePropertyPage />} />
         <Route path='checkout/:id' element={<CheckoutPage />} />
+        <Route path='contact' element={<ContactPage />} />
+        <Route path='about' element={<AboutPage />} />
         <Route path='paymentSuccess' element={<PaymentSuccess />} />
         <Route path='paymentFail' element={<PaymentFail />} />
       </Route>

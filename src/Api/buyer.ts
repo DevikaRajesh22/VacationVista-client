@@ -207,3 +207,12 @@ export const proceedForPayment = async (booking: BookingDetails) => {
         console.log(error)
     }
 }
+
+export const saveSession=async(sessionId:string,bookingId:string)=>{
+    try{
+        const res=await Api.post(BuyerEndpoint.buyerSaveSession,{sessionId,bookingId})
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}

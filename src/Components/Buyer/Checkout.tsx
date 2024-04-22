@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { singlePropertyList } from '../../Api/buyer'
 import { getCheckout } from '../../Api/buyer'
 import { loadStripe } from '@stripe/stripe-js'
-import { proceedForPayment } from '../../Api/buyer'
+import { proceedForPayment, saveSession } from '../../Api/buyer'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -92,10 +92,15 @@ const Checkout = () => {
             const res = await proceedForPayment(booking)
             if (res?.data.success) {
                 const sessionId = res?.data.data
-                const result = await stripe?.redirectToCheckout({
-                    sessionId: sessionId
-                })
-                console.log(result)
+                const save = await saveSession(sessionId, booking._id);
+                if (save?.data?.success) {
+                    const result = await stripe?.redirectToCheckout({
+                        sessionId: sessionId
+                    })
+                    console.log(result)
+                } else if (!save?.data?.success) {
+                    toast.error('Something went wrong..')
+                }
             } else if (!res?.data.success) {
                 toast.error(res?.data.message)
             }
