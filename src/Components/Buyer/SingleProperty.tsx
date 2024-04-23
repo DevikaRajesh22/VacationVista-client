@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { io, Socket } from 'socket.io-client';
 import { useSelector } from 'react-redux';
-import { getMessages, newMessage, newConversation } from '../../Api/buyer';
+import { getMessages, newMessage, newConversation, slotCheck } from '../../Api/buyer';
 import { book } from '../../Api/buyer';
 import Calender from './Calender/Calender'
 import { toast } from "react-toastify";
@@ -203,17 +203,24 @@ const SingleProperty: React.FC = () => {
         try {
             const startDate = date.startDate
             const endDate = date.endDate
-            if (id && buyerId) {
-                const res = await book(id, buyerId, startDate, endDate)
-                if (res?.data.success) {
-                    toast.success('Continue to payment')
-                    navigate(`/checkout/${res.data.data._id}`)
-                } else if (!res?.data.success) {
-                    toast.error('Something went wrong...')
+            const res = await slotCheck(startDate, endDate);
+            console.log('res slot', res)
+            if (res?.data.success) {
+                if (id && buyerId) {
+                    const res = await book(id, buyerId, startDate, endDate)
+                    if (res?.data.success) {
+                        toast.success('Continue to payment')
+                        navigate(`/checkout/${res.data.data._id}`)
+                    } else if (!res?.data.success) {
+                        toast.error('Something went wrong...')
+                    }
+                } else {
+                    toast.error('Something went wrong..')
                 }
-            } else {
-                toast.error('Something went wrong..')
+            } else if (!res?.data.success) {
+                toast.error(res?.data.message)
             }
+
         } catch (error) {
             console.log(error)
         }

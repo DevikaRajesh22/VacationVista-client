@@ -234,3 +234,12 @@ export const cancelBooking=async(bookingId:string)=>{
         console.log(error)
     }
 }
+
+export const slotCheck=async(startDate:Date,endDate:Date)=>{
+    try{
+        const res=await Api.post(BuyerEndpoint.buyerSlotCheck,{startDate,endDate});
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}

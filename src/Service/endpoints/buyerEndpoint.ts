@@ -19,6 +19,7 @@ const buyerRoutes={
     buyerSaveSession:'/book/saveSession',
     buyerGetBookings:'/book/getBookings',
     buyerCancel:'/book/cancelBooking',
+    buyerSlotCheck:'/book/slotCheck',
 }
 
 export default buyerRoutes;
