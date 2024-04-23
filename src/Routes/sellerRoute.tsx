@@ -9,6 +9,7 @@ import EditPropertyPage from "../Pages/Seller/EditProperty/EditPropertyPage"
 import ProfilePage from "../Pages/Seller/Profile/ProfilePage"
 import EditProfilePage from "../Pages/Seller/Profile/EditProfilePage"
 import InboxPage from '../Pages/Seller/Inbox/InboxPage'
+import ReservationPage from '../Pages/Seller/Reservations/ReservationPage'
 import SellerLoggedIn from "../Components/Seller/sellerLoggedIn"
 import SellerLoggedOut from "../Components/Seller/sellerLoggedOut"
 
@@ -28,6 +29,7 @@ const sellerRoute = () => {
         <Route path='profile' element={<ProfilePage />} />
         <Route path='editProfile' element={<EditProfilePage />} />
         <Route path='inbox' element={<InboxPage />} />
+        <Route path='reservations' element={<ReservationPage />} />
       </Route>
     </Routes>
   )

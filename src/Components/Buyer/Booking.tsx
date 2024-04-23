@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { profile } from '../../Api/buyer'
 import { getBooking } from '../../Api/buyer'
-import {cancelBooking} from '../../Api/buyer'
+import { cancelBooking } from '../../Api/buyer'
 import { toast } from "react-toastify";
 
 interface Property {
@@ -21,7 +21,7 @@ interface Booking {
   endDate: Date,
   bookingDate: Date,
   paymentSuccess: boolean,
-  isCancelled:boolean
+  isCancelled: boolean
 }
 
 
@@ -77,15 +77,15 @@ const Booking = () => {
     };
   }
 
-  const handleCancel=async(bookingId:string)=>{
-    try{
-      const res=await cancelBooking(bookingId);
-      if(res?.data.success){
+  const handleCancel = async (bookingId: string) => {
+    try {
+      const res = await cancelBooking(bookingId);
+      if (res?.data.success) {
         toast.success('Amount will be refunded within 5 days..')
-      }else if(!res?.data.success){
+      } else if (!res?.data.success) {
         toast.error('Something went wrong..')
       }
-    }catch(error){
+    } catch (error) {
       console.log(error)
     }
   }
@@ -95,9 +95,9 @@ const Booking = () => {
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
           {bookings.map((val) => {
-            if (val.paymentSuccess && !val.isCancelled) {
+            if (val.paymentSuccess) {
               const { startDateFormatted, endDateFormatted, numberOfDays } = formatDateAndCalculateDays(val.startDate, val.endDate);
-              const total = numberOfDays * val.propertyId.price
+              const total = (numberOfDays + 1) * val.propertyId.price
               return (
                 <article className="relative flex flex-col overflow-hidden rounded-lg border" key={val.propertyId.id}>
                   <div className="aspect-square overflow-hidden">
@@ -110,20 +110,23 @@ const Booking = () => {
                   <div className="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
                     <p className="text-lg text-black font-semibold">{val.propertyId.title}</p>
                     <p className="text-sm text-black-500 ">{val.propertyId.address}</p>
-                    <h3 className="mb-2 text-sm text-gray-500">Amount paid : ₹{total}</h3>
+                    <h3 className="mb-2 text-sm text-gray-500">{!val.isCancelled ? `Amount paid : ₹${total}` : `Refunded: ₹${total}`}</h3>
                     {(startDateFormatted == endDateFormatted) ? <p>{startDateFormatted}</p> : <p>{startDateFormatted} to {endDateFormatted}</p>}
                   </div>
-                  <button onClick={(e)=>{
-                  e.preventDefault()
-                  handleCancel(val.id)
+                  {!val.isCancelled ? <button onClick={(e) => {
+                    e.preventDefault()
+                    handleCancel(val.id)
                   }} className="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
                     <div className="flex w-full items-center justify-center bg-yellow-500 text-xs uppercase transition group-hover:bg-emerald-600 font-bold text-white">
                       Cancel
                     </div>
                   </button>
+                    :
+                    <p className='text-red-500 m-3'>Cancelled</p>
+                  }
                 </article>
               )
-            }else{
+            } else {
               return null;
             }
           })}

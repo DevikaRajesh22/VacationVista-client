@@ -12,6 +12,7 @@ const sellerRoutes={
     sellerGetUser:'/seller/getUser',
     sellerGetConversations:'/chat/getConversation',
     sellerFindUserById:'/chat/findUserById',
+    sellerGetBooking:'/book/getBookingBySellerId',
 }
 
 export default sellerRoutes

@@ -149,3 +149,12 @@ export const getUser=async(userId:string)=>{
         console.log(error)
     }
 }
+
+export const getBookingbySellerId=async(sellerId:string)=>{
+    try{
+        const res=await Api.get(`/book/getBookingBySellerId/${sellerId}`)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}

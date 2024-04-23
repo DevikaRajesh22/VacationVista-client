@@ -481,12 +481,14 @@ const SingleProperty: React.FC = () => {
                                             <p className="bg-blue-900 text-white rounded-lg py-2 px-4 inline-block">
                                                 {message.message}
                                             </p>
+                                            <p className='text-sm text-gray-600'>06:45</p>
                                         </div>
                                         :
                                         <div className="mb-2" ref={index === messages.length - 1 ? scrollRef : null}>
                                             <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
                                                 {message.message}
                                             </p>
+                                            <p className='text-sm text-gray-600'>06:45</p>
                                         </div>
                                     }
                                 </>
