@@ -83,13 +83,11 @@ const SingleProperty: React.FC = () => {
         console.log('socket connection')
         socket.current = io('ws://localhost:3000');
         socket.current.on('getMessage', (data) => {
-            console.log('data', data)
             setArrivalMessage({
                 sender: data.senderId,
                 text: data.text,
             } as MessageType);
         });
-        console.log('arrival', arrivalMessage)
     }, [arrivalMessage]);
 
     useEffect(() => {
@@ -113,7 +111,6 @@ const SingleProperty: React.FC = () => {
             try {
                 const messageResponse = await getMessages(conversationId);
                 const messages = messageResponse?.data.data
-                console.log('mes', messageResponse?.data.data)
                 setMessages(messages);
             } catch (error) {
                 console.log(error)
@@ -204,7 +201,6 @@ const SingleProperty: React.FC = () => {
             const startDate = date.startDate
             const endDate = date.endDate
             const res = await slotCheck(startDate, endDate);
-            console.log('res slot', res)
             if (res?.data.success) {
                 if (id && buyerId) {
                     const res = await book(id, buyerId, startDate, endDate)
