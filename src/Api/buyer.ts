@@ -83,8 +83,8 @@ export const otpResend = async () => {
 export const resetPassword = async (email: string, password: string) => {
     try {
         const token = localStorage.getItem('buyerotpforgotpassword')
-        console.log('token api',token)
-        const res = await Api.post(BuyerEndpoint.buyerResetPassword, { email, password },{
+        console.log('token api', token)
+        const res = await Api.post(BuyerEndpoint.buyerResetPassword, { email, password }, {
             headers: {
                 'authorization': `Bearer ${token}`
             }
@@ -208,38 +208,38 @@ export const proceedForPayment = async (booking: BookingDetails) => {
     }
 }
 
-export const saveSession=async(sessionId:string,bookingId:string)=>{
-    try{
-        const res=await Api.post(BuyerEndpoint.buyerSaveSession,{sessionId,bookingId})
+export const saveSession = async (sessionId: string, bookingId: string) => {
+    try {
+        const res = await Api.post(BuyerEndpoint.buyerSaveSession, { sessionId, bookingId })
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const getBooking=async(buyerId:string)=>{
-    try{
-        const res=await Api.get(`/book/getBookings/${buyerId}`)
+export const getBooking = async (buyerId: string) => {
+    try {
+        const res = await Api.get(`/book/getBookings/${buyerId}`)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const cancelBooking=async(bookingId:string)=>{
-    try{
-        const res=await Api.post(BuyerEndpoint.buyerCancel,{bookingId})
+export const cancelBooking = async (bookingId: string) => {
+    try {
+        const res = await Api.post(BuyerEndpoint.buyerCancel, { bookingId })
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const slotCheck=async(startDate:Date,endDate:Date)=>{
-    try{
-        const res=await Api.post(BuyerEndpoint.buyerSlotCheck,{startDate,endDate});
+export const slotCheck = async (startDate: Date, endDate: Date, id: string) => {
+    try {
+        const res = await Api.post(BuyerEndpoint.buyerSlotCheck, { startDate, endDate, propertyId: id });
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }

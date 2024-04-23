@@ -17,7 +17,7 @@ interface Message {
   senderId: string,
   message: string,
   conversationId: string,
-  createdAt: string
+  creationTime: string
 }
 
 interface MessageType {
@@ -120,6 +120,15 @@ const Inbox = () => {
     }
   }
 
+  function formatTime(dateString:string) {
+    const date = new Date(dateString);
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0'); // Ensure 2-digit format
+    const amPM = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
+    return `${hours}:${minutes} ${amPM}`;
+}
+
   return (
     <>
       <div className="flex h-screen antialiased text-gray-800 mt-10">
@@ -156,6 +165,7 @@ const Inbox = () => {
                                   <div>{message.message}</div>
                                 </div>
                               </div>
+                              <p className='text-xs text-gray-700 flex items-center justify-start flex-row-reverse mr-14'>{formatTime(message.creationTime)}</p>
                             </div>
                             :
                             <>
@@ -170,6 +180,7 @@ const Inbox = () => {
                                     </div>
                                   </div>
                                 </div>
+                                <p className='text-xs text-gray-700 ml-14'>{formatTime(message.creationTime)}</p>
                               </div>
                             </>
                         }

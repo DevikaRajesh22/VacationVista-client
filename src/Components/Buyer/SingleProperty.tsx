@@ -43,7 +43,7 @@ interface Message {
     senderId: string,
     message: string,
     conversationId: string,
-    createdAt: Date
+    creationTime: Date
 }
 
 interface MessageType {
@@ -200,26 +200,36 @@ const SingleProperty: React.FC = () => {
         try {
             const startDate = date.startDate
             const endDate = date.endDate
-            const res = await slotCheck(startDate, endDate);
-            if (res?.data.success) {
-                if (id && buyerId) {
-                    const res = await book(id, buyerId, startDate, endDate)
-                    if (res?.data.success) {
-                        toast.success('Continue to payment')
-                        navigate(`/checkout/${res.data.data._id}`)
-                    } else if (!res?.data.success) {
-                        toast.error('Something went wrong...')
+            if (id) {
+                const res = await slotCheck(startDate, endDate, id);
+                if (res?.data.success) {
+                    if (buyerId) {
+                        const res = await book(id, buyerId, startDate, endDate)
+                        if (res?.data.success) {
+                            toast.success('Continue to payment')
+                            navigate(`/checkout/${res.data.data._id}`)
+                        } else if (!res?.data.success) {
+                            toast.error('Something went wrong...')
+                        }
+                    } else {
+                        toast.error('Something went wrong..')
                     }
-                } else {
-                    toast.error('Something went wrong..')
+                } else if (!res?.data.success) {
+                    toast.error(res?.data.message)
                 }
-            } else if (!res?.data.success) {
-                toast.error(res?.data.message)
             }
-
         } catch (error) {
             console.log(error)
         }
+    }
+
+    function formatTime(dateString:Date) {
+        const date = new Date(dateString);
+        let hours = date.getHours();
+        const minutes = String(date.getMinutes()).padStart(2, '0'); // Ensure 2-digit format
+        const amPM = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
+        return `${hours}:${minutes} ${amPM}`;
     }
 
     return (
@@ -484,14 +494,14 @@ const SingleProperty: React.FC = () => {
                                             <p className="bg-blue-900 text-white rounded-lg py-2 px-4 inline-block">
                                                 {message.message}
                                             </p>
-                                            <p className='text-sm text-gray-600'>06:45</p>
+                                            <p className='text-xs text-gray-600'>{formatTime(message.creationTime)}</p>
                                         </div>
                                         :
                                         <div className="mb-2" ref={index === messages.length - 1 ? scrollRef : null}>
                                             <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
                                                 {message.message}
                                             </p>
-                                            <p className='text-sm text-gray-600'>06:45</p>
+                                            <p className='text-xs text-gray-600'>{formatTime(message.creationTime)}</p>
                                         </div>
                                     }
                                 </>
