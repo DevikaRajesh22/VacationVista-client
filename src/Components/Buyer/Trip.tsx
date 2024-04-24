@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { profile } from '../../Api/buyer'
 import { getBooking } from '../../Api/buyer'
-import { cancelBooking } from '../../Api/buyer'
+// import { cancelBooking } from '../../Api/buyer'
 import { toast } from "react-toastify";
 
 interface Property {
@@ -24,9 +24,8 @@ interface Booking {
   isCancelled: boolean
 }
 
-
-const Booking = () => {
-  const [bookings, setBookings] = useState<Booking[]>([]);
+const Trip = () => {
+    const [bookings, setBookings] = useState<Booking[]>([]);
   const [buyerId, setBuyerId] = useState('');
 
   useEffect(() => {
@@ -43,59 +42,66 @@ const Booking = () => {
     fetchUserData()
   }, [bookings]);
 
-  useEffect(() => {
-    const fetchBookingData = async () => {
-      try {
-        const res = await getBooking(buyerId)
-        if (res?.data.success) {
-          setBookings(res.data.data)
+    useEffect(() => {
+        const fetchBookingData = async () => {
+          try {
+            const res = await getBooking(buyerId)
+            if (res?.data.success) {
+              setBookings(res.data.data)
+            }
+          } catch (error) {
+            console.log(error)
+          }
         }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchBookingData()
-  })
+        fetchBookingData()
+      })
 
-  const formatDateAndCalculateDays = (startDateString: Date, endDateString: Date) => {
-    const startDate = new Date(startDateString);
-    const endDate = new Date(endDateString);
-    const differenceInMs = endDate.getTime() - startDate.getTime();
-    const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);
-    const startDay = startDate.getDate();
-    const startMonth = startDate.getMonth() + 1;
-    const startYear = startDate.getFullYear() % 100;
-    const formattedStartDate = `${String(startDay).padStart(2, '0')}/${String(startMonth).padStart(2, '0')}/${startYear}`;
-    const endDay = endDate.getDate();
-    const endMonth = endDate.getMonth() + 1;
-    const endYear = endDate.getFullYear() % 100;
-    const formattedEndDate = `${String(endDay).padStart(2, '0')}/${String(endMonth).padStart(2, '0')}/${endYear}`;
-    return {
-      startDateFormatted: formattedStartDate,
-      endDateFormatted: formattedEndDate,
-      numberOfDays: differenceInDays
-    };
-  }
-
-  const handleCancel = async (bookingId: string) => {
-    try {
-      const res = await cancelBooking(bookingId);
-      if (res?.data.success) {
-        toast.success('Amount will be refunded within 5 days..')
-      } else if (!res?.data.success) {
-        toast.error('Something went wrong..')
+    const formatDateAndCalculateDays = (startDateString: Date, endDateString: Date) => {
+        const startDate = new Date(startDateString);
+        const endDate = new Date(endDateString);
+        const differenceInMs = endDate.getTime() - startDate.getTime();
+        const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);
+        const startDay = startDate.getDate();
+        const startMonth = startDate.getMonth() + 1;
+        const startYear = startDate.getFullYear() % 100;
+        const formattedStartDate = `${String(startDay).padStart(2, '0')}/${String(startMonth).padStart(2, '0')}/${startYear}`;
+        const endDay = endDate.getDate();
+        const endMonth = endDate.getMonth() + 1;
+        const endYear = endDate.getFullYear() % 100;
+        const formattedEndDate = `${String(endDay).padStart(2, '0')}/${String(endMonth).padStart(2, '0')}/${endYear}`;
+        return {
+          startDateFormatted: formattedStartDate,
+          endDateFormatted: formattedEndDate,
+          numberOfDays: differenceInDays
+        };
       }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+
+      const handleRating=async(bookingId:string)=>{
+        try{
+            toast.success(bookingId)
+        }catch(error){
+            console.log(error)
+        }
+      }
 
   return (
     <section className="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
           {bookings.map((val) => {
-            if (val.paymentSuccess) {
+            const endDate = new Date(val.endDate);
+            const today = new Date();
+            let trip
+            if (
+                endDate.getDate() <= today.getDate() &&
+                endDate.getMonth() <= today.getMonth() &&
+                endDate.getFullYear() <= today.getFullYear()
+            ) {
+                trip = true
+            } else {
+                trip = false
+            }
+            if (val.paymentSuccess && !val.isCancelled && trip) {
               const { startDateFormatted, endDateFormatted, numberOfDays } = formatDateAndCalculateDays(val.startDate, val.endDate);
               const total = (numberOfDays + 1) * val.propertyId.price
               return (
@@ -115,10 +121,10 @@ const Booking = () => {
                   </div>
                   {!val.isCancelled ? <button onClick={(e) => {
                     e.preventDefault()
-                    handleCancel(val.id)
+                    handleRating(val.id)
                   }} className="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
                     <div className="flex w-full items-center justify-center bg-yellow-500 text-xs uppercase transition group-hover:bg-emerald-600 font-bold text-white">
-                      Cancel
+                      Rate
                     </div>
                   </button>
                     :
@@ -127,9 +133,7 @@ const Booking = () => {
                 </article>
               )
             } else {
-              return (
-                <p>No bookings</p>
-              );
+              return null;
             }
           })}
         </div>
@@ -138,4 +142,4 @@ const Booking = () => {
   )
 }
 
-export default Booking
+export default Trip
