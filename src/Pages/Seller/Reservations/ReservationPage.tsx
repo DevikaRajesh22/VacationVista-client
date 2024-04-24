@@ -4,9 +4,9 @@ import Reservations from '../../../Components/Seller/Reservations'
 const ReservationPage = () => {
   return (
     <div>
-    <Navbar/>
-    <Reservations/>
-  </div>
+      <Navbar />
+      <Reservations />
+    </div>
   )
 }
 

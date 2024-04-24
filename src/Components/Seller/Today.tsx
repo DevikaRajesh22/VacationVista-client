@@ -29,7 +29,7 @@ interface Booking {
     isCancelled: boolean
 }
 
-const Reservations = () => {
+const Today = () => {
     const [properties, setProperties] = useState<Property[]>([]);
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [sellerId, setSellerId] = useState('')
@@ -84,7 +84,19 @@ const Reservations = () => {
             <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                 <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
                     {bookings.map((val) => {
-                        if (val.paymentSuccess) {
+                        const startDate = new Date(val.startDate);
+                        const today = new Date();
+                        let sameDay
+                        if (
+                            startDate.getDate() === today.getDate() &&
+                            startDate.getMonth() === today.getMonth() &&
+                            startDate.getFullYear() === today.getFullYear()
+                        ) {
+                            sameDay = true
+                        } else {
+                            sameDay = false
+                        }
+                        if (val.paymentSuccess && !val.isCancelled && sameDay) {
                             const { startDateFormatted, endDateFormatted, numberOfDays } = formatDateAndCalculateDays(val.startDate, val.endDate);
                             const total = (numberOfDays + 1) * val.propertyId.price
                             return (
@@ -119,4 +131,4 @@ const Reservations = () => {
     )
 }
 
-export default Reservations
+export default Today
