@@ -20,6 +20,7 @@ const buyerRoutes={
     buyerGetBookings:'/book/getBookings',
     buyerCancel:'/book/cancelBooking',
     buyerSlotCheck:'/book/slotCheck',
+    buyerFetchProperty:'/buyer/fetchProperty',
 }
 
 export default buyerRoutes;

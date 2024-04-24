@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { property } from '../../Api/admin';
+import { fetchProperties } from '../../Api/buyer'
 import { useNavigate } from 'react-router-dom';
 import { category } from '../../Api/admin'
 
@@ -22,17 +22,18 @@ interface Category {
 
 const Property = () => {
   const [properties, setProperties] = useState<Property[]>([]);
-  const [categories, setCategories] = useState<Category[]>([])
+  const [categories, setCategories] = useState<Category[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0); 
   const navigate = useNavigate()
 
   const itemsPerPage = 12;
 
   useEffect(() => {
-    const fetchCategoryData = async () => {
+    const fetchData = async () => {
       try {
         const res = await category()
         if (res?.data.success) {
@@ -42,23 +43,24 @@ const Property = () => {
         console.log(error)
       }
     }
-    fetchCategoryData()
+    fetchData()
   }, [])
 
   useEffect(() => {
-    const fetchPropertyData = async () => {
-      try {
-        const res = await property()
-        console.log(res)
-        if (res?.data.success) {
-          setProperties(res.data.getProperty)
-        }
-      } catch (error) {
-        console.log(error)
+    fetchData();
+  }, [searchTerm, sortOption, selectedCategory, currentPage]);
+
+  const fetchData = async () => {
+    try {
+      const res = await fetchProperties( searchTerm, sortOption, selectedCategory, currentPage, itemsPerPage );
+      if (res?.data.success) {
+        setProperties(res.data.properties);
+        setTotalPages(Math.ceil(res.data.totalProperties / itemsPerPage));
       }
+    } catch (error) {
+      console.log(error);
     }
-    fetchPropertyData()
-  }, []);
+  };
 
   const handleClick = async (id: string) => {
     try {
@@ -68,37 +70,9 @@ const Property = () => {
     }
   }
 
-  const filterPropertiesByCategory = () => {
-    if (!selectedCategory) return properties;
-    return properties.filter(property => property.category === selectedCategory);
-  };
-
-  const sortedProperties = () => {
-    const sorted = [...filterPropertiesByCategory()];
-    if (sortOption === 'Low to High') {
-      sorted.sort((a: Property, b: Property) => a.price - b.price);
-    } else if (sortOption === 'High to Low') {
-      sorted.sort((a: Property, b: Property) => b.price - a.price);
-    }
-    return sorted
-  }
-
-  const totalPages = Math.ceil(sortedProperties().length / itemsPerPage);
-  
   const handleClickPage = (page: number) => {
     setCurrentPage(page);
   };
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
-  const filteredAndSortedProperties = sortedProperties().filter((property) =>
-    property.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const paginatedProperties = filteredAndSortedProperties.slice(startIndex, endIndex);
-
-
 
   return (
     <section className="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
@@ -173,7 +147,7 @@ const Property = () => {
 
         </div>
         <div className="mt-10 grid grid-cols-2 gap-6 lg:mt-16 lg:grid-cols-4 lg:gap-4">
-          {paginatedProperties.map((val) => {
+          {properties.map((val) => {
             return (
               <div className={`${(val.status == 'Verification Required' || val.status == "Rejected" || val.isBlocked == true) && 'hidden'}`}>
                 <article className="relative">

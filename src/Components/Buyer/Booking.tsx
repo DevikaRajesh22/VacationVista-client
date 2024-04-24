@@ -127,9 +127,7 @@ const Booking = () => {
                 </article>
               )
             } else {
-              return (
-                <p>No bookings</p>
-              );
+              return null;
             }
           })}
         </div>

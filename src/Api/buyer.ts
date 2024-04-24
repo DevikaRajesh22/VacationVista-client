@@ -243,3 +243,12 @@ export const slotCheck = async (startDate: Date, endDate: Date, id: string) => {
         console.log(error)
     }
 }
+
+export const fetchProperties = async (searchTerm: string, sortOption: string, selectedCategory: string, page: number, limit: number) => {
+    try {
+        const res = await Api.get(`${BuyerEndpoint.buyerFetchProperty}?searchTerm=${searchTerm}&sortOption=${sortOption}&selectedCategory=${selectedCategory}&page=${page}&limit=${limit}`)
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
