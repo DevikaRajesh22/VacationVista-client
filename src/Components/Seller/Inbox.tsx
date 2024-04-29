@@ -13,10 +13,10 @@ interface Message {
   creationTime: string
 }
 
-interface Conversation{
-  _id:string,
-  updationTime:Date,
-  members:[string]
+interface Conversation {
+  _id: string,
+  updationTime: Date,
+  members: [string]
 }
 
 const Inbox = () => {
@@ -31,10 +31,8 @@ const Inbox = () => {
   const socket = useRef<Socket | undefined>()
 
   useEffect(() => {
-    console.log('socket connection')
     socket.current = io('ws://localhost:3000');
     socket?.current?.on('getMessage', (data) => {
-      console.log('data', data)
       setArrivalMessage({
         senderId: data.senderId,
         message: data.text,
@@ -55,7 +53,6 @@ const Inbox = () => {
       const decodedPayload = atob(tokenPayload);
       const payloadObject = JSON.parse(decodedPayload);
       sellerId = payloadObject.id;
-      console.log('add user', sellerId)
       socket.current?.emit('addUser', sellerId);
     }
   }, [])
@@ -86,14 +83,9 @@ const Inbox = () => {
 
   const sendMessage = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     try {
-      console.log('handle send')
       e.preventDefault()
       if (message.trim().length !== 0 && message[0] != ' ') {
         if (sellerId) {
-          console.log('selid', sellerId)
-          console.log('mes', message)
-          console.log('cid', conversationId)
-          console.log('rid', receiver)
           const res = await newMessage(message, conversationId, sellerId)
           socket?.current?.emit('sendMessage', {
             senderId: sellerId,
@@ -113,9 +105,9 @@ const Inbox = () => {
   function formatTime(dateString: string) {
     const date = new Date(dateString);
     let hours = date.getHours();
-    const minutes = String(date.getMinutes()).padStart(2, '0'); // Ensure 2-digit format
+    const minutes = String(date.getMinutes()).padStart(2, '0');
     const amPM = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
+    hours = hours % 12 || 12;
     return `${hours}:${minutes} ${amPM}`;
   }
 
@@ -129,27 +121,24 @@ const Inbox = () => {
                 <span className="font-bold">Active Conversations</span>
               </div>
               <div className="flex flex-col space-y-1 mt-4 -mx-2 h-48 overflow-y-auto">
-  {conversations &&
-    conversations
-      .slice() // Create a shallow copy of the conversations array
-      .sort((a, b) => {
-        // Convert to numeric timestamps for comparison
-        const timeA = new Date(a.updationTime).getTime();
-        const timeB = new Date(b.updationTime).getTime();
-        // Sort conversations based on updationTime in descending order (latest first)
-        return timeB - timeA;
-      })
-      .map((conversation) => (
-        <ChatList
-          key={conversation._id} // Make sure to provide a unique key for each ChatList component
-          conversation={conversation}
-          setReceiver={setReceiver}
-          handleClick={handleClick}
-        />
-      ))
-  }
-</div>
-
+                {conversations &&
+                  conversations
+                    .slice()
+                    .sort((a, b) => {
+                      const timeA = new Date(a.updationTime).getTime();
+                      const timeB = new Date(b.updationTime).getTime();
+                      return timeB - timeA;
+                    })
+                    .map((conversation) => (
+                      <ChatList
+                        key={conversation._id}
+                        conversation={conversation}
+                        setReceiver={setReceiver}
+                        handleClick={handleClick}
+                      />
+                    ))
+                }
+              </div>
             </div>
           </div>
           <div className="flex flex-col flex-auto h-full p-6">

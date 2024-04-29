@@ -83,7 +83,6 @@ export const otpResend = async () => {
 export const resetPassword = async (email: string, password: string) => {
     try {
         const token = localStorage.getItem('buyerotpforgotpassword')
-        console.log('token api', token)
         const res = await Api.post(BuyerEndpoint.buyerResetPassword, { email, password }, {
             headers: {
                 'authorization': `Bearer ${token}`
@@ -176,9 +175,7 @@ export const newConversation = async (sellerId: string) => {
 
 export const newMessage = async (message: string, conversationId: string, sellerId: string) => {
     try {
-        console.log('new mes')
         const res = await Api.post(BuyerEndpoint.buyerNewMessage, { message, conversationId, senderId: sellerId });
-        console.log('new mes res api')
         return res
     } catch (error) {
         console.log(error)

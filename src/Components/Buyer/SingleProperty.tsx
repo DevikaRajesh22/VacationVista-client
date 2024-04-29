@@ -63,16 +63,13 @@ const SingleProperty: React.FC = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        console.log('socket connection')
         socket.current = io('ws://localhost:3000');
         socket?.current?.on('getMessage', (data) => {
-            console.log('data')
             setArrivalMessage({
                 senderId: data.senderId,
                 message: data.text,
                 creationTime: data.createdAt,
             } as Message);
-            console.log('set arr')
         });
     }, []);
 
@@ -81,8 +78,6 @@ const SingleProperty: React.FC = () => {
             setMessages(prev => [...prev, arrivalMessage] as Message[])
     }, [arrivalMessage])
 
-    console.log('arr', arrivalMessage)
-
     useEffect(() => {
         const buyerData = localStorage.getItem('buyerInfo');
         if (buyerData) {
@@ -90,7 +85,6 @@ const SingleProperty: React.FC = () => {
             const decodedPayload = atob(tokenPayload);
             const payloadObject = JSON.parse(decodedPayload);
             buyerId = payloadObject.id;
-            console.log('add user', buyerId)
             socket.current?.emit('addUser', buyerId);
         }
     }, [])
@@ -132,22 +126,15 @@ const SingleProperty: React.FC = () => {
 
     const handleSend = async (e: React.MouseEvent<HTMLButtonElement>) => {
         try {
-            console.log('send msg')
             e.preventDefault()
             if (buyerId) {
-                console.log('bid', buyerId)
-                console.log('sid', sellerId)
-                console.log('cid', conversationId)
-                console.log('mes', message)
                 const res = await newMessage(message, conversationId, buyerId)
-                console.log('send mes res', res)
                 socket.current?.emit('sendMessage', {
                     senderId: buyerId,
                     receiverId: sellerId,
                     text: message,
                     createdAt: Date.now()
                 })
-                console.log('sendMessage emitted')
                 setMessage('')
                 setMessages([...messages, res?.data.data])
             }
