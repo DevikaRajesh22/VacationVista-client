@@ -4,7 +4,7 @@ import { singlePropertyList } from '../../Api/buyer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { io, Socket } from 'socket.io-client';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { getMessages, newMessage, newConversation, slotCheck } from '../../Api/buyer';
 import { book } from '../../Api/buyer';
 import Calender from './Calender/Calender'
@@ -33,24 +33,17 @@ interface Property {
     safeties: string,
 }
 
-interface RootState {
-    auth: {
-        buyerInfo: string
-    }
-}
+// interface RootState {
+//     auth: {
+//         buyerInfo: string
+//     }
+// }
 
 interface Message {
     senderId: string,
     message: string,
     conversationId: string,
     creationTime: Date
-}
-
-interface MessageType {
-    sender: string,
-    text: string,
-    createdAt: Date,
-    conversationId: string
 }
 
 const SingleProperty: React.FC = () => {
@@ -67,33 +60,37 @@ const SingleProperty: React.FC = () => {
     const [message, setMessage] = useState('');
     const [conversationId, setConversationId] = useState('');
     const scrollRef = useRef<HTMLDivElement | null>(null)
-    const [arrivalMessage, setArrivalMessage] = useState<MessageType | null>(null);
+    const [arrivalMessage, setArrivalMessage] = useState<Message | null>(null);
     const socket = useRef<Socket | null>(null);
-
     const [singleProperty, setSingleProperty] = useState<Property>();
     const [largeImage, setLargeImage] = useState('');
     const [chatBox, setChatBox] = useState(false);
+    const [sellerId, setSellerId] = useState('');
     const { id } = useParams()
-
-    const buyerInfo = useSelector((state: RootState) => state.auth.buyerInfo);
+    // const buyerInfo = useSelector((state: RootState) => state.auth.buyerInfo);
 
     const navigate = useNavigate()
 
     useEffect(() => {
         console.log('socket connection')
         socket.current = io('ws://localhost:3000');
-        socket.current.on('getMessage', (data) => {
+        socket?.current?.on('getMessage', (data) => {
+            console.log('data')
             setArrivalMessage({
-                sender: data.senderId,
-                text: data.text,
-            } as MessageType);
+                senderId: data.senderId,
+                message: data.text,
+                creationTime: data.createdAt,
+            } as Message);
+            console.log('set arr')
         });
-    }, [arrivalMessage]);
+    }, []);
 
     useEffect(() => {
         arrivalMessage &&
             setMessages(prev => [...prev, arrivalMessage] as Message[])
     }, [arrivalMessage])
+
+    console.log('arr', arrivalMessage)
 
     useEffect(() => {
         const buyerData = localStorage.getItem('buyerInfo');
@@ -102,9 +99,10 @@ const SingleProperty: React.FC = () => {
             const decodedPayload = atob(tokenPayload);
             const payloadObject = JSON.parse(decodedPayload);
             buyerId = payloadObject.id;
+            console.log('add user', buyerId)
             socket.current?.emit('addUser', buyerId);
         }
-    }, [buyerInfo])
+    }, [])
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -117,7 +115,7 @@ const SingleProperty: React.FC = () => {
             }
         }
         fetchMessages()
-    }, [conversationId, buyerInfo])
+    }, [conversationId])
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -131,6 +129,7 @@ const SingleProperty: React.FC = () => {
                     if (res?.data.success) {
                         setSingleProperty(res.data.getProperty)
                         setLargeImage(res.data.getProperty.photos[0])
+                        setSellerId(res.data.getProperty.sellerId)
                     }
                 }
             } catch (error) {
@@ -138,23 +137,28 @@ const SingleProperty: React.FC = () => {
             }
         }
         fetchPropertyData()
-    }, [id])
+    }, [])
 
     const handleSend = async (e: React.MouseEvent<HTMLButtonElement>) => {
         try {
             console.log('send msg')
             e.preventDefault()
             if (buyerId) {
+                console.log('bid', buyerId)
+                console.log('sid', sellerId)
+                console.log('cid', conversationId)
+                console.log('mes', message)
                 const res = await newMessage(message, conversationId, buyerId)
+                console.log('send mes res', res)
                 socket.current?.emit('sendMessage', {
                     senderId: buyerId,
-                    receiverId: singleProperty?.sellerId,
-                    text: message
+                    receiverId: sellerId,
+                    text: message,
+                    createdAt: Date.now()
                 })
-                if (res?.data) {
-                    setMessages([...messages, res.data.message])
-                    setMessage('')
-                }
+                console.log('sendMessage emitted')
+                setMessage('')
+                setMessages([...messages, res?.data.data])
             }
         } catch (error) {
             console.log(error)
@@ -223,7 +227,7 @@ const SingleProperty: React.FC = () => {
         }
     }
 
-    function formatTime(dateString:Date) {
+    function formatTime(dateString: Date) {
         const date = new Date(dateString);
         let hours = date.getHours();
         const minutes = String(date.getMinutes()).padStart(2, '0'); // Ensure 2-digit format

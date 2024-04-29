@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react"
-import { useSelector } from "react-redux"
+// import { useSelector } from "react-redux"
 import { io, Socket } from 'socket.io-client'
 import { getSellerConversations } from '../../Api/seller'
 import ChatList from "./ChatList"
@@ -7,11 +7,11 @@ import { getMessages, newMessage } from "../../Api/buyer"
 
 let sellerId: string | undefined;
 
-interface RootState {
-  auth: {
-    sellerInfo: string
-  }
-}
+// interface RootState {
+//   auth: {
+//     sellerInfo: string
+//   }
+// }
 
 interface Message {
   senderId: string,
@@ -20,37 +20,29 @@ interface Message {
   creationTime: string
 }
 
-interface MessageType {
-  sender: string,
-  text: string,
-  createdAt: Date,
-  conversationId: string
-}
-
-
 const Inbox = () => {
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [conversations, setConversations] = useState([]);
   const [message, setMessage] = useState('')
-  const [arrivalMessage, setArrivalMessage] = useState<MessageType | null>(null)
+  const [arrivalMessage, setArrivalMessage] = useState<Message | null>(null)
   const [conversationId, setConversationId] = useState('')
   const [receiver, setReceiver] = useState('')
   const scrollRef = useRef<HTMLDivElement>(null)
-  const sellerInfo = useSelector((state: RootState) => state.auth.sellerInfo)
+  // const sellerInfo = useSelector((state: RootState) => state.auth.sellerInfo)
   const socket = useRef<Socket | undefined>()
 
   useEffect(() => {
     console.log('socket connection')
     socket.current = io('ws://localhost:3000');
-    socket.current.on('getMessage', (data) => {
-      console.log('data',data)
+    socket?.current?.on('getMessage', (data) => {
+      console.log('data', data)
       setArrivalMessage({
-        sender: data.senderId,
-        text: data.text,
-      } as MessageType);
+        senderId: data.senderId,
+        message: data.text,
+        creationTime: data.createdAt
+      } as Message);
     });
-    console.log('arrival',arrivalMessage)
   }, [])
 
   useEffect(() => {
@@ -65,10 +57,10 @@ const Inbox = () => {
       const decodedPayload = atob(tokenPayload);
       const payloadObject = JSON.parse(decodedPayload);
       sellerId = payloadObject.id;
-      console.log('selid', sellerId)
+      console.log('add user', sellerId)
       socket.current?.emit('addUser', sellerId);
     }
-  }, [sellerInfo])
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,7 +72,7 @@ const Inbox = () => {
       }
     }
     fetchData()
-  }, [sellerInfo])
+  }, [])
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -100,19 +92,19 @@ const Inbox = () => {
       e.preventDefault()
       if (message.trim().length !== 0 && message[0] != ' ') {
         if (sellerId) {
-          console.log(sellerId)
-          console.log(message)
-          console.log(conversationId)
+          console.log('selid', sellerId)
+          console.log('mes', message)
+          console.log('cid', conversationId)
+          console.log('rid', receiver)
           const res = await newMessage(message, conversationId, sellerId)
           socket?.current?.emit('sendMessage', {
             senderId: sellerId,
             receiverId: receiver,
-            text: message
+            text: message,
+            createdAt: Date.now(),
           })
-          if (res?.data) {
-            setMessages([...messages, res.data])
-            setMessage('')
-          }
+          setMessage('')
+          setMessages([...messages, res?.data.data])
         }
       }
     } catch (error) {
@@ -120,14 +112,14 @@ const Inbox = () => {
     }
   }
 
-  function formatTime(dateString:string) {
+  function formatTime(dateString: string) {
     const date = new Date(dateString);
     let hours = date.getHours();
     const minutes = String(date.getMinutes()).padStart(2, '0'); // Ensure 2-digit format
     const amPM = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
     return `${hours}:${minutes} ${amPM}`;
-}
+  }
 
   return (
     <>

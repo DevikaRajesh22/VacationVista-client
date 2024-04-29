@@ -29,11 +29,6 @@ const Calender:React.FC<CalendarProps> = ({ dateRange, onDateChange}) => {
         setDate(ranges.selection)
     }
 
-    useEffect(()=>{
-        console.log(date)
-    })
-    
-
     const handleClick=()=>{
         setOpenDate((prev)=>!prev)
     }
