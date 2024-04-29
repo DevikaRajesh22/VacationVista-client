@@ -21,7 +21,7 @@ interface Booking {
   endDate: Date,
   bookingDate: Date,
   paymentSuccess: boolean,
-  isCancelled: boolean
+  isCancelled: boolean,
 }
 
 
@@ -90,14 +90,19 @@ const Booking = () => {
     }
   }
 
+  bookings.sort((a: Booking, b: Booking) => new Date(a.bookingDate) - new Date(b.bookingDate));
+
   return (
     <section className="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-          {bookings.map((val) => {
-            if (val.paymentSuccess) {
+          {bookings
+            .filter(val => val.paymentSuccess)
+            .sort((a, b) => new Date(b.bookingDate) - new Date(a.bookingDate))
+            .map(val => {
               const { startDateFormatted, endDateFormatted, numberOfDays } = formatDateAndCalculateDays(val.startDate, val.endDate);
-              const total = (numberOfDays + 1) * val.propertyId.price
+              const total = (numberOfDays + 1) * val.propertyId.price;
+
               return (
                 <article className="relative flex flex-col overflow-hidden rounded-lg border" key={val.propertyId.id}>
                   <div className="aspect-square overflow-hidden">
@@ -111,25 +116,23 @@ const Booking = () => {
                     <p className="text-lg text-black font-semibold">{val.propertyId.title}</p>
                     <p className="text-sm text-black-500 ">{val.propertyId.address}</p>
                     <h3 className="mb-2 text-sm text-gray-500">{!val.isCancelled ? `Amount paid : ₹${total}` : `Refunded: ₹${total}`}</h3>
-                    {(startDateFormatted == endDateFormatted) ? <p>{startDateFormatted}</p> : <p>{startDateFormatted} to {endDateFormatted}</p>}
+                    {(startDateFormatted === endDateFormatted) ? <p>{startDateFormatted}</p> : <p>{startDateFormatted} to {endDateFormatted}</p>}
                   </div>
-                  {!val.isCancelled ? <button onClick={(e) => {
-                    e.preventDefault()
-                    handleCancel(val.id)
-                  }} className="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
-                    <div className="flex w-full items-center justify-center bg-yellow-500 text-xs uppercase transition group-hover:bg-emerald-600 font-bold text-white">
-                      Cancel
-                    </div>
-                  </button>
-                    :
+                  {!val.isCancelled ? (
+                    <button onClick={(e) => {
+                      e.preventDefault();
+                      handleCancel(val.id);
+                    }} className="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
+                      <div className="flex w-full items-center justify-center bg-yellow-500 text-xs uppercase transition group-hover:bg-emerald-600 font-bold text-white">
+                        Cancel
+                      </div>
+                    </button>
+                  ) : (
                     <p className='text-red-500 m-3'>Cancelled</p>
-                  }
+                  )}
                 </article>
-              )
-            } else {
-              return null;
-            }
-          })}
+              );
+            })}
         </div>
       </div>
     </section>
