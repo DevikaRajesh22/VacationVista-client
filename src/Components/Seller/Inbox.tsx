@@ -1,17 +1,10 @@
 import { useState, useRef, useEffect } from "react"
-// import { useSelector } from "react-redux"
 import { io, Socket } from 'socket.io-client'
 import { getSellerConversations } from '../../Api/seller'
 import ChatList from "./ChatList"
 import { getMessages, newMessage } from "../../Api/buyer"
 
 let sellerId: string | undefined;
-
-// interface RootState {
-//   auth: {
-//     sellerInfo: string
-//   }
-// }
 
 interface Message {
   senderId: string,
@@ -20,16 +13,21 @@ interface Message {
   creationTime: string
 }
 
+interface Conversation{
+  _id:string,
+  updationTime:Date,
+  members:[string]
+}
+
 const Inbox = () => {
 
   const [messages, setMessages] = useState<Message[]>([]);
-  const [conversations, setConversations] = useState([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
   const [message, setMessage] = useState('')
   const [arrivalMessage, setArrivalMessage] = useState<Message | null>(null)
   const [conversationId, setConversationId] = useState('')
   const [receiver, setReceiver] = useState('')
   const scrollRef = useRef<HTMLDivElement>(null)
-  // const sellerInfo = useSelector((state: RootState) => state.auth.sellerInfo)
   const socket = useRef<Socket | undefined>()
 
   useEffect(() => {
@@ -72,7 +70,7 @@ const Inbox = () => {
       }
     }
     fetchData()
-  }, [])
+  }, [messages])
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -131,12 +129,27 @@ const Inbox = () => {
                 <span className="font-bold">Active Conversations</span>
               </div>
               <div className="flex flex-col space-y-1 mt-4 -mx-2 h-48 overflow-y-auto">
-                {conversations &&
-                  conversations.map((conversation) => (
-                    <ChatList conversation={conversation} setReceiver={setReceiver} handleClick={handleClick} />
-                  ))
-                }
-              </div>
+  {conversations &&
+    conversations
+      .slice() // Create a shallow copy of the conversations array
+      .sort((a, b) => {
+        // Convert to numeric timestamps for comparison
+        const timeA = new Date(a.updationTime).getTime();
+        const timeB = new Date(b.updationTime).getTime();
+        // Sort conversations based on updationTime in descending order (latest first)
+        return timeB - timeA;
+      })
+      .map((conversation) => (
+        <ChatList
+          key={conversation._id} // Make sure to provide a unique key for each ChatList component
+          conversation={conversation}
+          setReceiver={setReceiver}
+          handleClick={handleClick}
+        />
+      ))
+  }
+</div>
+
             </div>
           </div>
           <div className="flex flex-col flex-auto h-full p-6">

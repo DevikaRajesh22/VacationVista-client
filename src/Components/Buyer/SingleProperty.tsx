@@ -4,7 +4,6 @@ import { singlePropertyList } from '../../Api/buyer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { io, Socket } from 'socket.io-client';
-// import { useSelector } from 'react-redux';
 import { getMessages, newMessage, newConversation, slotCheck } from '../../Api/buyer';
 import { book } from '../../Api/buyer';
 import Calender from './Calender/Calender'
@@ -32,12 +31,6 @@ interface Property {
     amenities: string,
     safeties: string,
 }
-
-// interface RootState {
-//     auth: {
-//         buyerInfo: string
-//     }
-// }
 
 interface Message {
     senderId: string,
@@ -67,8 +60,6 @@ const SingleProperty: React.FC = () => {
     const [chatBox, setChatBox] = useState(false);
     const [sellerId, setSellerId] = useState('');
     const { id } = useParams()
-    // const buyerInfo = useSelector((state: RootState) => state.auth.buyerInfo);
-
     const navigate = useNavigate()
 
     useEffect(() => {
