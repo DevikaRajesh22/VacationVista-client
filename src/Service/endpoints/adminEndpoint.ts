@@ -12,6 +12,7 @@ const adminRoutes={
     adminProperty:'/admin/property',
     propertyStatusChange:'/admin/propertyStatusChange',
     hideProperty:'/admin/hideProperty',
+    findCategory:'/admin/findCategory',
 }
 
 export default adminRoutes

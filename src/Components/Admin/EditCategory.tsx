@@ -1,14 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { toast } from "react-toastify";
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'
-import { editCategory } from '../../Api/admin'
+import { editCategory, findCategory } from '../../Api/admin'
 
 const EditCategory = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const { id } = useParams()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const fetchCategory = async () => {
+            if (id) {
+                const res = await findCategory(id)
+                if (res?.data.success) {
+                    setName(res.data.data.name)
+                    setDescription(res.data.data.description)
+                }
+            }
+        }
+        fetchCategory()
+    },[id])
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()

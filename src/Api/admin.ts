@@ -118,3 +118,14 @@ export const hideProperty = async (id: string) => {
         console.log(error)
     }
 }
+
+export const findCategory=async(id:string)=>{
+    try{
+        console.log('api')
+        const res=await Api.get(`${AdminEndpoint.findCategory}?id=${id}`)
+        console.log('respo')
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
