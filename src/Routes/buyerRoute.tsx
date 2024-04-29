@@ -28,8 +28,8 @@ const buyerRoute = () => {
         <Route path="signup" element={<Signup />} />
         <Route path="otp" element={<Otp buyer={false} />} />
         <Route path='forgotPassword' element={<ForgotPassword />} />
-        <Route path='forgotPasswordOtp/:email' element={<Otp buyer={true} />} />
-        <Route path='resetPassword/:email' element={<ResetPassword />} />
+        <Route path='forgotPasswordOtp' element={<Otp buyer={true} />} />
+        <Route path='resetPassword' element={<ResetPassword />} />
       </Route>
       <Route path="" element={<BuyerLoggedIn />}>
         <Route path='profile' element={<Profile />} />

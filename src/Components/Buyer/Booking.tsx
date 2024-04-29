@@ -90,8 +90,6 @@ const Booking = () => {
     }
   }
 
-  bookings.sort((a: Booking, b: Booking) => new Date(a.bookingDate) - new Date(b.bookingDate));
-
   return (
     <section className="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">

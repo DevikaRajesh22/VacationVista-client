@@ -19,7 +19,7 @@ const ForgotPassword = () => {
             }
             const res = await forgotPassword(email)
             if (res?.data.success) {
-                navigate(`/forgotPasswordOtp/${email}`);
+                navigate(`/forgotPasswordOtp`);
             } else {
                 toast.error('User doesnt exists !!')
                 navigate('/signup')

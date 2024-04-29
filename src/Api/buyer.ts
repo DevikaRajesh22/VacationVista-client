@@ -89,7 +89,9 @@ export const resetPassword = async (email: string, password: string) => {
                 'authorization': `Bearer ${token}`
             }
         })
-        localStorage.removeItem('buyerotpforgotpassword')
+        if(res.data.success){
+            localStorage.removeItem('buyerotpforgotpassword')
+        }
         return res
     } catch (error) {
         console.log(error)

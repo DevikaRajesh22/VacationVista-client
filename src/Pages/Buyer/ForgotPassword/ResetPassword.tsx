@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom'
 import React, { useState } from 'react'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,7 +9,6 @@ import { setCredentials } from '../../../Store/slice/authSlice'
 const ResetPassword = () => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const { email } = useParams()
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -24,14 +22,21 @@ const ResetPassword = () => {
             } else if (password !== confirmPassword) {
                 toast.error('Passwords doesnt match!')
             }
-            if (email) {
-                const res = await resetPassword(email, password);
-                if (res?.data.success) {
-                    toast.success(res?.data.message)
-                    dispatch(setCredentials(res.data.token))
-                    navigate('/login')
-                } else if (!res?.data.success) {
-                    toast.error(res?.data.success)
+            const buyerData = localStorage.getItem('buyerotpforgotpassword')
+            if (buyerData) {
+                const tokenPayload = buyerData.split('.')[1];
+                const decodedPayload = atob(tokenPayload);
+                const payloadObject = JSON.parse(decodedPayload);
+                const email = payloadObject.buyerFound.email
+                if (email) {
+                    const res = await resetPassword(email, password);
+                    if (res?.data.success) {
+                        toast.success(res?.data.message)
+                        dispatch(setCredentials(res.data.token))
+                        navigate('/login')
+                    } else if (!res?.data.success) {
+                        toast.error(res?.data.success)
+                    }
                 }
             }
         } catch (error) {
