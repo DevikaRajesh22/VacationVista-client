@@ -7,6 +7,7 @@ import PropertyPage from '../Pages/Admin/Property/PropertyPage'
 import CategoryPage from '../Pages/Admin/Category/CategoryPage'
 import AddCategory from '../Pages/Admin/Category/CategoryForm'
 import EditCategoryPage from '../Pages/Admin/Category/EditCategoryPage'
+import BookingPage from '../Pages/Admin/Booking/BookingPage'
 import RequestPage from '../Pages/Admin/Request/RequestPage'
 import RequestDetailsPage from '../Pages/Admin/Request/RequestDetailsPage'
 import Wallet from '../Pages/Admin/Wallet/Wallet'
@@ -28,6 +29,7 @@ const adminRoute = () => {
         <Route path='category' element={<CategoryPage />} />
         <Route path='addCategory' element={<AddCategory />} />
         <Route path='editCategory/:id' element={<EditCategoryPage />} />
+        <Route path='booking' element={<BookingPage />} />
         <Route path='request' element={<RequestPage />} />
         <Route path='requestDetails/:id' element={<RequestDetailsPage />} />
         <Route path='wallet' element={<Wallet />} />

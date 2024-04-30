@@ -121,9 +121,25 @@ export const hideProperty = async (id: string) => {
 
 export const findCategory=async(id:string)=>{
     try{
-        console.log('api')
         const res=await Api.get(`${AdminEndpoint.findCategory}?id=${id}`)
-        console.log('respo')
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+
+export const getBooking=async()=>{
+    try{
+        const res=await Api.get(AdminEndpoint.getBooking)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+
+export const fetchReservation=async(filter:string)=>{
+    try{
+        const res=await Api.get(`${AdminEndpoint.fetchReservation}?filter=${filter}`)
         return res
     }catch(error){
         console.log(error)

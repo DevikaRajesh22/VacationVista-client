@@ -1,6 +1,6 @@
 import logo from '../../assets/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBuilding,faInbox, faSignOut, faUsers, faUserGroup, faChartPie, faTags } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding,faInbox, faSignOut, faUsers, faUserGroup,faSuitcase, faChartPie, faTags } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { adminLogout } from '../../Api/admin';
 import { admLogout } from '../../Store/slice/authSlice';
@@ -109,6 +109,15 @@ const SidebarWithLogo = () => {
               >
                 <FontAwesomeIcon icon={faTags} className="h-5 w-5" />
                 <span className="flex-1 ms-3 whitespace-nowrap">Category</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="/admin/booking"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <FontAwesomeIcon icon={faSuitcase} className="h-5 w-5" />
+                <span className="flex-1 ms-3 whitespace-nowrap">Reservations</span>
               </a>
             </li>
             <li>

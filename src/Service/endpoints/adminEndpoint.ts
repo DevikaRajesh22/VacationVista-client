@@ -13,6 +13,8 @@ const adminRoutes={
     propertyStatusChange:'/admin/propertyStatusChange',
     hideProperty:'/admin/hideProperty',
     findCategory:'/admin/findCategory',
+    getBooking:'/admin/getBooking',
+    fetchReservation:'/admin/fetchReservation',
 }
 
 export default adminRoutes
