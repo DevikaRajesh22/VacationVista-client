@@ -15,6 +15,8 @@ const adminRoutes={
     findCategory:'/admin/findCategory',
     getBooking:'/admin/getBooking',
     fetchReservation:'/admin/fetchReservation',
+    dashboard:'/admin/dashboard',
+    getMonthlySales:'/admin/getMonthlySales',
 }
 
 export default adminRoutes

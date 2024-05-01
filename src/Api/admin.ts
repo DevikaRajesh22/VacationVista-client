@@ -119,27 +119,45 @@ export const hideProperty = async (id: string) => {
     }
 }
 
-export const findCategory=async(id:string)=>{
-    try{
-        const res=await Api.get(`${AdminEndpoint.findCategory}?id=${id}`)
+export const findCategory = async (id: string) => {
+    try {
+        const res = await Api.get(`${AdminEndpoint.findCategory}?id=${id}`)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const getBooking=async()=>{
-    try{
-        const res=await Api.get(AdminEndpoint.getBooking)
+export const getBooking = async () => {
+    try {
+        const res = await Api.get(AdminEndpoint.getBooking)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const fetchReservation=async(filter:string)=>{
+export const fetchReservation = async (filter: string) => {
+    try {
+        const res = await Api.get(`${AdminEndpoint.fetchReservation}?filter=${filter}`)
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const dashboard = async () => {
+    try {
+        const res = await Api.get(AdminEndpoint.dashboard)
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getMonthlySales=async()=>{
     try{
-        const res=await Api.get(`${AdminEndpoint.fetchReservation}?filter=${filter}`)
+        const res=await Api.get(AdminEndpoint.getMonthlySales)
         return res
     }catch(error){
         console.log(error)

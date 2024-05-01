@@ -27,7 +27,7 @@ const Property = () => {
   const [sortOption, setSortOption] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0); 
+  const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate()
 
   const itemsPerPage = 12;
@@ -52,7 +52,7 @@ const Property = () => {
 
   const fetchData = async () => {
     try {
-      const res = await fetchProperties( searchTerm, sortOption, selectedCategory, currentPage, itemsPerPage );
+      const res = await fetchProperties(searchTerm, sortOption, selectedCategory, currentPage, itemsPerPage);
       if (res?.data.success) {
         setProperties(res.data.properties);
         setTotalPages(Math.ceil(res.data.totalProperties / itemsPerPage));
@@ -185,7 +185,7 @@ const Property = () => {
           <ul className="inline-flex -space-x-px text-sm">
             <li>
               <a
-                href="#"
+                href='#'
                 className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 onClick={() => handleClickPage(currentPage - 1)}
                 disabled={currentPage === 1}
