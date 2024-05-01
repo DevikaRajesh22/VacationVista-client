@@ -9,6 +9,7 @@ import ProfilePage from "../Pages/Seller/Profile/ProfilePage"
 import EditProfilePage from "../Pages/Seller/Profile/EditProfilePage"
 import InboxPage from '../Pages/Seller/Inbox/InboxPage'
 import ReservationPage from '../Pages/Seller/Reservations/ReservationPage'
+import ReviewPage from '../Pages/Seller/Review/ReviewPage'
 import TodayPage from '../Pages/Seller/Today/TodayPage'
 import SellerLoggedIn from "../Components/Seller/sellerLoggedIn"
 import SellerLoggedOut from "../Components/Seller/sellerLoggedOut"
@@ -30,6 +31,7 @@ const sellerRoute = () => {
         <Route path='editProfile' element={<EditProfilePage />} />
         <Route path='inbox' element={<InboxPage />} />
         <Route path='reservations' element={<ReservationPage />} />
+        <Route path='review' element={<ReviewPage />} />
       </Route>
     </Routes>
   )

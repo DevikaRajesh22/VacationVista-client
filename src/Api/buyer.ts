@@ -88,7 +88,7 @@ export const resetPassword = async (email: string, password: string) => {
                 'authorization': `Bearer ${token}`
             }
         })
-        if(res.data.success){
+        if (res.data.success) {
             localStorage.removeItem('buyerotpforgotpassword')
         }
         return res
@@ -250,6 +250,24 @@ export const fetchProperties = async (searchTerm: string, sortOption: string, se
         const res = await Api.get(`${BuyerEndpoint.buyerFetchProperty}?searchTerm=${searchTerm}&sortOption=${sortOption}&selectedCategory=${selectedCategory}&page=${page}&limit=${limit}`)
         return res
     } catch (error) {
+        console.log(error)
+    }
+}
+
+export const rate = async (bookingId: string, rating: number, review: string, buyerId: string) => {
+    try {
+        const res = await Api.post(BuyerEndpoint.buyerRate, { bookingId, rating, review, buyerId })
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getRatings=async(id:string)=>{
+    try{
+        const res=await Api.get(`${BuyerEndpoint.buyerGetRatings}?id=${id}`)
+        return res
+    }catch(error){
         console.log(error)
     }
 }

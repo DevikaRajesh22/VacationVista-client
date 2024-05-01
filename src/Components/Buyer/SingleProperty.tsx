@@ -4,7 +4,7 @@ import { singlePropertyList } from '../../Api/buyer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { io, Socket } from 'socket.io-client';
-import { getMessages, newMessage, newConversation, slotCheck } from '../../Api/buyer';
+import { getMessages, newMessage, newConversation, slotCheck, getRatings } from '../../Api/buyer';
 import { book } from '../../Api/buyer';
 import Calender from './Calender/Calender'
 import { toast } from "react-toastify";
@@ -30,6 +30,41 @@ interface Property {
     isBlocked: boolean,
     amenities: string,
     safeties: string,
+}
+
+interface Buyer {
+    id: string,
+    name: string,
+    email: string,
+    image: string,
+    password: string,
+    isBlocked: boolean,
+    dateOfBirth: Date,
+    phone: string,
+    govtId: string,
+    creationTime: Date,
+}
+
+interface Booking {
+    id: string,
+    propertyId: string,
+    buyerId: string,
+    startDate: Date,
+    endDate: Date,
+    bookingDate: Date,
+    paymentSuccess: boolean,
+    sessionId: string,
+    isCancelled: boolean,
+    payment_intent: string,
+}
+
+interface Review {
+    id: string,
+    bookingId: Booking,
+    buyerId: Buyer,
+    rating: number,
+    review: string,
+    reply: string
 }
 
 interface Message {
@@ -59,8 +94,22 @@ const SingleProperty: React.FC = () => {
     const [largeImage, setLargeImage] = useState('');
     const [chatBox, setChatBox] = useState(false);
     const [sellerId, setSellerId] = useState('');
+    const [rate, setRate] = useState(false);
+    const [review, setReview] = useState<Review[]>([]);
     const { id } = useParams()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const fetchRatings = async () => {
+            if (id) {
+                const res = await getRatings(id)
+                if (res?.data.success) {
+                    setReview(res.data.data)
+                }
+            }
+        }
+        fetchRatings()
+    }, [id])
 
     useEffect(() => {
         socket.current = io('ws://localhost:3000');
@@ -122,7 +171,7 @@ const SingleProperty: React.FC = () => {
             }
         }
         fetchPropertyData()
-    }, [])
+    }, [id])
 
     const handleSend = async (e: React.MouseEvent<HTMLButtonElement>) => {
         try {
@@ -399,34 +448,133 @@ const SingleProperty: React.FC = () => {
                         </div>
                         <div className="lg:col-span-3">
                             <div className="border-b border-gray-300">
-                                <nav className="flex gap-4">
-                                    <a
-                                        href="#"
-                                        title=""
-                                        className="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"
-                                    >
-                                        {" "}
-                                        Description{" "}
-                                    </a>
-                                    <a
-                                        href="#"
-                                        title=""
-                                        className="inline-flex items-center border-b-2 border-transparent py-4 text-sm font-medium text-gray-600"
-                                    >
-                                        Reviews
-                                        <span className="ml-2 block rounded-full bg-gray-500 px-2 py-px text-xs font-bold text-gray-100">
-                                            {" "}
-                                            1,209{" "}
-                                        </span>
-                                    </a>
-                                </nav>
+                                {
+                                    rate ?
+                                        <nav className="flex gap-4">
+                                            <a
+                                                href="#"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setRate(false)
+                                                }}
+                                                title=""
+                                                className="inline-flex items-center border-b-2 border-transparent py-4 text-sm font-medium text-gray-600"
+                                            >
+                                                {" "}
+                                                Description{" "}
+                                            </a>
+                                            <a
+                                                href="#"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setRate(true)
+                                                }}
+                                                title=""
+                                                className="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"
+                                            >
+                                                Reviews
+                                            </a>
+                                        </nav>
+                                        :
+                                        <nav className="flex gap-4">
+                                            <a
+                                                href="#"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setRate(false)
+                                                }}
+                                                title=""
+                                                className="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"
+                                            >
+                                                {" "}
+                                                Description{" "}
+                                            </a>
+                                            <a
+                                                href="#"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setRate(true)
+                                                }}
+                                                title=""
+                                                className="inline-flex items-center border-b-2 border-transparent py-4 text-sm font-medium text-gray-600"
+                                            >
+                                                Reviews
+                                            </a>
+                                        </nav>
+                                }
+
                             </div>
-                            <div className="mt-8 flow-root sm:mt-12">
-                                <h1 className="text-3xl font-bold">{singleProperty?.title}</h1>
-                                <p className="mt-4">
-                                    {singleProperty?.description}
-                                </p>
-                            </div>
+                            {rate ?
+                                <div className="mt-8 sm:mt-12 flex justify-start">
+                                    <section className="relative">
+                                        <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
+                                            <div className="grid grid-cols-1 gap-8">
+                                                <div className="grid grid-cols-12 max-w-sm sm:max-w-full mx-auto">
+                                                    {
+                                                        review.map((val) => (
+                                                            <>
+                                                                <div className="col-span-12 lg:col-span-10 ">
+                                                                    <div className="sm:flex gap-6">
+                                                                        <img
+                                                                            src={val.buyerId.image}
+                                                                            alt="Robert image"
+                                                                            className="w-10 h-10 rounded-full"
+                                                                        />
+                                                                        <div className="text">
+                                                                            <p className="font-semibold text-base leading-8 text-gray-900">
+                                                                                {val.buyerId.name}
+                                                                            </p>
+                                                                            <div className="col-span-12 lg:col-span-2 max-lg:hidden flex lg:items-center justify-start max-lg:pt-6">
+                                                                                <div className="flex justify-start mb-2">
+                                                                                    {
+                                                                                        Array.from({ length: val.rating }).map((_, index) => (
+                                                                                            <svg
+                                                                                                key={index}
+                                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                                width={15}
+                                                                                                height={15}
+                                                                                                viewBox="0 0 30 30"
+                                                                                                fill="none"
+                                                                                            >
+                                                                                                <g clipPath="url(#clip0_13624_2090)">
+                                                                                                    <path
+                                                                                                        d="M14.1033 2.56698C14.4701 1.82374 15.5299 1.82374 15.8967 2.56699L19.1757 9.21093C19.3214 9.50607 19.6029 9.71064 19.9287 9.75797L27.2607 10.8234C28.0809 10.9426 28.4084 11.9505 27.8149 12.5291L22.5094 17.7007C22.2737 17.9304 22.1662 18.2614 22.2218 18.5858L23.4743 25.8882C23.6144 26.7051 22.7569 27.3281 22.0233 26.9424L15.4653 23.4946C15.174 23.3415 14.826 23.3415 14.5347 23.4946L7.9767 26.9424C7.24307 27.3281 6.38563 26.7051 6.52574 25.8882L7.7782 18.5858C7.83384 18.2614 7.72629 17.9304 7.49061 17.7007L2.1851 12.5291C1.59159 11.9505 1.91909 10.9426 2.73931 10.8234L10.0713 9.75797C10.3971 9.71064 10.6786 9.50607 10.8243 9.21093L14.1033 2.56698Z"
+                                                                                                        fill="#FBBF24"
+                                                                                                    />
+                                                                                                </g>
+                                                                                                <defs>
+                                                                                                    <clipPath id="clip0_13624_2090">
+                                                                                                        <rect width={30} height={30} fill="white" />
+                                                                                                    </clipPath>
+                                                                                                </defs>
+                                                                                            </svg>
+                                                                                        ))
+                                                                                    }
+                                                                                </div>
+                                                                            </div>
+                                                                            <p className="font-normal text-sm leading-7 text-gray-800 mb-4 lg:pr-8">
+                                                                                {val.review}
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="pb-8 border-b border-gray-100 w-full" />
+                                                            </>
+                                                        ))
+                                                    }
+                                                </div>
+                                                <div className="pb-8 border-b border-gray-100 w-full" />
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                :
+                                <div className="mt-8 flow-root sm:mt-12">
+                                    <h1 className="text-3xl font-bold">{singleProperty?.title}</h1>
+                                    <p className="mt-4">
+                                        {singleProperty?.description}
+                                    </p>
+                                </div>}
                         </div>
                     </div>
                 </div>

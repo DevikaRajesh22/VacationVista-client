@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { profile } from '../../Api/buyer'
 import { getBooking } from '../../Api/buyer'
-// import { cancelBooking } from '../../Api/buyer'
-import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom'
 
 interface Property {
   id: string,
@@ -25,8 +24,9 @@ interface Booking {
 }
 
 const Trip = () => {
-    const [bookings, setBookings] = useState<Booking[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
   const [buyerId, setBuyerId] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -42,47 +42,47 @@ const Trip = () => {
     fetchUserData()
   }, [bookings]);
 
-    useEffect(() => {
-        const fetchBookingData = async () => {
-          try {
-            const res = await getBooking(buyerId)
-            if (res?.data.success) {
-              setBookings(res.data.data)
-            }
-          } catch (error) {
-            console.log(error)
-          }
+  useEffect(() => {
+    const fetchBookingData = async () => {
+      try {
+        const res = await getBooking(buyerId)
+        if (res?.data.success) {
+          setBookings(res.data.data)
         }
-        fetchBookingData()
-      })
-
-    const formatDateAndCalculateDays = (startDateString: Date, endDateString: Date) => {
-        const startDate = new Date(startDateString);
-        const endDate = new Date(endDateString);
-        const differenceInMs = endDate.getTime() - startDate.getTime();
-        const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);
-        const startDay = startDate.getDate();
-        const startMonth = startDate.getMonth() + 1;
-        const startYear = startDate.getFullYear() % 100;
-        const formattedStartDate = `${String(startDay).padStart(2, '0')}/${String(startMonth).padStart(2, '0')}/${startYear}`;
-        const endDay = endDate.getDate();
-        const endMonth = endDate.getMonth() + 1;
-        const endYear = endDate.getFullYear() % 100;
-        const formattedEndDate = `${String(endDay).padStart(2, '0')}/${String(endMonth).padStart(2, '0')}/${endYear}`;
-        return {
-          startDateFormatted: formattedStartDate,
-          endDateFormatted: formattedEndDate,
-          numberOfDays: differenceInDays
-        };
+      } catch (error) {
+        console.log(error)
       }
+    }
+    fetchBookingData()
+  }, [buyerId])
 
-      const handleRating=async(bookingId:string)=>{
-        try{
-            toast.success(bookingId)
-        }catch(error){
-            console.log(error)
-        }
-      }
+  const formatDateAndCalculateDays = (startDateString: Date, endDateString: Date) => {
+    const startDate = new Date(startDateString);
+    const endDate = new Date(endDateString);
+    const differenceInMs = endDate.getTime() - startDate.getTime();
+    const differenceInDays = differenceInMs / (1000 * 60 * 60 * 24);
+    const startDay = startDate.getDate();
+    const startMonth = startDate.getMonth() + 1;
+    const startYear = startDate.getFullYear() % 100;
+    const formattedStartDate = `${String(startDay).padStart(2, '0')}/${String(startMonth).padStart(2, '0')}/${startYear}`;
+    const endDay = endDate.getDate();
+    const endMonth = endDate.getMonth() + 1;
+    const endYear = endDate.getFullYear() % 100;
+    const formattedEndDate = `${String(endDay).padStart(2, '0')}/${String(endMonth).padStart(2, '0')}/${endYear}`;
+    return {
+      startDateFormatted: formattedStartDate,
+      endDateFormatted: formattedEndDate,
+      numberOfDays: differenceInDays
+    };
+  }
+
+  const handleRating = async (bookingId: string) => {
+    try {
+      navigate(`/rating/${bookingId}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <section className="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
@@ -93,13 +93,13 @@ const Trip = () => {
             const today = new Date();
             let trip
             if (
-                endDate.getDate() <= today.getDate() &&
-                endDate.getMonth() <= today.getMonth() &&
-                endDate.getFullYear() <= today.getFullYear()
+              endDate.getDate() <= today.getDate() &&
+              endDate.getMonth() <= today.getMonth() &&
+              endDate.getFullYear() <= today.getFullYear()
             ) {
-                trip = true
+              trip = true
             } else {
-                trip = false
+              trip = false
             }
             if (val.paymentSuccess && !val.isCancelled && trip) {
               const { startDateFormatted, endDateFormatted, numberOfDays } = formatDateAndCalculateDays(val.startDate, val.endDate);

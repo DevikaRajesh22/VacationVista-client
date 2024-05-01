@@ -21,6 +21,9 @@ const buyerRoutes={
     buyerCancel:'/book/cancelBooking',
     buyerSlotCheck:'/book/slotCheck',
     buyerFetchProperty:'/buyer/fetchProperty',
+    buyerRate:'/buyer/rate',
+    buyerRateExist:'/buyer/rateExist',
+    buyerGetRatings:'/buyer/getRatings',
 }
 
 export default buyerRoutes;
