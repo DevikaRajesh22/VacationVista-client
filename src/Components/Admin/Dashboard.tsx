@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { dashboard } from '../../Api/admin';
 import MonthlySales from './MonthlySales';
+import MonthlyRevenue from './MonthlyRevenue';
 
 const Dashboard = () => {
   const [totalUsers, setTotalUsers] = useState(0);
@@ -30,7 +31,7 @@ const Dashboard = () => {
       {/* Content */}
       <div className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+          <div className="bg-gray-50 rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
             <div className="flex justify-between mb-6">
               <div>
                 <div className="flex items-center mb-1">
@@ -40,7 +41,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+          <div className="bg-gray-50 rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
             <div className="flex justify-between mb-4">
               <div>
                 <div className="flex items-center mb-1">
@@ -50,7 +51,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+          <div className="bg-gray-50 rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
             <div className="flex justify-between mb-6">
               <div>
                 <div className="text-2xl font-semibold mb-1">{totalProperties}</div>
@@ -60,7 +61,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+          <div className="bg-gray-50 rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
             <div className="flex justify-between mb-6">
               <div>
                 <div className="flex items-center mb-1">
@@ -70,7 +71,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+          <div className="bg-gray-50 rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
             <div className="flex justify-between mb-4">
               <div>
                 <div className="flex items-center mb-1">
@@ -80,7 +81,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+          <div className="bg-gray-50 rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
             <div className="flex justify-between mb-6">
               <div>
                 <div className="text-2xl font-semibold mb-1">{rejectedProperties}</div>
@@ -89,13 +90,13 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="flex m-6">
+        <div className="flex m-4">
           <div className="p-6 relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words bg-gray-50 dark:bg-gray-800 w-full shadow-lg rounded">
             <div className="rounded-t mb-0 px-0 border-0">
               <div className="flex flex-wrap items-center px-4 py-2">
                 <div className="relative w-full max-w-full flex-grow flex-1">
                   <h3 className="font-semibold text-base text-gray-900 dark:text-gray-50">
-                    Monthly sales
+                    Monthly Sales
                   </h3>
                 </div>
               </div>
@@ -105,18 +106,18 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="flex m-6">
+        <div className="flex m-4 mt-2">
           <div className="p-6 relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words bg-gray-50 dark:bg-gray-800 w-full shadow-lg rounded">
             <div className="rounded-t mb-0 px-0 border-0">
               <div className="flex flex-wrap items-center px-4 py-2">
                 <div className="relative w-full max-w-full flex-grow flex-1">
                   <h3 className="font-semibold text-base text-gray-900 dark:text-gray-50">
-                    Monthly sales
+                    Monthly Revenue
                   </h3>
                 </div>
               </div>
               <div className="block w-full overflow-x-auto">
-                <MonthlySales />
+                <MonthlyRevenue />
               </div>
             </div>
           </div>

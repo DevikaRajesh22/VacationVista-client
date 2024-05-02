@@ -163,3 +163,12 @@ export const getMonthlySales=async()=>{
         console.log(error)
     }
 }
+
+export const getMonthlyRevenue=async()=>{
+    try{
+        const res=await Api.get(AdminEndpoint.getMonthlyRevenue)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}

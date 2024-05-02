@@ -17,6 +17,7 @@ const adminRoutes={
     fetchReservation:'/admin/fetchReservation',
     dashboard:'/admin/dashboard',
     getMonthlySales:'/admin/getMonthlySales',
+    getMonthlyRevenue:'/admin/getMonthlyRevenue',
 }
 
 export default adminRoutes

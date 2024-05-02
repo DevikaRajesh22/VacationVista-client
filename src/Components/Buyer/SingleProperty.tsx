@@ -233,21 +233,22 @@ const SingleProperty: React.FC = () => {
             const endDate = date.endDate
             if (id) {
                 const res = await slotCheck(startDate, endDate, id);
-                if (res?.data.success) {
-                    if (buyerId) {
-                        const res = await book(id, buyerId, startDate, endDate)
-                        if (res?.data.success) {
-                            toast.success('Continue to payment')
-                            navigate(`/checkout/${res.data.data._id}`)
-                        } else if (!res?.data.success) {
-                            toast.error('Something went wrong...')
-                        }
-                    } else {
-                        toast.error('Something went wrong..')
-                    }
-                } else if (!res?.data.success) {
-                    toast.error(res?.data.message)
-                }
+                console.log('slot',res)
+                // if (res?.data.success) {
+                //     if (buyerId) {
+                //         const res = await book(id, buyerId, startDate, endDate)
+                //         if (res?.data.success) {
+                //             toast.success('Continue to payment')
+                //             navigate(`/checkout/${res.data.data._id}`)
+                //         } else if (!res?.data.success) {
+                //             toast.error('Something went wrong...')
+                //         }
+                //     } else {
+                //         toast.error('Something went wrong..')
+                //     }
+                // } else if (!res?.data.success) {
+                //     toast.error(res?.data.message)
+                // }
             }
         } catch (error) {
             console.log(error)
