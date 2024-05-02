@@ -4,7 +4,7 @@ import { singlePropertyList } from '../../Api/buyer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { io, Socket } from 'socket.io-client';
-import { getMessages, newMessage, newConversation, slotCheck, getRatings } from '../../Api/buyer';
+import { getMessages, newMessage, newConversation, slotCheck, getRatings, getSeller } from '../../Api/buyer';
 import { book } from '../../Api/buyer';
 import Calender from './Calender/Calender'
 import { toast } from "react-toastify";
@@ -33,6 +33,19 @@ interface Property {
 }
 
 interface Buyer {
+    id: string,
+    name: string,
+    email: string,
+    image: string,
+    password: string,
+    isBlocked: boolean,
+    dateOfBirth: Date,
+    phone: string,
+    govtId: string,
+    creationTime: Date,
+}
+
+interface Seller {
     id: string,
     name: string,
     email: string,
@@ -94,10 +107,27 @@ const SingleProperty: React.FC = () => {
     const [largeImage, setLargeImage] = useState('');
     const [chatBox, setChatBox] = useState(false);
     const [sellerId, setSellerId] = useState('');
+    const [seller, setSeller] = useState<Seller>();
     const [rate, setRate] = useState(false);
     const [review, setReview] = useState<Review[]>([]);
     const { id } = useParams()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const fetchSellerData = async () => {
+            try {
+                if (sellerId) {
+                    const res = await getSeller(sellerId)
+                    if (res?.data.success) {
+                        setSeller(res.data.data)
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchSellerData()
+    }, [sellerId])
 
     useEffect(() => {
         const fetchRatings = async () => {
@@ -233,22 +263,22 @@ const SingleProperty: React.FC = () => {
             const endDate = date.endDate
             if (id) {
                 const res = await slotCheck(startDate, endDate, id);
-                console.log('slot',res)
-                // if (res?.data.success) {
-                //     if (buyerId) {
-                //         const res = await book(id, buyerId, startDate, endDate)
-                //         if (res?.data.success) {
-                //             toast.success('Continue to payment')
-                //             navigate(`/checkout/${res.data.data._id}`)
-                //         } else if (!res?.data.success) {
-                //             toast.error('Something went wrong...')
-                //         }
-                //     } else {
-                //         toast.error('Something went wrong..')
-                //     }
-                // } else if (!res?.data.success) {
-                //     toast.error(res?.data.message)
-                // }
+                console.log('slot', res)
+                if (res?.data.success) {
+                    if (buyerId) {
+                        const res = await book(id, buyerId, startDate, endDate)
+                        if (res?.data.success) {
+                            toast.success('Continue to payment')
+                            navigate(`/checkout/${res.data.data._id}`)
+                        } else if (!res?.data.success) {
+                            toast.error('Something went wrong...')
+                        }
+                    } else {
+                        toast.error('Something went wrong..')
+                    }
+                } else if (!res?.data.success) {
+                    toast.error(res?.data.message)
+                }
             }
         } catch (error) {
             console.log(error)
@@ -445,6 +475,22 @@ const SingleProperty: React.FC = () => {
                                     </svg>
                                     Type : {singleProperty?.type}
                                 </li>
+                                <li>
+                                    <div className="col-span-12 lg:col-span-10 rounded-lg">
+                                        <div className="sm:flex">
+                                            <img
+                                                src={seller?.image}
+                                                alt="Robert image"
+                                                className="w-10 h-10 m-2 rounded-full"
+                                            />
+                                            <div className="text">
+                                                <p className="text-sm  text-gray-600 mt-5">
+                                                    Hosted By {seller?.name}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                         <div className="lg:col-span-3">
@@ -558,6 +604,25 @@ const SingleProperty: React.FC = () => {
                                                                             </p>
                                                                         </div>
                                                                     </div>
+                                                                    {val.reply &&
+                                                                        <div className="ml-10 col-span-12 lg:col-span-10 rounded-lg bg-gray-100">
+                                                                            <div className="sm:flex gap-6">
+                                                                                <img
+                                                                                    src={seller?.image}
+                                                                                    alt="Robert image"
+                                                                                    className="w-10 h-10 m-2 rounded-full"
+                                                                                />
+                                                                                <div className="text">
+                                                                                    <p className="font-semibold text-base leading-8 text-gray-900">
+                                                                                        {seller?.name}
+                                                                                    </p>
+                                                                                    <p className="font-normal text-sm leading-7 text-gray-800 mb-4 lg:pr-8">
+                                                                                        {val.reply}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    }
                                                                 </div>
                                                                 <div className="pb-8 border-b border-gray-100 w-full" />
                                                             </>

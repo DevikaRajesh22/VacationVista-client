@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { profile } from '../../Api/seller'
+// import { profile } from '../../Api/seller'
 import { sellerLogout } from "../../Api/seller";
 import { toast } from 'react-toastify'
 import { sellLogout } from "../../Store/slice/authSlice";
@@ -21,21 +21,20 @@ const Navbar = () => {
 
   const [dropdownToggle, setDropdownToogle] = useState(false);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const res = await profile();
-        console.log('jooo', res)
-        // if (res?.data?.sellerProfile) {
-        //   setName(res.data.sellerProfile.name);
-        //   setImage(res.data.sellerProfile.image || user);
-        // }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fetchUserData()
-  }, [])
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const res = await profile();
+  //       if (res?.data?.sellerProfile) {
+  //         setName(res.data.sellerProfile.name);
+  //         setImage(res.data.sellerProfile.image || user);
+  //       }
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  //   fetchUserData()
+  // }, [])
 
   const dropDownToggle = () => {
     setDropdownToogle(!dropdownToggle);
@@ -43,9 +42,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      console.log('handle logout')
       const res = await sellerLogout()
-      console.log('res', res)
       if (res?.data.success) {
         dispatch(sellLogout())
         toast.success('Logged out successfully..')

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { sellerList } from '../../Api/seller';
 import { getRatings } from '../../Api/buyer'
+import { useNavigate } from 'react-router-dom'
 
 interface Buyer {
     id: string,
@@ -40,6 +41,7 @@ interface Review {
 const Review = () => {
     const [propertyId, setPropertyId] = useState('')
     const [review, setReview] = useState<Review[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPropertyData = async () => {
@@ -59,7 +61,6 @@ const Review = () => {
         const fetchRatings = async () => {
             if (propertyId) {
                 const res = await getRatings(propertyId)
-                console.log(res)
                 if (res?.data.success) {
                     setReview(res.data.data)
                 }
@@ -67,6 +68,14 @@ const Review = () => {
         }
         fetchRatings()
     }, [propertyId])
+
+    const handleReply = async (reviewId: string) => {
+        try {
+            navigate(`/seller/reply/${reviewId}`)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
 
     return (
@@ -115,10 +124,11 @@ const Review = () => {
                                             <div className="flex items-center justify-between">
                                                 <div className="cursor-pointer flex items-center gap-2">
                                                     <a
-                                                        href="javascript:;"
+                                                        href="#"
+                                                        onClick={() => handleReply(val.id)}
                                                         className="font-semibold cursor-pointer leading-8 text-indigo-600 whitespace-nowrap"
                                                     >
-                                                        Reply
+                                                        {val.reply?'':'Reply'}
                                                     </a>
                                                 </div>
                                             </div>

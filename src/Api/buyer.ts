@@ -271,3 +271,12 @@ export const getRatings=async(id:string)=>{
         console.log(error)
     }
 }
+
+export const getSeller=async(sellerId:string)=>{
+    try{
+        const res=await Api.get(`${BuyerEndpoint.getSeller}?sellerId=${sellerId}`);
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}

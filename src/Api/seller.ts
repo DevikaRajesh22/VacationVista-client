@@ -185,3 +185,12 @@ export const getMonthlyRevenue = async () => {
         console.log(error)
     }
 }
+
+export const addReply = async (reviewId: string, reply: string) => {
+    try {
+        const res = await Api.post(sellerEndpoint.addReply, { reviewId, reply });
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
