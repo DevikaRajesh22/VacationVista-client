@@ -13,6 +13,9 @@ const sellerRoutes={
     sellerGetConversations:'/chat/getConversation',
     sellerFindUserById:'/chat/findUserById',
     sellerGetBooking:'/book/getBookingBySellerId',
+    dashboard:'/seller/dashboard',
+    getMonthlySales:'/seller/getMonthlySales',
+    getMonthlyRevenue:'/seller/getMonthlyRevenue',
 }
 
 export default sellerRoutes

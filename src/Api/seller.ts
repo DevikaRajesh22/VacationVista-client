@@ -132,29 +132,56 @@ export const getSellerConversations = async (sellerId: string) => {
     }
 }
 
-export const findUserById=async(id:string)=>{
-    try{
-        const res=await Api.get(`${sellerEndpoint.sellerFindUserById}?buyerId=${id}`)
+export const findUserById = async (id: string) => {
+    try {
+        const res = await Api.get(`${sellerEndpoint.sellerFindUserById}?buyerId=${id}`)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const getUser=async(userId:string)=>{
-    try{
-        const res=await Api.get(`${sellerEndpoint.sellerGetUser}?userId=${userId}`)
+export const getUser = async (userId: string) => {
+    try {
+        const res = await Api.get(`${sellerEndpoint.sellerGetUser}?userId=${userId}`)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const getBookingbySellerId=async(sellerId:string)=>{
-    try{
-        const res=await Api.get(`/book/getBookingBySellerId/${sellerId}`)
+export const getBookingbySellerId = async (sellerId: string) => {
+    try {
+        const res = await Api.get(`/book/getBookingBySellerId/${sellerId}`)
         return res
-    }catch(error){
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const dashboard = async () => {
+    try {
+        const res = await Api.get(sellerEndpoint.dashboard)
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getMonthlySales = async () => {
+    try {
+        const res = await Api.get(sellerEndpoint.getMonthlySales)
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getMonthlyRevenue = async () => {
+    try {
+        const res = await Api.get(sellerEndpoint.getMonthlyRevenue)
+        return res
+    } catch (error) {
         console.log(error)
     }
 }
