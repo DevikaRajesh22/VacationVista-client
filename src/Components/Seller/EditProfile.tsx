@@ -29,7 +29,7 @@ const EditProfile = () => {
       formData.append('name', name)
       formData.append('dateOfBirth', date)
       formData.append('phone', phone)
-      formData.append('govt', govt)
+      formData.append('govtId', govt)
       if (image) {
         formData.append('image', image)
       }
