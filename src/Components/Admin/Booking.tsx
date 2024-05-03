@@ -85,7 +85,7 @@ const Booking = () => {
                                     <option>Filter</option>
                                     {properties.map((val) => {
                                         return val.status === 'Accepted' ? (
-                                            <option key={val.title}>{val.title}</option>
+                                            <option key={val?.title}>{val?.title}</option>
                                         ) : (
                                             null
                                         );
@@ -112,7 +112,7 @@ const Booking = () => {
                                     <div className="aspect-square overflow-hidden">
                                         <img
                                             className="group-hover:scale-125 h-full w-full object-cover transition-all duration-300"
-                                            src={val.propertyId.photos[0]}
+                                            src={val?.propertyId?.photos[0]}
                                             alt=""
                                         />
                                     </div>
@@ -120,20 +120,20 @@ const Booking = () => {
                                         <div className="">
                                             <h3 className="text-xs font-semibold sm:text-sm md:text-base text-black">
                                                 <a href="#" title="" className="cursor-pointer">
-                                                    {val.propertyId.title}
+                                                    {val?.propertyId?.title}
                                                 </a>
                                             </h3>
                                             <p className='text-black-400'>
-                                                {val.propertyId.address}
+                                                {val?.propertyId?.address}
                                             </p>
                                             <p className='text-black'>
-                                                <span className='text-l'>₹{val.propertyId.price}</span> night
+                                                <span className='text-l'>₹{val?.propertyId?.price}</span> night
                                             </p>
                                             <p className='text-gray'>
-                                                <span className='text-sm'>Customer: {val.buyerId.name}</span>
+                                                <span className='text-sm'>Customer: {val?.buyerId?.name}</span>
                                             </p>
                                             <p className='text-gray'>
-                                                <span className='text-sm'>Contact: {val.buyerId.phone}</span>
+                                                <span className='text-sm'>Contact: {val?.buyerId?.phone}</span>
                                             </p>
                                         </div>
                                     </div>

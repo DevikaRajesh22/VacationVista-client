@@ -18,6 +18,7 @@ const adminRoutes={
     dashboard:'/admin/dashboard',
     getMonthlySales:'/admin/getMonthlySales',
     getMonthlyRevenue:'/admin/getMonthlyRevenue',
+    propertyRequest:'/admin/propertyRequest',
 }
 
 export default adminRoutes

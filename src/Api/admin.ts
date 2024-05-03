@@ -172,3 +172,12 @@ export const getMonthlyRevenue=async()=>{
         console.log(error)
     }
 }
+
+export const propertyRequest=async()=>{
+    try{
+        const res=await Api.get(AdminEndpoint.propertyRequest)
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}

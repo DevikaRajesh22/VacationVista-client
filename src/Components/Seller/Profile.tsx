@@ -18,8 +18,6 @@ interface Seller {
 
 const Profile = () => {
   const [image, setImage] = useState<string | null>(null);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [seller, setSeller] = useState<Seller>();
 
   useEffect(() => {
