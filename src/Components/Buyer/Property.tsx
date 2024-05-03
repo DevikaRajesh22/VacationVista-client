@@ -30,7 +30,7 @@ const Property = () => {
   const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate()
 
-  const itemsPerPage = 12;
+  const itemsPerPage = 8;
 
   useEffect(() => {
     const fetchData = async () => {

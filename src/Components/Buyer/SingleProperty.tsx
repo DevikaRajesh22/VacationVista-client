@@ -208,6 +208,8 @@ const SingleProperty: React.FC = () => {
             e.preventDefault()
             if (buyerId) {
                 const res = await newMessage(message, conversationId, buyerId)
+                console.log('res', res)
+                console.log(sellerId, buyerId, message)
                 socket.current?.emit('sendMessage', {
                     senderId: buyerId,
                     receiverId: sellerId,
