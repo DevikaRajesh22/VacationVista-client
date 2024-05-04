@@ -4,7 +4,7 @@ import { category } from '../../Api/admin';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router-dom';
-import { editProperty } from "../../Api/seller";
+import { editProperty, findPropertyById } from "../../Api/seller";
 
 
 interface Category {
@@ -70,6 +70,34 @@ const EditProperty = () => {
     }
     fetchCategoryData()
   }, []);
+
+  useEffect(() => {
+    const fetchPropertyData = async () => {
+      try {
+        if (id) {
+          const res = await findPropertyById(id)
+          if (res?.data.success) {
+            setTitle(res.data.data.title)
+            setDescription(res.data.data.description)
+            setPrice(res.data.data.price)
+            setAddress(res.data.data.address)
+            setCategoryForm(res.data.data.category)
+            setType(res.data.data.type)
+            setGuest(res.data.data.guest)
+            setBedroom(res.data.data.bedroom)
+            setBathroom(res.data.data.bathroom)
+            setBed(res.data.data.bed)
+            setAmenities(res.data.data.amenities)
+            setSafeties(res.data.data.safeties)
+            setImage(res.data.data.image)
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchPropertyData()
+  }, [])
 
   const handleAmenityChange = (isChecked: boolean, event: React.ChangeEvent<HTMLInputElement>) => {
     const amenity = { value: event.target.value };
@@ -370,7 +398,7 @@ const EditProperty = () => {
                   type="checkbox"
                   id={`amenity_${amenity.value}`}
                   name="amenities[]"
-                  value={amenity.value} // Use amenity.value for consistency
+                  value={amenity.value}
                   className="w-4 h-4 border-gray-300 rounded-full bg-gray-100 focus:ring-blue-500 focus:ring-offset-0 dark:focus:ring-offset-gray-800 focus:outline-none"
                   onChange={(event) => handleAmenityChange(event.target.checked, event)}
                 />
@@ -389,7 +417,7 @@ const EditProperty = () => {
                 <input
                   type="checkbox"
                   id={`safety_${safety.value}`}
-                  name="safety[]" // Use an array name for multiple selections
+                  name="safety[]"
                   value={safety.value}
                   className="w-4 h-4 border-gray-300 rounded-full bg-gray-100 focus:ring-blue-500 focus:ring-offset-0 dark:focus:ring-offset-gray-800 focus:outline-none"
                   onChange={(event) => handleSafetyChange(event.target.checked, event)}

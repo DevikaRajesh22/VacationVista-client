@@ -119,10 +119,6 @@ const ListForm = () => {
             formData.append('title',title)
             formData.append('description',description)
             formData.append('price',price.toString())
-            //geocode the address to find cordinates
-            // const cordinates=await geocodeLocation(address)
-            // formData.append('latitude', cordinates.latitude);
-            // formData.append('longitude', cordinates.longitude);
             formData.append('address',address)
             formData.append('category',categoryForm)
             formData.append('type',type)

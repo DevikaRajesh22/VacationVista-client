@@ -17,6 +17,7 @@ const sellerRoutes = {
     getMonthlySales: '/seller/getMonthlySales',
     getMonthlyRevenue: '/seller/getMonthlyRevenue',
     addReply: '/seller/addReply',
+    findPropertyById:'/seller/findPropertyById',
 }
 
 export default sellerRoutes

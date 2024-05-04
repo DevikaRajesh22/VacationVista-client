@@ -194,3 +194,12 @@ export const addReply = async (reviewId: string, reply: string) => {
         console.log(error)
     }
 }
+
+export const findPropertyById = async (propertyId: string) => {
+    try {
+        const res = await Api.get(`${sellerEndpoint.findPropertyById}?propertyId=${propertyId}`)
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
