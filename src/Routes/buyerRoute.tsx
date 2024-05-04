@@ -17,6 +17,7 @@ import PaymentFail from '../Pages/Buyer/Payment/PaymentFail'
 import BookingPage from '../Pages/Buyer/Booking/BookingPage'
 import TripPage from '../Pages/Buyer/Trips/TripPage'
 import RatingPage from '../Pages/Buyer/Rating/RatingPage'
+import BookingDetailsPage from '../Pages/Buyer/Booking/BookingDetailsPage'
 import BuyerLoggedIn from "../Components/Buyer/buyerLoggedIn"
 import BuyerLoggedOut from "../Components/Buyer/buyerLoggedOut"
 
@@ -45,6 +46,7 @@ const buyerRoute = () => {
         <Route path='booking' element={<BookingPage />} />
         <Route path='trips' element={<TripPage />} />
         <Route path='rating/:bookingId' element={<RatingPage />} />
+        <Route path='bookingDetails/:bookingId' element={<BookingDetailsPage />} />
       </Route>
     </Routes>
   )

@@ -62,8 +62,6 @@ const Trip = () => {
     fetchBookingData()
   }, [buyerId])
 
-  console.log('boo', bookings)
-
   const formatDateAndCalculateDays = (startDateString: Date, endDateString: Date) => {
     const startDate = new Date(startDateString);
     const endDate = new Date(endDateString);

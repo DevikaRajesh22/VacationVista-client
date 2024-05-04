@@ -3,6 +3,7 @@ import { profile } from '../../Api/buyer'
 import { getBooking } from '../../Api/buyer'
 import { cancelBooking } from '../../Api/buyer'
 import { toast } from "react-toastify";
+import {useNavigate} from 'react-router-dom';
 
 interface Property {
   id: string,
@@ -28,6 +29,7 @@ interface Booking {
 const Booking = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [buyerId, setBuyerId] = useState('');
+  const navigate=useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -91,6 +93,14 @@ const Booking = () => {
     }
   }
 
+  const bookingDetails=async(bookingId:string)=>{
+    try{
+      navigate(`/bookingDetails/${bookingId}`)
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   return (
     <>
       {bookings.length == 0 ? (
@@ -115,6 +125,7 @@ const Booking = () => {
                       <article className="relative flex flex-col overflow-hidden rounded-lg border" key={val.propertyId.id}>
                         <div className="aspect-square overflow-hidden">
                           <img
+                          onClick={()=>bookingDetails(val.id)}
                             className="h-full w-full object-cover transition-all duration-300 group-hover:scale-125"
                             src={val.propertyId.photos[0]}
                             alt=""
