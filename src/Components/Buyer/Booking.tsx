@@ -96,7 +96,7 @@ const Booking = () => {
       {bookings.length == 0 ? (
         <div className="bg-white border border-gray-200 flex flex-col items-center justify-center px-4 md:px-8 lg:px-24 py-8 rounded-lg shadow-2xl">
           <p className="text-gray-500 mt-8 py-2 border-y-2 text-center">
-            No booking done yet...
+            No bookings done yet...
           </p>
         </div>
       ) : (
