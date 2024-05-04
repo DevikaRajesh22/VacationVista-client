@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { rate } from '../../Api/buyer'
+import { editRate } from '../../Api/buyer'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { findRateById } from '../../Api/buyer';
 
 let buyerId: string | undefined;
 
-const Rating = () => {
+const EditRating = () => {
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState('');
     const { bookingId } = useParams()
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const buyerData = localStorage.getItem('buyerInfo');
@@ -24,16 +25,33 @@ const Rating = () => {
         }
     }, [])
 
+    useEffect(() => {
+        const fetchRating = async () => {
+            try {
+                if (bookingId) {
+                    const res = await findRateById(bookingId)
+                    if (res?.data.success) {
+                        setRating(res.data.data.rating)
+                        setReview(res.data.data.review)
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchRating()
+    }, [])
+
     const handleStarClick = (starIndex: number) => {
-        setRating(starIndex + 1);
+        setRating(starIndex);
     };
 
     const handleSubmit = async () => {
         try {
             if (bookingId && buyerId) {
-                const res = await rate(bookingId, rating, review, buyerId);
+                const res = await editRate(bookingId, rating, review, buyerId);
                 if (res?.data.success) {
-                    toast.success('Review added')
+                    toast.success('Review edited')
                     navigate('/trips')
                 } else if (!res?.data.success) {
                     toast.error('Something went wrong')
@@ -46,7 +64,6 @@ const Rating = () => {
 
     return (
         <>
-            {/* component */}
             <div className="min-h-screen bg-gray-300 py-6 flex flex-col justify-center sm:py-12">
                 <div className="py-3 sm:max-w-xl sm:mx-auto">
                     <div className="bg-white min-w-1xl flex flex-col rounded-xl shadow-lg">
@@ -97,8 +114,7 @@ const Rating = () => {
                 </div>
             </div>
         </>
-
     )
 }
 
-export default Rating
+export default EditRating

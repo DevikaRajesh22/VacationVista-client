@@ -20,7 +20,8 @@ interface Booking {
   endDate: Date,
   bookingDate: Date,
   paymentSuccess: boolean,
-  isCancelled: boolean
+  isCancelled: boolean,
+  rating: boolean
 }
 
 const Trip = () => {
@@ -46,7 +47,6 @@ const Trip = () => {
     const fetchBookingData = async () => {
       try {
         const res = await getBooking(buyerId)
-        console.log('res', res)
         if (res?.data.success) {
           const filteredBookings = res.data.data.filter((booking: Booking) => {
             const endDate = new Date(booking.endDate);
@@ -82,9 +82,13 @@ const Trip = () => {
     };
   }
 
-  const handleRating = async (bookingId: string) => {
+  const handleRating = async (bookingId: string, rating: boolean) => {
     try {
-      navigate(`/rating/${bookingId}`)
+      if (rating) {
+        navigate(`/editRating/${bookingId}`)
+      } else if (!rating) {
+        navigate(`/rating/${bookingId}`)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -106,7 +110,7 @@ const Trip = () => {
                 const { startDateFormatted, endDateFormatted, numberOfDays } = formatDateAndCalculateDays(val.startDate, val.endDate);
                 const total = (numberOfDays + 1) * val.propertyId.price
                 return (
-                  <article className="relative flex flex-col overflow-hidden rounded-lg border" key={val.propertyId.id}>
+                  <article className="relative flex flex-col overflow-hidden rounded-lg border" key={val.id}>
                     <div className="aspect-square overflow-hidden">
                       <img
                         className="h-full w-full object-cover transition-all duration-300 group-hover:scale-125"
@@ -122,10 +126,10 @@ const Trip = () => {
                     </div>
                     {!val.isCancelled ? <button onClick={(e) => {
                       e.preventDefault()
-                      handleRating(val.id)
+                      handleRating(val.id, val.rating)
                     }} className="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
                       <div className="flex w-full items-center justify-center bg-yellow-500 text-xs uppercase transition group-hover:bg-emerald-600 font-bold text-white">
-                        Rate
+                        {val.rating ? 'Edit rating' : 'Add rating'}
                       </div>
                     </button>
                       :

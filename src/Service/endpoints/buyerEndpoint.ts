@@ -25,6 +25,8 @@ const buyerRoutes={
     buyerRateExist:'/buyer/rateExist',
     buyerGetRatings:'/buyer/getRatings',
     getSeller:'/buyer/getSeller',
+    findRateById:'/buyer/findRateById',
+    editRate:'/buyer/editRate',
 }
 
 export default buyerRoutes;

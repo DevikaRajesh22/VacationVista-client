@@ -263,20 +263,38 @@ export const rate = async (bookingId: string, rating: number, review: string, bu
     }
 }
 
-export const getRatings=async(id:string)=>{
-    try{
-        const res=await Api.get(`${BuyerEndpoint.buyerGetRatings}?id=${id}`)
+export const getRatings = async (id: string) => {
+    try {
+        const res = await Api.get(`${BuyerEndpoint.buyerGetRatings}?id=${id}`)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const getSeller=async(sellerId:string)=>{
-    try{
-        const res=await Api.get(`${BuyerEndpoint.getSeller}?sellerId=${sellerId}`);
+export const getSeller = async (sellerId: string) => {
+    try {
+        const res = await Api.get(`${BuyerEndpoint.getSeller}?sellerId=${sellerId}`);
         return res
-    }catch(error){
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const findRateById = async (bookingId: string) => {
+    try {
+        const res = await Api.get(`${BuyerEndpoint.findRateById}?bookingId=${bookingId}`)
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const editRate = async (bookingId: string, rating: number, review: string, buyerId: string) => {
+    try {
+        const res = await Api.post(BuyerEndpoint.editRate, { bookingId, rating, review, buyerId })
+        return res
+    } catch (error) {
         console.log(error)
     }
 }
