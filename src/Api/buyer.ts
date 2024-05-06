@@ -238,6 +238,7 @@ export const cancelBooking = async (bookingId: string) => {
 
 export const slotCheck = async (startDate: Date, endDate: Date, id: string) => {
     try {
+        console.log('api dt',startDate,endDate)
         const res = await Api.post(BuyerEndpoint.buyerSlotCheck, { startDate, endDate, propertyId: id });
         return res
     } catch (error) {

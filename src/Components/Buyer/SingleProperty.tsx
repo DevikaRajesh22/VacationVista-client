@@ -94,6 +94,8 @@ const SingleProperty: React.FC = () => {
     });
 
     const handleDateChange = (newDate: { startDate: Date; endDate: Date }) => {
+        newDate.startDate.setHours(12, 0, 0, 0);
+        newDate.endDate.setHours(12, 0, 0, 0);
         setDate(newDate);
     };
 
@@ -261,10 +263,12 @@ const SingleProperty: React.FC = () => {
 
     const handleBook = async () => {
         try {
-            const startDate = date.startDate
-            const endDate = date.endDate
+            const startDate = date.startDate.toISOString().slice(0, 19).replace('T', ' ');
+            const start = new Date(startDate)
+            const endDate = date.endDate.toISOString().slice(0, 19).replace('T', ' ');
+            const end = new Date(endDate)
             if (id) {
-                const res = await slotCheck(startDate, endDate, id);
+                const res = await slotCheck(start, end, id);
                 console.log('slot', res)
                 if (res?.data.success) {
                     if (buyerId) {
