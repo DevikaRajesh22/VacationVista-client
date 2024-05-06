@@ -182,6 +182,19 @@ export const newMessage = async (message: string, conversationId: string, seller
     }
 }
 
+export const newImageMessage=async(formData:FormData)=>{
+    try{
+        const res=await Api.post(BuyerEndpoint.buyerNewImageMessage,formData,{
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        });
+        return res
+    }catch(error){
+        console.log(error)
+    }
+}
+
 export const book = async (id: string, buyerId: string, startDate: Date, endDate: Date) => {
     try {
         const res = await Api.post(BuyerEndpoint.buyerBook, { propertyId: id, buyerId: buyerId, startDate: startDate, endDate: endDate });

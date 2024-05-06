@@ -13,6 +13,7 @@ const buyerRoutes={
     buyerNewConversation:'/chat/newConversation',
     buyerGetMessages:'/chat/getMessages',
     buyerNewMessage:'/chat/newMessage',
+    buyerNewImageMessage:'/chat/newImageMessage',
     buyerBook:'/book/newBooking',
     buyerGetCheckout:'/book/getCheckout',
     buyerProceedForPayment:'/book/proceedForPayment',

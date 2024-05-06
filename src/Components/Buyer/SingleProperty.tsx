@@ -155,6 +155,17 @@ const SingleProperty: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        socket.current = io('ws://localhost:3000');
+        socket?.current?.on('getImageMessage', (data) => {
+            setArrivalMessage({
+                senderId: data.senderId,
+                message: data.text,
+                creationTime: data.createdAt
+            } as Message);
+        });
+    }, [])
+
+    useEffect(() => {
         arrivalMessage &&
             setMessages(prev => [...prev, arrivalMessage] as Message[])
     }, [arrivalMessage])
@@ -298,6 +309,13 @@ const SingleProperty: React.FC = () => {
         const amPM = hours >= 12 ? 'PM' : 'AM';
         hours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
         return `${hours}:${minutes} ${amPM}`;
+    }
+
+    function isImageUrl(url: string) {
+        if (url.startsWith("https://")) {
+            return true
+        }
+        return false;
     }
 
     return (
@@ -693,16 +711,24 @@ const SingleProperty: React.FC = () => {
                                 <>
                                     {message.senderId == buyerId ?
                                         <div className="mb-2 text-right" ref={index === messages.length - 1 ? scrollRef : null}>
-                                            <p className="bg-blue-900 text-white rounded-lg py-2 px-4 inline-block">
-                                                {message.message}
-                                            </p>
+                                            {isImageUrl(message.message) ? (
+                                                <img src={message.message} alt="Sent Image" />
+                                            ) : (
+                                                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
+                                                    {message.message}
+                                                </p>
+                                            )}
                                             <p className='text-xs text-gray-600'>{formatTime(message.creationTime)}</p>
                                         </div>
                                         :
                                         <div className="mb-2" ref={index === messages.length - 1 ? scrollRef : null}>
-                                            <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                                                {message.message}
-                                            </p>
+                                            {isImageUrl(message.message) ? (
+                                                <img src={message.message} alt="Sent Image" />
+                                            ) : (
+                                                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
+                                                    {message.message}
+                                                </p>
+                                            )}
                                             <p className='text-xs text-gray-600'>{formatTime(message.creationTime)}</p>
                                         </div>
                                     }
