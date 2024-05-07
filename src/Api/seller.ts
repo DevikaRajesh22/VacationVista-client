@@ -203,3 +203,21 @@ export const findPropertyById = async (propertyId: string) => {
         console.log(error)
     }
 }
+
+export const proceedForSubscription = async () => {
+    try {
+        const res = await Api.post(sellerEndpoint.proceedForSubscription)
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const cancelSubscription = async (sellerId: string) => {
+    try {
+        const res = await Api.post(sellerEndpoint.cancelSubscription, { sellerId })
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}

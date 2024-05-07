@@ -12,6 +12,9 @@ import ReservationPage from '../Pages/Seller/Reservations/ReservationPage'
 import ReviewPage from '../Pages/Seller/Review/ReviewPage'
 import TodayPage from '../Pages/Seller/Today/TodayPage'
 import ReplyPage from '../Pages/Seller/Reply/ReplyPage'
+import SubscriptionPage from '../Pages/Seller/Subscription/SubscriptionPage'
+import PaymentSuccess from '../Pages/Seller/Payment/paymentSuccess'
+import PaymentFail from '../Pages/Seller/Payment/paymentFail'
 import SellerLoggedIn from "../Components/Seller/sellerLoggedIn"
 import SellerLoggedOut from "../Components/Seller/sellerLoggedOut"
 
@@ -34,6 +37,9 @@ const sellerRoute = () => {
         <Route path='reservations' element={<ReservationPage />} />
         <Route path='review' element={<ReviewPage />} />
         <Route path='reply/:reviewId' element={<ReplyPage />} />
+        <Route path='subscription' element={<SubscriptionPage />} />
+        <Route path='paymentSuccess' element={<PaymentSuccess />} />
+        <Route path='paymentFail' element={<PaymentFail />} />
       </Route>
     </Routes>
   )

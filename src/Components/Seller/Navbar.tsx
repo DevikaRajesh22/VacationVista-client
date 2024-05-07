@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import {  useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import { profile } from '../../Api/seller'
@@ -187,6 +187,9 @@ const Navbar = () => {
                       </li>
                       <li>
                         <Link to="/seller/profile" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</Link>
+                      </li>
+                      <li>
+                        <Link to="/seller/subscription" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Subscription</Link>
                       </li>
                     </ul>
                   </div>

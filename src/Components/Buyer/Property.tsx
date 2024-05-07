@@ -3,6 +3,20 @@ import { fetchProperties } from '../../Api/buyer'
 import { useNavigate } from 'react-router-dom';
 import { category } from '../../Api/admin'
 
+interface Seller {
+  id: string,
+  name: string,
+  email: string,
+  image: string,
+  password: string,
+  isBlocked: boolean,
+  dateOfBirth: Date,
+  phone: string,
+  govtId: string,
+  creationTime: Date,
+  subscriptionId: string,
+  isVerified: boolean,
+}
 interface Property {
   id: string,
   category: string,
@@ -11,7 +25,8 @@ interface Property {
   photos: string,
   price: string,
   status: string,
-  isBlocked: boolean
+  isBlocked: boolean,
+  sellerId: Seller
 }
 
 interface Category {
@@ -149,7 +164,7 @@ const Property = () => {
         <div className="mt-10 grid grid-cols-2 gap-6 lg:mt-16 lg:grid-cols-4 lg:gap-4">
           {properties.map((val) => {
             return (
-              <div className={`${(val.status == 'Verification Required' || val.status == "Rejected" || val.isBlocked == true) && 'hidden'}`}>
+              <div className={`${(val.status === 'Verification Required' || val.status === "Rejected" || val.isBlocked === true) && 'hidden'}`}>
                 <article className="relative">
                   <div className="aspect-square overflow-hidden">
                     <img
@@ -158,6 +173,11 @@ const Property = () => {
                       alt=""
                       onClick={() => handleClick(val.id)}
                     />
+                    {val?.sellerId?.isVerified && ( // Conditionally render the badge if the property is trusted
+                      <div className="absolute top-2 left-2 bg-blue-800 text-white px-2 py-1 rounded-full text-xs">
+                        Trusted
+                      </div>
+                    )}
                   </div>
                   <div className="mt-4 flex items-start justify-between">
                     <div className="">
@@ -179,6 +199,7 @@ const Property = () => {
             )
           })}
         </div>
+
       </div>
       <div className='flex justify-center m-20'>
         <nav>

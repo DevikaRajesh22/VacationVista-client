@@ -2,6 +2,8 @@ import user from '../../assets/user.png'
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { profile } from '../../Api/seller';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Seller {
   id: string,
@@ -14,6 +16,7 @@ interface Seller {
   phone: string,
   govtId: string,
   creationTime: Date,
+  isVerified:boolean
 }
 
 const Profile = () => {
@@ -59,7 +62,7 @@ const Profile = () => {
             alt="Bonnie image"
           />
           <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-            {seller?.name}
+            {seller?.name} { seller?.isVerified && <span><FontAwesomeIcon icon={faCheckCircle} style={{ color: 'blue', marginRight: '5px' }} /></span>}
           </h5>
           <span className="text-sm text-gray-500 dark:text-gray-400">
            Email :  {seller?.email}
