@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react"
+import { io, Socket } from 'socket.io-client';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import { profile } from '../../Api/seller'
 import { sellerLogout } from "../../Api/seller";
 import { toast } from 'react-toastify'
 import { sellLogout } from "../../Store/slice/authSlice";
@@ -14,27 +14,38 @@ interface RootState {
   };
 }
 
+interface Notification{
+  id:string,
+  notification:string,
+  createdAt:Date,
+  sellerId:string
+}
+
 const Navbar = () => {
   const { sellerInfo } = useSelector((state: RootState) => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const socket = useRef<Socket | undefined>()
+  const [notification,setNotification]=useState<Notification>();
+
+  useEffect(()=>{
+    socket.current = io('ws://localhost:3000');
+    socket?.current?.on('getNotification',(data)=>{
+      setNotification({
+        sellerId:data.sellerId,
+        notification:data.notification,
+        createdAt:data.createdAt
+      } as Notification)
+    })
+  },[]);
+
+  useEffect(()=>{
+    if(notification){
+      toast.success(notification.notification)
+    }
+  },[notification])
 
   const [dropdownToggle, setDropdownToogle] = useState(false);
-
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     try {
-  //       const res = await profile();
-  //       if (res?.data?.sellerProfile) {
-  //         setName(res.data.sellerProfile.name);
-  //         setImage(res.data.sellerProfile.image || user);
-  //       }
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  //   fetchUserData()
-  // }, [])
 
   const dropDownToggle = () => {
     setDropdownToogle(!dropdownToggle);
@@ -52,10 +63,6 @@ const Navbar = () => {
       console.log(error)
     }
   }
-
-  // const sidebarToggle=()=>{
-  //   setToggleSidebar(!toggleSidebar)
-  // }
 
   return (
     <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
