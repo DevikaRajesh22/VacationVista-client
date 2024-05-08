@@ -8,17 +8,19 @@ import { sellerLogout } from "../../Api/seller";
 import { toast } from 'react-toastify'
 import { sellLogout } from "../../Store/slice/authSlice";
 
+let sellerId: string | undefined;
+
 interface RootState {
   auth: {
     sellerInfo: string;
   };
 }
 
-interface Notification{
-  id:string,
-  notification:string,
-  createdAt:Date,
-  sellerId:string
+interface Notification {
+  id: string,
+  notification: string,
+  createdAt: Date,
+  sellerId: string,
 }
 
 const Navbar = () => {
@@ -26,24 +28,35 @@ const Navbar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const socket = useRef<Socket | undefined>()
-  const [notification,setNotification]=useState<Notification>();
+  const [notification, setNotification] = useState<Notification>();
 
-  useEffect(()=>{
+  useEffect(() => {
     socket.current = io('ws://localhost:3000');
-    socket?.current?.on('getNotification',(data)=>{
+    socket?.current?.on('getNotification', (data) => {
       setNotification({
-        sellerId:data.sellerId,
-        notification:data.notification,
-        createdAt:data.createdAt
+        sellerId: data.sellerId,
+        notification: data.notification,
+        createdAt: data.createdAt
       } as Notification)
     })
-  },[]);
+  }, []);
 
-  useEffect(()=>{
-    if(notification){
-      toast.success(notification.notification)
+  useEffect(() => {
+    const sellerData = localStorage.getItem('sellerInfo')
+    if (sellerData) {
+      const tokenPayload = sellerData.split('.')[1];
+      const decodedPayload = atob(tokenPayload);
+      const payloadObject = JSON.parse(decodedPayload);
+      sellerId = payloadObject.id;
+      socket.current?.emit('addUser', sellerId);
     }
-  },[notification])
+  },[])
+
+  useEffect(() => {
+    if (notification) {
+      toast.info(notification.notification)
+    }
+  }, [notification])
 
   const [dropdownToggle, setDropdownToogle] = useState(false);
 
@@ -197,6 +210,9 @@ const Navbar = () => {
                       </li>
                       <li>
                         <Link to="/seller/subscription" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Subscription</Link>
+                      </li>
+                      <li>
+                        <Link to="/seller/notification" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Notifications</Link>
                       </li>
                     </ul>
                   </div>

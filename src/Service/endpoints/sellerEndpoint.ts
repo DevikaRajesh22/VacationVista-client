@@ -20,6 +20,7 @@ const sellerRoutes = {
     findPropertyById: '/seller/findPropertyById',
     proceedForSubscription: '/book/proceedForSubscription',
     cancelSubscription: '/book/cancelSubscription',
+    getNotification:'/seller/getNotification',
 }
 
 export default sellerRoutes

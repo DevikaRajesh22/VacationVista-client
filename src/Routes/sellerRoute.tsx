@@ -15,6 +15,7 @@ import ReplyPage from '../Pages/Seller/Reply/ReplyPage'
 import SubscriptionPage from '../Pages/Seller/Subscription/SubscriptionPage'
 import PaymentSuccess from '../Pages/Seller/Payment/paymentSuccess'
 import PaymentFail from '../Pages/Seller/Payment/paymentFail'
+import NotificationPage from '../Pages/Seller/Notifications/NotificationPage'
 import SellerLoggedIn from "../Components/Seller/sellerLoggedIn"
 import SellerLoggedOut from "../Components/Seller/sellerLoggedOut"
 
@@ -40,6 +41,7 @@ const sellerRoute = () => {
         <Route path='subscription' element={<SubscriptionPage />} />
         <Route path='paymentSuccess' element={<PaymentSuccess />} />
         <Route path='paymentFail' element={<PaymentFail />} />
+        <Route path='notification' element={<NotificationPage />} />
       </Route>
     </Routes>
   )

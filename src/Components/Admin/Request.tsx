@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react"
-import { Socket } from 'socket.io-client';
-import { changePropertyStatus, propertyRequest } from '../../Api/admin';
+import { io, Socket } from 'socket.io-client'
+import { changePropertyStatus, propertyRequest, addNotification } from '../../Api/admin';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+
+let adminId: string | undefined;
 
 
 interface Property {
@@ -20,6 +22,21 @@ const Request = () => {
     const socket = useRef<Socket | undefined>()
 
     useEffect(() => {
+        socket.current = io('ws://localhost:3000');
+    }, []);
+
+    useEffect(() => {
+        const adminData = localStorage.getItem('adminInfo')
+        if (adminData) {
+            const tokenPayload = adminData.split('.')[1];
+            const decodedPayload = atob(tokenPayload);
+            const payloadObject = JSON.parse(decodedPayload);
+            adminId = payloadObject.id;
+            socket.current?.emit('addUser', adminId);
+        }
+    }, [])
+
+    useEffect(() => {
         const fetchPropertyData = async () => {
             try {
                 const res = await propertyRequest()
@@ -33,13 +50,13 @@ const Request = () => {
         fetchPropertyData();
     })
 
-    const handleAccept = async (id: string, status: string) => {
+    const handleAccept = async (id: string, status: string, sellerId: string) => {
         try {
             const res = await changePropertyStatus(id, status);
-            //find seller id
-            //add function to save this to not model
+            const response = await addNotification(sellerId, status, id);
+            console.log(response)
             socket?.current?.emit('changeStatus', {
-                sellerId: 'sellersid',
+                sellerId: sellerId,
                 notification: 'Your property has been approved..',
                 createdAt: Date.now()
             });
@@ -53,13 +70,13 @@ const Request = () => {
         }
     }
 
-    const handleReject = async (id: string, status: string) => {
+    const handleReject = async (id: string, status: string, sellerId: string) => {
         try {
             const res = await changePropertyStatus(id, status);
-            //find sellerid
-            //add function to save this to not model
+            const response = await addNotification(sellerId, status, id);
+            console.log(response)
             socket?.current?.emit('changeStatus', {
-                sellerId: 'sellersid',
+                sellerId: sellerId,
                 notification: 'Your property has been rejected..',
                 createdAt: Date.now()
             });
@@ -105,13 +122,13 @@ const Request = () => {
                                     {val.status}
                                 </p>
                                 <button
-                                    onClick={() => handleAccept(val.id, 'Accepted')}
+                                    onClick={() => handleAccept(val.id, 'Accepted', val.sellerId)}
                                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mr-5"
                                 >
                                     Accept
                                 </button>
                                 <button
-                                    onClick={() => handleReject(val.id, 'Rejected')}
+                                    onClick={() => handleReject(val.id, 'Rejected', val.sellerId)}
                                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-500 rounded-lg hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-700 dark:hover:bg-red-800 dark:focus:ring-red-500"
                                 >
                                     Reject

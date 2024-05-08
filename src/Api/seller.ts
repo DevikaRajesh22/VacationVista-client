@@ -221,3 +221,12 @@ export const cancelSubscription = async (sellerId: string) => {
         console.log(error)
     }
 }
+
+export const getNotification = async () => {
+    try {
+        const res = await Api.get(sellerEndpoint.getNotification)
+        return res;
+    } catch (error) {
+        console.log(error)
+    }
+}

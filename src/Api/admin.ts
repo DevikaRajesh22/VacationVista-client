@@ -155,29 +155,38 @@ export const dashboard = async () => {
     }
 }
 
-export const getMonthlySales=async()=>{
-    try{
-        const res=await Api.get(AdminEndpoint.getMonthlySales)
+export const getMonthlySales = async () => {
+    try {
+        const res = await Api.get(AdminEndpoint.getMonthlySales)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const getMonthlyRevenue=async()=>{
-    try{
-        const res=await Api.get(AdminEndpoint.getMonthlyRevenue)
+export const getMonthlyRevenue = async () => {
+    try {
+        const res = await Api.get(AdminEndpoint.getMonthlyRevenue)
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-export const propertyRequest=async()=>{
-    try{
-        const res=await Api.get(AdminEndpoint.propertyRequest)
+export const propertyRequest = async () => {
+    try {
+        const res = await Api.get(AdminEndpoint.propertyRequest)
         return res
-    }catch(error){
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const addNotification = async (sellerId: string, status: string, id: string) => {
+    try {
+        const res = await Api.post(AdminEndpoint.addNotification, { sellerId, status, id });
+        return res
+    } catch (error) {
         console.log(error)
     }
 }
