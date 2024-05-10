@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getBooking } from '../../Api/buyer'
+import { getBookingDetails } from '../../Api/buyer'
 import { profile } from '../../Api/buyer'
 import { useParams } from 'react-router-dom'
 
@@ -34,7 +34,7 @@ interface Booking {
     bookingDate: Date,
     paymentSuccess: boolean,
     isCancelled: boolean,
-    totalPrice:number
+    totalPrice: number
 }
 
 const BookingDetails = () => {
@@ -61,10 +61,11 @@ const BookingDetails = () => {
     useEffect(() => {
         const fetchBookingData = async () => {
             try {
-                const res = await getBooking(buyerId)
-                if (res?.data.success) {
-                    const filteredBookings = res.data.data.filter((booking: Booking) => booking.id === bookingId);
-                    setBookings(filteredBookings[0]);
+                if (bookingId) {
+                    const res = await getBookingDetails(bookingId)
+                    if (res?.data.success) {
+                        setBookings(res.data.data);
+                    }
                 }
             } catch (error) {
                 console.log(error)
@@ -86,6 +87,7 @@ const BookingDetails = () => {
         <>
 
             <div className="bg-white border rounded-lg shadow-lg px-6 py-8 max-w-md mx-auto mt-8">
+                <img src={bookings?.propertyId?.photos[0]}/>
                 <h1 className="font-bold text-2xl my-4 text-center text-blue-600">
                     {bookings?.propertyId?.title}
                 </h1>
@@ -101,6 +103,11 @@ const BookingDetails = () => {
                     <div className="text-gray-700 mb-2">{buyer?.name}</div>
                     <div className="text-gray-700 mb-2">{buyer?.phone}</div>
                     <div className="text-gray-700">{buyer?.email}</div>
+                </div>
+                <div className="mb-8">
+                    <h2 className="text-lg font-bold mb-4">Booking Details :</h2>
+                    <div className="text-gray-700 mb-2">Start Date : {formatDate(bookings?.startDate)}</div>
+                    <div className="text-gray-700 mb-2">End Date : {formatDate(bookings?.endDate)}</div>
                 </div>
                 <table className="w-full mb-8">
                     <tfoot>

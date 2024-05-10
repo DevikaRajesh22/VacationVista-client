@@ -108,6 +108,7 @@ const Booking = () => {
 
   const bookingDetails = async (bookingId: string) => {
     try {
+      console.log(bookingId)
       navigate(`/bookingDetails/${bookingId}`)
     } catch (error) {
       console.log(error)
@@ -118,16 +119,16 @@ const Booking = () => {
     <>
       {bookings.length == 0 ? (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div>
+          <div>
             <div className='m-10 mt-10'>
-                <div className="bg-white border border-gray-200 flex flex-col items-center justify-center px-4 md:px-8 lg:px-24 py-8 rounded-lg shadow-2xl m-10">
-                    <p className="text-gray-500 mt-8 py-2 border-y-2 text-center">
-                        No bookings done yet...
-                    </p>
-                </div>
+              <div className="bg-white border border-gray-200 flex flex-col items-center justify-center px-4 md:px-8 lg:px-24 py-8 rounded-lg shadow-2xl m-10">
+                <p className="text-gray-500 mt-8 py-2 border-y-2 text-center">
+                  No bookings done yet...
+                </p>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
       ) : (
         <div>
           <section className="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">

@@ -233,7 +233,7 @@ export const saveSession = async (sessionId: string, bookingId: string) => {
 
 export const getBooking = async (buyerId: string, page: number, limit: number) => {
     try {
-        console.log('api',buyerId)
+        console.log('api', buyerId)
         const res = await Api.get(`${BuyerEndpoint.buyerGetBookings}?buyerId=${buyerId}&page=${page}&limit=${limit}`)
         return res
     } catch (error) {
@@ -308,6 +308,15 @@ export const findRateById = async (bookingId: string) => {
 export const editRate = async (bookingId: string, rating: number, review: string, buyerId: string) => {
     try {
         const res = await Api.post(BuyerEndpoint.editRate, { bookingId, rating, review, buyerId })
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getBookingDetails = async (bookingId: string) => {
+    try {
+        const res = await Api.get(`${BuyerEndpoint.getBookingDetails}?bookingId=${bookingId}`);
         return res
     } catch (error) {
         console.log(error)
