@@ -31,7 +31,6 @@ const Booking = () => {
   const [buyerId, setBuyerId] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [loadingProperties, setLoadingProperties] = useState(false);
   const navigate = useNavigate();
 
   const itemsPerPage = 8;
@@ -57,7 +56,6 @@ const Booking = () => {
   useEffect(() => {
     const fetchBookingData = async () => {
       try {
-        setLoadingProperties(true);
         if (buyerId.length) {
           const res = await getBooking(buyerId, currentPage, itemsPerPage)
           if (res?.data.success) {
@@ -68,8 +66,6 @@ const Booking = () => {
         }
       } catch (error) {
         console.log(error)
-      }finally{
-        setLoadingProperties(false)
       }
     }
     fetchBookingData()

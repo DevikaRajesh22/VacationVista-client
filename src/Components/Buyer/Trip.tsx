@@ -27,7 +27,15 @@ interface Booking {
 const Trip = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [buyerId, setBuyerId] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate();
+
+  const itemsPerPage = 8;
+
+  const handleClickPage = (page: number) => {
+    setCurrentPage(page);
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -41,26 +49,36 @@ const Trip = () => {
       }
     }
     fetchUserData()
-  }, [bookings]);
+  }, []);
 
   useEffect(() => {
     const fetchBookingData = async () => {
       try {
-        const res = await getBooking(buyerId)
-        if (res?.data.success) {
-          const filteredBookings = res.data.data.filter((booking: Booking) => {
-            const endDate = new Date(booking.endDate);
-            const today = new Date();
-            return endDate < today && (!booking.isCancelled) && (booking.paymentSuccess);
-          });
-          setBookings(filteredBookings);
+        if (buyerId.length) {
+          const res = await getBooking(buyerId, currentPage, itemsPerPage)
+          if (res?.data.success) {
+            const filteredBookings = res.data.booking.filter((booking: Booking) => {
+              const endDate = new Date(booking.endDate);
+              const today = new Date();
+              return endDate < today && (!booking.isCancelled) && (booking.paymentSuccess);
+            });
+            setBookings(filteredBookings);
+            console.log(filteredBookings.length / itemsPerPage)
+            if (filteredBookings.length / itemsPerPage < 1) {
+              setTotalPages(1)
+            } else {
+              setTotalPages(Math.floor(filteredBookings.length / itemsPerPage))
+            }
+          }
         }
       } catch (error) {
         console.log(error)
       }
     }
     fetchBookingData()
-  }, [buyerId])
+  }, [buyerId, currentPage])
+
+  console.log('totalPages', totalPages)
 
   const formatDateAndCalculateDays = (startDateString: Date, endDateString: Date) => {
     const startDate = new Date(startDateString);
@@ -142,7 +160,43 @@ const Trip = () => {
           </div>
         )
       }
-
+      <div className='flex justify-center m-20'>
+        <nav>
+          <ul className="inline-flex -space-x-px text-sm">
+            <li>
+              <a
+                href='#'
+                className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => handleClickPage(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </a>
+            </li>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <li key={page}>
+                <a
+                  href="#"
+                  className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border ${page === currentPage ? 'border-blue-500' : 'border-gray-300'} hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+                  onClick={() => handleClickPage(page)}
+                >
+                  {page}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                href="#"
+                className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => handleClickPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </section>
   )
 }
