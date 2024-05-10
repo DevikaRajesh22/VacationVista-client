@@ -13,6 +13,7 @@ import RequestDetailsPage from '../Pages/Admin/Request/RequestDetailsPage'
 import Wallet from '../Pages/Admin/Wallet/Wallet'
 import AdminLoggedIn from '../Components/Admin/AdminLoggedIn'
 import AdminLoggedOut from '../Components/Admin/AdminLoggedOut'
+import Error from '../Pages/Admin/Error/Error'
 
 const adminRoute = () => {
   return (
@@ -33,6 +34,7 @@ const adminRoute = () => {
         <Route path='request' element={<RequestPage />} />
         <Route path='requestDetails/:id' element={<RequestDetailsPage />} />
         <Route path='wallet' element={<Wallet />} />
+        <Route path='*' element={<Error />} />
       </Route>
     </Routes>
   )

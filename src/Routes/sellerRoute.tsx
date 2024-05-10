@@ -18,6 +18,7 @@ import PaymentFail from '../Pages/Seller/Payment/paymentFail'
 import NotificationPage from '../Pages/Seller/Notifications/NotificationPage'
 import SellerLoggedIn from "../Components/Seller/sellerLoggedIn"
 import SellerLoggedOut from "../Components/Seller/sellerLoggedOut"
+import Error from '../Pages/Seller/Error/Error'
 
 const sellerRoute = () => {
   return (
@@ -42,6 +43,7 @@ const sellerRoute = () => {
         <Route path='paymentSuccess' element={<PaymentSuccess />} />
         <Route path='paymentFail' element={<PaymentFail />} />
         <Route path='notification' element={<NotificationPage />} />
+        <Route path='*' element={<Error />} />
       </Route>
     </Routes>
   )

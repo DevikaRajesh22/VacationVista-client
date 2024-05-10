@@ -21,6 +21,7 @@ import EditRatingPage from '../Pages/Buyer/Rating/EditRatingPage'
 import BookingDetailsPage from '../Pages/Buyer/Booking/BookingDetailsPage'
 import BuyerLoggedIn from "../Components/Buyer/buyerLoggedIn"
 import BuyerLoggedOut from "../Components/Buyer/buyerLoggedOut"
+import Error from '../Pages/Buyer/Error/Error'
 
 const buyerRoute = () => {
   return (
@@ -49,6 +50,7 @@ const buyerRoute = () => {
         <Route path='rating/:bookingId' element={<RatingPage />} />
         <Route path='editRating/:bookingId' element={<EditRatingPage />} />
         <Route path='bookingDetails/:bookingId' element={<BookingDetailsPage />} />
+        <Route path='*' element={<Error />} />
       </Route>
     </Routes>
   )
