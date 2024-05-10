@@ -5,7 +5,9 @@ const ReservationPage = () => {
   return (
     <div>
       <Navbar />
-      <Reservations />
+      <div className='mt-5'>
+        <Reservations />
+      </div>
     </div>
   )
 }
