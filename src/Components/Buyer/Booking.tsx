@@ -3,7 +3,7 @@ import { profile } from '../../Api/buyer'
 import { getBooking } from '../../Api/buyer'
 import { cancelBooking } from '../../Api/buyer'
 import { toast } from "react-toastify";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface Property {
   id: string,
@@ -29,7 +29,16 @@ interface Booking {
 const Booking = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [buyerId, setBuyerId] = useState('');
-  const navigate=useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loadingProperties, setLoadingProperties] = useState(false);
+  const navigate = useNavigate();
+
+  const itemsPerPage = 8;
+
+  const handleClickPage = (page: number) => {
+    setCurrentPage(page);
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -43,22 +52,30 @@ const Booking = () => {
       }
     }
     fetchUserData()
-  }, [bookings]);
+  }, []);
 
   useEffect(() => {
     const fetchBookingData = async () => {
       try {
-        const res = await getBooking(buyerId)
-        if (res?.data.success) {
-          const filteredBookings = res.data.data.filter((booking: Booking) => booking.paymentSuccess === true);
-          setBookings(filteredBookings);
+        setLoadingProperties(true);
+        if (buyerId.length) {
+          const res = await getBooking(buyerId, currentPage, itemsPerPage)
+          if (res?.data.success) {
+            const filteredBookings = res.data.booking.filter((booking: Booking) => booking.paymentSuccess === true);
+            setBookings(filteredBookings);
+            setTotalPages(Math.floor(res.data.length / itemsPerPage))
+          }
         }
       } catch (error) {
         console.log(error)
+      }finally{
+        setLoadingProperties(false)
       }
     }
     fetchBookingData()
-  })
+  }, [buyerId, currentPage])
+
+
 
   const formatDateAndCalculateDays = (startDateString: Date, endDateString: Date) => {
     const startDate = new Date(startDateString);
@@ -93,10 +110,10 @@ const Booking = () => {
     }
   }
 
-  const bookingDetails=async(bookingId:string)=>{
-    try{
+  const bookingDetails = async (bookingId: string) => {
+    try {
       navigate(`/bookingDetails/${bookingId}`)
-    }catch(error){
+    } catch (error) {
       console.log(error)
     }
   }
@@ -125,7 +142,7 @@ const Booking = () => {
                       <article className="relative flex flex-col overflow-hidden rounded-lg border" key={val.propertyId.id}>
                         <div className="aspect-square overflow-hidden">
                           <img
-                          onClick={()=>bookingDetails(val.id)}
+                            onClick={() => bookingDetails(val.id)}
                             className="h-full w-full object-cover transition-all duration-300 group-hover:scale-125"
                             src={val.propertyId.photos[0]}
                             alt=""
@@ -153,6 +170,43 @@ const Booking = () => {
                     );
                   })}
               </div>
+            </div>
+            <div className='flex justify-center m-20'>
+              <nav>
+                <ul className="inline-flex -space-x-px text-sm">
+                  <li>
+                    <a
+                      href='#'
+                      className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                      onClick={() => handleClickPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </a>
+                  </li>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <li key={page}>
+                      <a
+                        href="#"
+                        className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border ${page === currentPage ? 'border-blue-500' : 'border-gray-300'} hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+                        onClick={() => handleClickPage(page)}
+                      >
+                        {page}
+                      </a>
+                    </li>
+                  ))}
+                  <li>
+                    <a
+                      href="#"
+                      className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                      onClick={() => handleClickPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </section>
         </div>

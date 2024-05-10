@@ -182,15 +182,15 @@ export const newMessage = async (message: string, conversationId: string, seller
     }
 }
 
-export const newImageMessage=async(formData:FormData)=>{
-    try{
-        const res=await Api.post(BuyerEndpoint.buyerNewImageMessage,formData,{
+export const newImageMessage = async (formData: FormData) => {
+    try {
+        const res = await Api.post(BuyerEndpoint.buyerNewImageMessage, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }
         });
         return res
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
@@ -231,9 +231,10 @@ export const saveSession = async (sessionId: string, bookingId: string) => {
     }
 }
 
-export const getBooking = async (buyerId: string) => {
+export const getBooking = async (buyerId: string, page: number, limit: number) => {
     try {
-        const res = await Api.get(`/book/getBookings/${buyerId}`)
+        console.log('api',buyerId)
+        const res = await Api.get(`${BuyerEndpoint.buyerGetBookings}?buyerId=${buyerId}&page=${page}&limit=${limit}`)
         return res
     } catch (error) {
         console.log(error)
@@ -251,7 +252,7 @@ export const cancelBooking = async (bookingId: string) => {
 
 export const slotCheck = async (startDate: Date, endDate: Date, id: string) => {
     try {
-        console.log('api dt',startDate,endDate)
+        console.log('api dt', startDate, endDate)
         const res = await Api.post(BuyerEndpoint.buyerSlotCheck, { startDate, endDate, propertyId: id });
         return res
     } catch (error) {

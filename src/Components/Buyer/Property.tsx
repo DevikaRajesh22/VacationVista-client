@@ -76,7 +76,7 @@ const Property = () => {
       const res = await fetchProperties(searchTerm, sortOption, selectedCategory, currentPage, itemsPerPage);
       if (res?.data.success) {
         setProperties(res.data.properties);
-        setTotalPages(Math.ceil(res.data.totalProperties / itemsPerPage));
+        setTotalPages(Math.floor(res.data.totalProperties / itemsPerPage));
       }
     } catch (error) {
       console.log(error);
