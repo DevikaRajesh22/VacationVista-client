@@ -101,11 +101,13 @@ const Inbox = () => {
       e.preventDefault()
       let res;
       if (image && sellerId) {
+        console.log('send image')
         const formData = new FormData();
         formData.append('image', image)
         formData.append('conversationId', conversationId)
         formData.append('sellerId', sellerId)
         res = await newImageMessage(formData)
+        console.log('res',res)
         if (res) {
           const img = res.data.data.message
           socket?.current?.emit('sendImageMessage', {

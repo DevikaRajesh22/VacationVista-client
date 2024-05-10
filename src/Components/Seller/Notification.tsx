@@ -62,25 +62,28 @@ const Notification = () => {
                                     <h1 className="text-lg font-semibold text-gray-800">Notifications</h1>
                                 </div>
                                 <div className="divide-y divide-gray-300">
-                                    {notification.map((val) => (
-                                        <div className="px-4 py-3">
-                                            <div className="flex items-center justify-between">
-                                                <div className='flex items-center'>
-                                                    <img className='rounded-full w-10 h-10' src={val?.propertyId?.photos[0]} />
-                                                    <div className='ml-3'>
-                                                        <h2 className="text-sm font-semibold text-gray-800">
-                                                            {val?.propertyId?.title}
-                                                        </h2>
-                                                        <p className="text-xs text-gray-600">
-                                                            {val?.notification}
-                                                        </p>
+                                    {notification
+                                        .sort((a: Notification, b: Notification) => new Date(b.creationTime) - new Date(a.creationTime)) // Sort notifications by creationTime
+                                        .map((val) => (
+                                            <div className="px-4 py-3" key={val.id}> {/* Ensure each element has a unique key */}
+                                                <div className="flex items-center justify-between">
+                                                    <div className='flex items-center'>
+                                                        <img className='rounded-full w-10 h-10' src={val?.propertyId?.photos[0]} />
+                                                        <div className='ml-3'>
+                                                            <h2 className="text-sm font-semibold text-gray-800">
+                                                                {val?.propertyId?.title}
+                                                            </h2>
+                                                            <p className="text-xs text-gray-600">
+                                                                {val?.notification}
+                                                            </p>
+                                                        </div>
                                                     </div>
+                                                    <span className="text-xs text-gray-500">{formatDate(val?.creationTime)}</span>
                                                 </div>
-                                                <span className="text-xs text-gray-500">{formatDate(val?.creationTime)}</span>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))}
                                 </div>
+
                             </div>
                         </div>
                     </div>

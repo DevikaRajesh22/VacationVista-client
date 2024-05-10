@@ -221,8 +221,6 @@ const SingleProperty: React.FC = () => {
             e.preventDefault()
             if (buyerId) {
                 const res = await newMessage(message, conversationId, buyerId)
-                console.log('res', res)
-                console.log(sellerId, buyerId, message)
                 socket.current?.emit('sendMessage', {
                     senderId: buyerId,
                     receiverId: sellerId,
@@ -280,7 +278,6 @@ const SingleProperty: React.FC = () => {
             const end = new Date(endDate)
             if (id) {
                 const res = await slotCheck(start, end, id);
-                console.log('slot', res)
                 if (res?.data.success) {
                     if (buyerId) {
                         const res = await book(id, buyerId, startDate, endDate)
