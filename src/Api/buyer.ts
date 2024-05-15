@@ -195,6 +195,19 @@ export const newImageMessage = async (formData: FormData) => {
     }
 }
 
+export const newVideoMessage = async (formData: FormData) => {
+    try {
+        const res = await Api.post(BuyerEndpoint.buyerNewVideoMessage, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        });
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const book = async (id: string, buyerId: string, startDate: Date, endDate: Date) => {
     try {
         const res = await Api.post(BuyerEndpoint.buyerBook, { propertyId: id, buyerId: buyerId, startDate: startDate, endDate: endDate });
@@ -252,7 +265,6 @@ export const cancelBooking = async (bookingId: string) => {
 
 export const slotCheck = async (startDate: Date, endDate: Date, id: string) => {
     try {
-        console.log('api dt', startDate, endDate)
         const res = await Api.post(BuyerEndpoint.buyerSlotCheck, { startDate, endDate, propertyId: id });
         return res
     } catch (error) {

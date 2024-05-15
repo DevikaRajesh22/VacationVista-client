@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react"
 import { io, Socket } from 'socket.io-client'
 import { getSellerConversations } from '../../Api/seller'
 import ChatList from "./ChatList"
-import { getMessages, newMessage, newImageMessage } from "../../Api/buyer"
+import { getMessages, newMessage, newImageMessage, newVideoMessage } from "../../Api/buyer"
 
 let sellerId: string | undefined;
 
@@ -28,6 +28,7 @@ const Inbox = () => {
   const [conversationId, setConversationId] = useState('')
   const [receiver, setReceiver] = useState('')
   const [image, setImage] = useState<File | null>(null);
+  const [video, setVideo] = useState<File | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null)
   const socket = useRef<Socket | undefined>()
 
@@ -43,10 +44,8 @@ const Inbox = () => {
   }, [])
 
   useEffect(() => {
-    console.log('get img')
     socket.current = io('ws://localhost:3000');
     socket?.current?.on('getImageMessage', (data) => {
-      console.log('data', data)
       setArrivalMessage({
         senderId: data.senderId,
         message: data.text,
@@ -54,7 +53,19 @@ const Inbox = () => {
       } as Message);
     });
   }, [])
-  console.log('mes', arrivalMessage)
+
+  useEffect(() => {
+    socket.current = io('ws://localhost:3000');
+    socket?.current?.on('getVideoMessage', (data) => {
+      console.log('hi',data)
+      setArrivalMessage({
+        senderId: data.senderId,
+        message: data.text,
+        creationTime: data.createdAt
+      } as Message)
+    });
+  }, [])
+
 
   useEffect(() => {
     arrivalMessage &&
@@ -70,7 +81,7 @@ const Inbox = () => {
       sellerId = payloadObject.id;
       socket.current?.emit('addUser', sellerId);
     }
-  }, [])
+  },[])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,19 +112,34 @@ const Inbox = () => {
       e.preventDefault()
       let res;
       if (image && sellerId) {
-        console.log('send image')
         const formData = new FormData();
         formData.append('image', image)
         formData.append('conversationId', conversationId)
         formData.append('sellerId', sellerId)
         res = await newImageMessage(formData)
-        console.log('res',res)
         if (res) {
           const img = res.data.data.message
           socket?.current?.emit('sendImageMessage', {
             senderId: sellerId,
             receiverId: receiver,
             text: img,
+            createdAt: Date.now(),
+          })
+          setMessage('')
+          setMessages([...messages, res?.data.data])
+        }
+      } else if (video && sellerId) {
+        const formData = new FormData();
+        formData.append('video', video)
+        formData.append('conversationId', conversationId)
+        formData.append('sellerId', sellerId)
+        res = await newVideoMessage(formData)
+        if (res) {
+          const vid = res.data.data.message
+          socket?.current?.emit('sendVideoMessage', {
+            senderId: sellerId,
+            receiverId: receiver,
+            text: vid,
             createdAt: Date.now(),
           })
           setMessage('')
@@ -148,19 +174,41 @@ const Inbox = () => {
     return `${hours}:${minutes} ${amPM}`;
   }
 
-  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMedia = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
-      setImage(selectedFile)
+      const fileType = selectedFile.type;
+      if (fileType.startsWith('image/')) {
+        setImage(selectedFile);
+      } else if (fileType.startsWith('video/')) {
+        setVideo(selectedFile);
+      } else {
+        console.error('Unsupported file type');
+      }
     }
+  };
+
+
+  function isMediaUrl(url: string): 'image' | 'video' | 'unknown' {
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg'];
+    const videoExtensions = ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.mkv', '.webm'];
+    if (!url.startsWith("https://")) {
+      return 'unknown';
+    }
+    for (const ext of imageExtensions) {
+      if (url.endsWith(ext)) {
+        return 'image';
+      }
+    }
+    for (const ext of videoExtensions) {
+      if (url.endsWith(ext)) {
+        return 'video';
+      }
+    }
+    return 'unknown';
   }
 
-  function isImageUrl(url: string) {
-    if (url.startsWith("https://")) {
-      return true
-    }
-    return false;
-  }
+
 
 
   return (
@@ -208,12 +256,18 @@ const Inbox = () => {
                                   M
                                 </div>
                                 <div className="relative mr-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                                  {isImageUrl(message.message) ? (
-                                    <img src={message.message} alt="Sent Image" />
-                                  ) : (
-                                    <div>{message.message}</div>
-                                  )}
+                                  {(() => {
+                                    const mediaType = isMediaUrl(message.message);
+                                    if (mediaType === 'image') {
+                                      return <img src={message.message} alt="Sent Image" />;
+                                    } else if (mediaType === 'video') {
+                                      return <video src={message.message} controls />;
+                                    } else {
+                                      return <div>{message.message}</div>;
+                                    }
+                                  })()}
                                 </div>
+
                               </div>
                               <p className='text-xs text-gray-700 flex items-center justify-start flex-row-reverse mr-14'>{formatTime(message.creationTime)}</p>
                             </div>
@@ -225,11 +279,16 @@ const Inbox = () => {
                                     Y
                                   </div>
                                   <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                                    {isImageUrl(message.message) ? (
-                                      <img src={message.message} alt="Sent Image" />
-                                    ) : (
-                                      <div>{message.message}</div>
-                                    )}
+                                    {(() => {
+                                      const mediaType = isMediaUrl(message.message);
+                                      if (mediaType === 'image') {
+                                        return <img src={message.message} alt="Sent Image" />;
+                                      } else if (mediaType === 'video') {
+                                        return <video src={message.message} controls />;
+                                      } else {
+                                        return <div>{message.message}</div>;
+                                      }
+                                    })()}
                                   </div>
                                 </div>
                                 <p className='text-xs text-gray-700 ml-14'>{formatTime(message.creationTime)}</p>
@@ -247,7 +306,7 @@ const Inbox = () => {
                     type="file"
                     className="hidden"
                     id="fileInput"
-                    onChange={handleImage}
+                    onChange={handleMedia}
                   />
                   <label
                     className="flex items-center justify-center text-gray-400 hover:text-gray-600 cursor-pointer"

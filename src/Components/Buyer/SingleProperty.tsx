@@ -84,7 +84,7 @@ interface Message {
     senderId: string,
     message: string,
     conversationId: string,
-    creationTime: Date
+    creationTime: Date,
 }
 
 const SingleProperty: React.FC = () => {
@@ -166,6 +166,17 @@ const SingleProperty: React.FC = () => {
     }, [])
 
     useEffect(() => {
+        socket.current = io('ws://localhost:3000');
+        socket?.current?.on('getVideoMessage', (data) => {
+            setArrivalMessage({
+                senderId: data.senderId,
+                message: data.text,
+                creationTime: data.createdAt
+            } as Message)
+        });
+    }, [])
+
+    useEffect(() => {
         arrivalMessage &&
             setMessages(prev => [...prev, arrivalMessage] as Message[])
     }, [arrivalMessage])
@@ -179,7 +190,7 @@ const SingleProperty: React.FC = () => {
             buyerId = payloadObject.id;
             socket.current?.emit('addUser', buyerId);
         }
-    }, [])
+    },[])
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -308,11 +319,23 @@ const SingleProperty: React.FC = () => {
         return `${hours}:${minutes} ${amPM}`;
     }
 
-    function isImageUrl(url: string) {
-        if (url.startsWith("https://")) {
-            return true
+    function isMediaUrl(url: string): 'image' | 'video' | 'unknown' {
+        const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg'];
+        const videoExtensions = ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.mkv', '.webm'];
+        if (!url.startsWith("https://")) {
+            return 'unknown';
         }
-        return false;
+        for (const ext of imageExtensions) {
+            if (url.endsWith(ext)) {
+                return 'image';
+            }
+        }
+        for (const ext of videoExtensions) {
+            if (url.endsWith(ext)) {
+                return 'video';
+            }
+        }
+        return 'unknown';
     }
 
     return (
@@ -708,24 +731,34 @@ const SingleProperty: React.FC = () => {
                                 <>
                                     {message.senderId == buyerId ?
                                         <div className="mb-2 text-right" ref={index === messages.length - 1 ? scrollRef : null}>
-                                            {isImageUrl(message.message) ? (
-                                                <img src={message.message} alt="Sent Image" />
-                                            ) : (
-                                                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                                                    {message.message}
-                                                </p>
-                                            )}
+                                            {(() => {
+                                                const mediaType = isMediaUrl(message.message);
+                                                if (mediaType === 'image') {
+                                                    return <img src={message.message} alt="Sent Image" />;
+                                                } else if (mediaType === 'video') {
+                                                    return <video src={message.message} controls />;
+                                                } else {
+                                                    return <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
+                                                        {message.message}
+                                                    </p>
+                                                }
+                                            })()}
                                             <p className='text-xs text-gray-600'>{formatTime(message.creationTime)}</p>
                                         </div>
                                         :
                                         <div className="mb-2" ref={index === messages.length - 1 ? scrollRef : null}>
-                                            {isImageUrl(message.message) ? (
-                                                <img src={message.message} alt="Sent Image" />
-                                            ) : (
-                                                <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
-                                                    {message.message}
-                                                </p>
-                                            )}
+                                            {(() => {
+                                                const mediaType = isMediaUrl(message.message);
+                                                if (mediaType === 'image') {
+                                                    return <img src={message.message} alt="Sent Image" />;
+                                                } else if (mediaType === 'video') {
+                                                    return <video src={message.message} controls />;
+                                                } else {
+                                                    return <p className="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">
+                                                        {message.message}
+                                                    </p>
+                                                }
+                                            })()}
                                             <p className='text-xs text-gray-600'>{formatTime(message.creationTime)}</p>
                                         </div>
                                     }

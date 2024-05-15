@@ -29,7 +29,7 @@ const Navbar = () => {
   const dispatch = useDispatch()
   const socket = useRef<Socket | undefined>()
   const [notification, setNotification] = useState<Notification>();
-  const [expand,setExpand]=useState(false)
+  const [expand, setExpand] = useState(false)
   const [dropdownToggle, setDropdownToogle] = useState(false);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const Navbar = () => {
       sellerId = payloadObject.id;
       socket.current?.emit('addUser', sellerId);
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     if (notification) {
@@ -111,7 +111,7 @@ const Navbar = () => {
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
-            onClick={()=>setExpand(!expand)}
+            onClick={() => setExpand(!expand)}
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-sticky"
             aria-expanded="false"
@@ -135,9 +135,8 @@ const Navbar = () => {
           </button>
         </div>
         {sellerInfo && <div
-           className={`${
-            expand ? 'block' : 'hidden'
-          } items-center justify-between w-full md:flex md:w-auto md:order-1`}
+          className={`${expand ? 'block' : 'hidden'
+            } items-center justify-between w-full md:flex md:w-auto md:order-1`}
           id="navbar-sticky"
         >
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
