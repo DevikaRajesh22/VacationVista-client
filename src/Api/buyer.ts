@@ -208,7 +208,7 @@ export const newVideoMessage = async (formData: FormData) => {
     }
 }
 
-export const book = async (id: string, buyerId: string, startDate: Date, endDate: Date) => {
+export const book = async (id: string, buyerId: string, startDate: string, endDate: string) => {
     try {
         const res = await Api.post(BuyerEndpoint.buyerBook, { propertyId: id, buyerId: buyerId, startDate: startDate, endDate: endDate });
         return res

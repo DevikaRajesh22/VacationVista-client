@@ -1,5 +1,5 @@
-import { useState,useEffect } from 'react'
-import { DateRangePicker } from 'react-date-range';
+import { useState } from 'react'
+import { DateRangePicker, Range } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import './Calender.css'
@@ -12,25 +12,35 @@ interface CalendarProps {
     onDateChange: (newDate: { startDate: Date; endDate: Date }) => void;
 }
 
-const Calender:React.FC<CalendarProps> = ({ dateRange, onDateChange}) => {
+interface RangeSelection {
+    startDate: Date;
+    endDate: Date;
+}
 
-    const handleDateClick=(newDate:{startDate:Date,endDate:Date})=>{
+const Calender: React.FC<CalendarProps> = ({ dateRange, onDateChange }) => {
+
+    const handleDateClick = (newDate: RangeSelection) => {
         onDateChange(newDate)
     }
-    
-    const [openDate,setOpenDate]=useState(false)
-    const [date, setDate] = useState({
+
+    const [openDate, setOpenDate] = useState(false)
+    const [date, setDate] = useState<RangeSelection>({
         startDate: new Date(),
         endDate: new Date(),
-        key: 'selection',
     })
 
-    const handleChange=(ranges)=>{
-        setDate(ranges.selection)
-    }
+    const handleChange = (ranges: { [key: string]: Range }) => {
+        if (ranges.selection) {
+            const { startDate, endDate } = ranges.selection;
+            if (startDate && endDate) {
+                setDate({ startDate, endDate });
+                onDateChange({ startDate, endDate });
+            }
+        }
+    };
 
-    const handleClick=()=>{
-        setOpenDate((prev)=>!prev)
+    const handleClick = () => {
+        setOpenDate((prev) => !prev)
     }
 
     const formatDate = (date: Date): string => {
@@ -42,14 +52,14 @@ const Calender:React.FC<CalendarProps> = ({ dateRange, onDateChange}) => {
 
     return (
         <div className='container'>
-            <span onClick={()=>{
+            <span onClick={() => {
                 handleClick()
-                handleDateClick({startDate: date.startDate, endDate: date.endDate})
+                handleDateClick({ startDate: date.startDate, endDate: date.endDate })
             }} className='calender text-gray-800'>
                 Select Dates
             </span>
             {openDate && <DateRangePicker
-            className='dateRange'
+                className='dateRange'
                 ranges={[date]}
                 onChange={handleChange}
                 minDate={new Date()}

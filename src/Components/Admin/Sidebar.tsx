@@ -13,7 +13,7 @@ const SidebarWithLogo = () => {
   const [openSidebar, setOpenSidebar] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const sidebarRef = useRef(null);
+  const sidebarRef = useRef<HTMLDivElement>(null); 
 
   const handleLogout = async () => {
     try {
@@ -33,22 +33,17 @@ const SidebarWithLogo = () => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
         setOpenSidebar(false);
       }
     };
-
-    if (openSidebar) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [openSidebar]);
+  }, [sidebarRef]);
+
   return (
     <>
       <button

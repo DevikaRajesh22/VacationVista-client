@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { findUserById,getUser } from "../../Api/seller";
+import { findUserById, getUser } from "../../Api/seller";
 
 let sellerId: string | undefined;
 
@@ -11,22 +11,22 @@ interface RootState {
 }
 
 interface Props {
-    conversation: {members:[string],_id:string};
+    conversation: { members: [string], _id: string };
     handleClick(conversationId: string): void;
     setReceiver(id: string): void
 }
 
-interface User{
-    _id:string,
-    name:string,
-    image:string
+interface User {
+    _id: string,
+    name: string,
+    image: string
 }
 
 const ChatList = ({ conversation, handleClick, setReceiver }: Props) => {
-    const [user, setUser] = useState([]);
-    const [userId,setUserId]=useState('');
-    const [userInfo,setUserInfo]=useState<User>()
-    const sellerInfo  = useSelector((state:RootState)=>state.auth.sellerInfo)
+    const [user, setUser] = useState<User[]>([]);
+    const [userId, setUserId] = useState('');
+    const [userInfo, setUserInfo] = useState<User>()
+    const sellerInfo = useSelector((state: RootState) => state.auth.sellerInfo)
 
     useEffect(() => {
         const sellerData = localStorage.getItem('sellerInfo')
@@ -36,40 +36,41 @@ const ChatList = ({ conversation, handleClick, setReceiver }: Props) => {
             const payloadObject = JSON.parse(decodedPayload);
             sellerId = payloadObject.id;
         }
-    },[sellerInfo])
+    }, [sellerInfo])
 
-    
 
-    useEffect(()=>{
-        const filteredMember=conversation.members.filter((mem)=>mem!==sellerId)
-        const fetchData=async()=>{
-            const id=filteredMember.toString()
-            const res=await findUserById(id)
+
+    useEffect(() => {
+        const filteredMember = conversation.members.filter((mem) => mem !== sellerId)
+        const fetchData = async () => {
+            const id = filteredMember.toString()
+            const res = await findUserById(id)
             setUser(res?.data.data)
             setUserId(id)
         }
         fetchData()
-    },[])
+    }, [])
+    console.log(user)
 
-    const Conversation=(conversationId:string,userId:string)=>{
+    const Conversation = (conversationId: string, userId: string) => {
         setReceiver(userId)
         handleClick(conversationId)
     }
 
-    useEffect(()=>{
-        const fetchUserData=async()=>{
-            const user=await getUser(userId)
-           if(user?.data){
-            setUserInfo(user.data.data.data)
-           }
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const user = await getUser(userId)
+            if (user?.data) {
+                setUserInfo(user.data.data.data)
+            }
         }
         fetchUserData()
     })
 
     return (
         <div>
-            <button className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2" onClick={()=>Conversation(conversation._id,user._id)}>
-                <img src={userInfo?.image} className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full"/>
+            <button className="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2" onClick={() => Conversation(conversation._id, userId)}>
+                <img src={userInfo?.image} className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full" />
                 <div className="ml-2 text-sm font-semibold">{userInfo?.name}</div>
             </button>
         </div>

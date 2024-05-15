@@ -63,7 +63,7 @@ const Notification = () => {
                                 </div>
                                 <div className="divide-y divide-gray-300">
                                     {notification
-                                        .sort((a: Notification, b: Notification) => new Date(b.creationTime) - new Date(a.creationTime)) // Sort notifications by creationTime
+                                        .sort((a: Notification, b: Notification) => new Date(b.creationTime).getTime() - new Date(a.creationTime).getTime()) // Sort notifications by creationTime
                                         .map((val) => (
                                             <div className="px-4 py-3" key={val.id}> {/* Ensure each element has a unique key */}
                                                 <div className="flex items-center justify-between">

@@ -87,7 +87,7 @@ const BookingDetails = () => {
         <>
 
             <div className="bg-white border rounded-lg shadow-lg px-6 py-8 max-w-md mx-auto mt-8">
-                <img src={bookings?.propertyId?.photos[0]}/>
+                <img src={bookings?.propertyId?.photos[0]} />
                 <h1 className="font-bold text-2xl my-4 text-center text-blue-600">
                     {bookings?.propertyId?.title}
                 </h1>
@@ -95,8 +95,9 @@ const BookingDetails = () => {
                 <div className="flex justify-between mb-6">
                     <h1 className="text-lg font-bold">Invoice</h1>
                     <div className="text-gray-700">
-                        <div>Date: {formatDate(bookings?.bookingDate)}</div>
+                        <div>Date: {bookings?.bookingDate ? formatDate(bookings.bookingDate) : 'N/A'}</div>
                     </div>
+
                 </div>
                 <div className="mb-8">
                     <h2 className="text-lg font-bold mb-4">Billed To:</h2>
@@ -106,8 +107,8 @@ const BookingDetails = () => {
                 </div>
                 <div className="mb-8">
                     <h2 className="text-lg font-bold mb-4">Booking Details :</h2>
-                    <div className="text-gray-700 mb-2">Start Date : {formatDate(bookings?.startDate)}</div>
-                    <div className="text-gray-700 mb-2">End Date : {formatDate(bookings?.endDate)}</div>
+                    <div className="text-gray-700 mb-2">Start Date : {bookings?.startDate ? formatDate(bookings?.startDate) : 'N/A'}</div>
+                    <div className="text-gray-700 mb-2">End Date : {bookings?.endDate ? formatDate(bookings?.endDate) : 'N/A'}</div>
                 </div>
                 <table className="w-full mb-8">
                     <tfoot>

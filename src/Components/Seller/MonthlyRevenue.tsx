@@ -3,14 +3,14 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { getMonthlyRevenue } from '../../Api/seller';
 
 interface Revenue {
-    month: number,
+    month: string,
     totalRevenue: number
 }
 
 const MonthlyRevenue = () => {
-    const [revenueData, setRevenueData] = useState([]);
+    const [revenueData, setRevenueData] = useState<Revenue[]>([]);
 
-    const monthNames = [
+    const monthNames:string[] = [
         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
     ];
@@ -25,8 +25,8 @@ const MonthlyRevenue = () => {
         fetchMonthlyRevenue()
     }, [])
 
-    const defaultRevenueData = monthNames.map((month, index) => ({
-        month: index + 1,
+    const defaultRevenueData:Revenue[] = monthNames.map((index) => ({
+        month: (index + 1).toString(),
         totalRevenue: 0
     }));
 
@@ -36,7 +36,7 @@ const MonthlyRevenue = () => {
     });
 
     const monthlyData = combinedRevenueData.map((item) => ({
-        name: monthNames[item.month - 1],
+        name:monthNames[parseInt(item.month) - 1],
         revenue: item.totalRevenue
     }));
 

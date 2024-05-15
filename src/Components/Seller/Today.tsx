@@ -53,6 +53,7 @@ const Today = () => {
         }
         fetchPropertyData();
     });
+    console.log(properties)
 
     useEffect(() => {
         const fetchData = async () => {

@@ -48,6 +48,7 @@ const Reservations = () => {
         }
         fetchPropertyData();
     });
+    console.log(properties)
 
     useEffect(() => {
         const fetchBookingData = async () => {
