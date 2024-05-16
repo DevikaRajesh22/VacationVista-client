@@ -198,10 +198,10 @@ const Navbar = () => {
                   >
                     <ul className="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton" style={{ width: '120px' }}>
                       <li>
-                        <a href="/seller/reservations" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reservations</a>
+                        <Link to="/seller/reservations" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reservations</Link>
                       </li>
                       <li>
-                        <a href="/seller/review" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ratings</a>
+                        <Link to="/seller/review" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ratings</Link>
                       </li>
                       <li>
                         <Link to="/seller/newListing" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New listing</Link>
