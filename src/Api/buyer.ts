@@ -246,7 +246,6 @@ export const saveSession = async (sessionId: string, bookingId: string) => {
 
 export const getBooking = async (buyerId: string, page: number, limit: number) => {
     try {
-        console.log('api', buyerId)
         const res = await Api.get(`${BuyerEndpoint.buyerGetBookings}?buyerId=${buyerId}&page=${page}&limit=${limit}`)
         return res
     } catch (error) {
