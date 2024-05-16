@@ -136,8 +136,7 @@ const Booking = () => {
               <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
                 {bookings
                   .filter(val => val.paymentSuccess)
-                  .sort((a: Booking, b: Booking) => new Date(b.bookingDate).getTime() - new Date(a.bookingDate).getTime())
-                  .reverse()
+                  .sort((a: Booking, b: Booking) => new Date(b.bookingDate).getDate() - new Date(a.bookingDate).getDate())
                   .map(val => {
                     const { startDateFormatted, endDateFormatted, numberOfDays } = formatDateAndCalculateDays(val.startDate, val.endDate);
                     const total = (numberOfDays + 1) * val.propertyId.price;
