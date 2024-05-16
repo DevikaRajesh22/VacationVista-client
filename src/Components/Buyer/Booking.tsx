@@ -137,6 +137,7 @@ const Booking = () => {
                 {bookings
                   .filter(val => val.paymentSuccess)
                   .sort((a: Booking, b: Booking) => new Date(b.bookingDate).getDate() - new Date(a.bookingDate).getDate())
+                  .reverse()
                   .map(val => {
                     const { startDateFormatted, endDateFormatted, numberOfDays } = formatDateAndCalculateDays(val.startDate, val.endDate);
                     const total = (numberOfDays + 1) * val.propertyId.price;
