@@ -20,6 +20,7 @@ const MonthlyRevenue = () => {
             try {
                 const res = await getMonthlyRevenue();
                 if (res?.data.success) {
+                    console.log('Fetched data:', res.data.data);
                     setRevenueData(res.data.data);
                 } else {
                     console.error('Failed to fetch revenue data');
@@ -36,15 +37,22 @@ const MonthlyRevenue = () => {
         totalRevenue: 0
     }));
 
+    console.log('Default Revenue Data:', defaultRevenueData);
+    console.log('Fetched Revenue Data:', revenueData);
+
     const combinedRevenueData = defaultRevenueData.map(defaultMonth => {
         const found = revenueData.find((revenue: Revenue) => revenue.month === defaultMonth.month);
         return found || defaultMonth;
     });
 
+    console.log('Combined Revenue Data:', combinedRevenueData);
+
     const monthlyData = combinedRevenueData.map(item => ({
         name: monthNames[parseInt(item.month) - 1],
         revenue: item.totalRevenue
     }));
+
+    console.log('Monthly Data for Chart:', monthlyData);
 
     return (
         <BarChart width={800} height={300} data={monthlyData}>
