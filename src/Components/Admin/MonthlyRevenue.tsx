@@ -17,26 +17,26 @@ const MonthlyRevenue: React.FC = () => {
 
   useEffect(() => {
     const fetchMonthlyRevenue = async () => {
-      try {
-        const res = await getMonthlyRevenue();
-        if (res?.data.success) {
-          setRevenueData(res.data.data);
-        }
-      } catch (error) {
-        console.error('Error fetching monthly revenue:', error);
+      const res = await getMonthlyRevenue();
+      if (res?.data.success) {
+        setRevenueData(res.data.data);
       }
     };
     fetchMonthlyRevenue();
   }, []);
 
-  const defaultRevenueData: Revenue[] = monthNames.map((index) => ({
+  const defaultRevenueData: Revenue[] = monthNames.map((_, index) => ({
     month: (index + 1).toString(),
     totalRevenue: 0
   }));
 
-  const combinedRevenueData: Revenue[] = defaultRevenueData.map(defaultMonth => {
-    const found = revenueData.find(revenue => revenue.month === defaultMonth.month);
-    return found || defaultMonth;
+  const combinedRevenueData = defaultRevenueData.map(defaultMonth => {
+    const found = revenueData.find(revenue => parseInt(revenue.month) === parseInt(defaultMonth.month));
+    if (found) {
+      return { ...defaultMonth, totalRevenue: found.totalRevenue }
+    } else {
+      return defaultMonth;
+    }
   });
 
   const monthlyData = combinedRevenueData.map(item => ({
