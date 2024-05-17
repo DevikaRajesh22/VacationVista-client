@@ -17,15 +17,9 @@ const MonthlyRevenue = () => {
 
     useEffect(() => {
         const fetchMonthlyRevenue = async () => {
-            try {
-                const res = await getMonthlyRevenue();
-                if (res?.data.success) {
-                    setRevenueData(res.data.data);
-                } else {
-                    console.error('Failed to fetch revenue data');
-                }
-            } catch (error) {
-                console.error('Error fetching revenue data:', error);
+            const res = await getMonthlyRevenue();
+            if (res?.data.success) {
+                setRevenueData(res.data.data);
             }
         };
         fetchMonthlyRevenue();
