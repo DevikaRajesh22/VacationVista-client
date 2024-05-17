@@ -40,9 +40,13 @@ const MonthlyRevenue = () => {
     console.log('Default Revenue Data:', defaultRevenueData);
     console.log('Fetched Revenue Data:', revenueData);
 
+    // Combine the fetched data with the default data
     const combinedRevenueData = defaultRevenueData.map(defaultMonth => {
         const found = revenueData.find((revenue: Revenue) => revenue.month === defaultMonth.month);
-        return found || defaultMonth;
+        if (found) {
+            console.log(`Found match for month ${defaultMonth.month}:`, found);
+        }
+        return found ? found : defaultMonth;
     });
 
     console.log('Combined Revenue Data:', combinedRevenueData);
