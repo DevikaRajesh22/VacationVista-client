@@ -25,14 +25,18 @@ const MonthlySales = () => {
         fetchSalesData()
     }, []);
 
-    const defaultSalesData: Sale[] = monthNames.map((index) => ({
+    const defaultSalesData: Sale[] = monthNames.map((_, index) => ({
         month: (index + 1).toString(),
         totalSales: 0
     }));
 
     const combinedSalesData = defaultSalesData.map(defaultMonth => {
-        const found = salesData.find((sale: Sale) => parseInt(sale.month) === parseInt(defaultMonth.month));
-        return found || defaultMonth;
+        const found = salesData.find(sale => parseInt(sale.month) === parseInt(defaultMonth.month));
+        if (found) {
+            return { ...defaultMonth, totalSales: found.totalSales }
+        } else {
+            return defaultMonth;
+        }
     });
 
     const monthlyData = combinedSalesData.map((item) => ({
