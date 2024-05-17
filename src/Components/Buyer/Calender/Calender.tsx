@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DateRangePicker, Range } from 'react-date-range';
+import { DateRangePicker, RangeKeyDict } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import './Calender.css';
@@ -15,10 +15,10 @@ interface CalendarProps {
 const Calender: React.FC<CalendarProps> = ({ dateRange, onDateChange }) => {
     const [openDate, setOpenDate] = useState(false);
 
-    const handleChange = (ranges: { selection: Range }) => {
-        const { startDate, endDate } = ranges.selection;
-        if (startDate && endDate) {
-            onDateChange({ startDate: new Date(startDate), endDate: new Date(endDate) });
+    const handleChange = (ranges: RangeKeyDict) => {
+        const { selection } = ranges;
+        if (selection.startDate && selection.endDate) {
+            onDateChange({ startDate: new Date(selection.startDate), endDate: new Date(selection.endDate) });
         }
     };
 
