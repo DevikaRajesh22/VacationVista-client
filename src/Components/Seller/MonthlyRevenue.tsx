@@ -3,29 +3,35 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { getMonthlyRevenue } from '../../Api/seller';
 
 interface Revenue {
-    month: string,
-    totalRevenue: number
+    month: string;
+    totalRevenue: number;
 }
 
 const MonthlyRevenue = () => {
     const [revenueData, setRevenueData] = useState<Revenue[]>([]);
 
-    const monthNames:string[] = [
+    const monthNames: string[] = [
         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
     ];
 
     useEffect(() => {
         const fetchMonthlyRevenue = async () => {
-            const res = await getMonthlyRevenue()
-            if (res?.data.success) {
-                setRevenueData(res.data.data)
+            try {
+                const res = await getMonthlyRevenue();
+                if (res?.data.success) {
+                    setRevenueData(res.data.data);
+                } else {
+                    console.error('Failed to fetch revenue data');
+                }
+            } catch (error) {
+                console.error('Error fetching revenue data:', error);
             }
-        }
-        fetchMonthlyRevenue()
-    }, [])
+        };
+        fetchMonthlyRevenue();
+    }, []);
 
-    const defaultRevenueData:Revenue[] = monthNames.map((index) => ({
+    const defaultRevenueData: Revenue[] = monthNames.map((_, index) => ({
         month: (index + 1).toString(),
         totalRevenue: 0
     }));
@@ -35,8 +41,8 @@ const MonthlyRevenue = () => {
         return found || defaultMonth;
     });
 
-    const monthlyData = combinedRevenueData.map((item) => ({
-        name:monthNames[parseInt(item.month) - 1],
+    const monthlyData = combinedRevenueData.map(item => ({
+        name: monthNames[parseInt(item.month) - 1],
         revenue: item.totalRevenue
     }));
 
@@ -48,7 +54,7 @@ const MonthlyRevenue = () => {
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <Bar dataKey="revenue" fill="#8884d8" barSize={30} />
         </BarChart>
-    )
-}
+    );
+};
 
-export default MonthlyRevenue
+export default MonthlyRevenue;
