@@ -60,7 +60,6 @@ const Booking = () => {
           const res = await getBooking(buyerId, currentPage, itemsPerPage)
           if (res?.data.success) {
             const filteredBookings = res.data.booking.filter((booking: Booking) => booking.paymentSuccess === true);
-            console.log(filteredBookings)
             setBookings(filteredBookings);
             setTotalPages(Math.floor(res.data.length / itemsPerPage))
           }

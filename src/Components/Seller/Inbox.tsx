@@ -33,7 +33,7 @@ const Inbox = () => {
   const socket = useRef<Socket | undefined>()
 
   useEffect(() => {
-    socket.current = io('wss://vacationvista.cloud');
+    socket.current = io('https://www.vacationvista.cloud');
     socket?.current?.on('getMessage', (data) => {
       setArrivalMessage({
         senderId: data.senderId,
@@ -44,7 +44,7 @@ const Inbox = () => {
   }, [])
 
   useEffect(() => {
-    socket.current = io('wss://vacationvista.cloud');
+    socket.current = io('https://www.vacationvista.cloud');
     socket?.current?.on('getImageMessage', (data) => {
       setArrivalMessage({
         senderId: data.senderId,
@@ -55,7 +55,7 @@ const Inbox = () => {
   }, [])
 
   useEffect(() => {
-    socket.current = io('wss://vacationvista.cloud');
+    socket.current = io('https://www.vacationvista.cloud');
     socket?.current?.on('getVideoMessage', (data) => {
       setArrivalMessage({
         senderId: data.senderId,

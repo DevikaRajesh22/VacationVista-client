@@ -144,7 +144,7 @@ const SingleProperty: React.FC = () => {
     }, [id])
 
     useEffect(() => {
-        socket.current = io('wss://vacationvista.cloud');
+        socket.current = io('https://www.vacationvista.cloud');
         socket?.current?.on('getMessage', (data) => {
             setArrivalMessage({
                 senderId: data.senderId,
@@ -155,7 +155,7 @@ const SingleProperty: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        socket.current = io('wss://vacationvista.cloud');
+        socket.current = io('https://www.vacationvista.cloud');
         socket?.current?.on('getImageMessage', (data) => {
             setArrivalMessage({
                 senderId: data.senderId,
@@ -166,7 +166,7 @@ const SingleProperty: React.FC = () => {
     }, [])
 
     useEffect(() => {
-        socket.current = io('wss://vacationvista.cloud');
+        socket.current = io('https://www.vacationvista.cloud');
         socket?.current?.on('getVideoMessage', (data) => {
             setArrivalMessage({
                 senderId: data.senderId,
