@@ -30,7 +30,6 @@ const buyerRoute = () => {
       <Route path='about' element={<AboutPage />} />
       <Route path='contact' element={<ContactPage />} />
       <Route path='property' element={<PropertyPage />} />
-      <Route path='singleProperty/:id' element={<SinglePropertyPage />} />
       <Route path="" element={<BuyerLoggedOut />}>
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
@@ -42,6 +41,7 @@ const buyerRoute = () => {
       <Route path="" element={<BuyerLoggedIn />}>
         <Route path='profile' element={<Profile />} />
         <Route path="editProfile" element={<EditProfile />} />
+        <Route path='singleProperty/:id' element={<SinglePropertyPage />} />
         <Route path='checkout/:id' element={<CheckoutPage />} />
         <Route path='paymentSuccess' element={<PaymentSuccess />} />
         <Route path='paymentFail' element={<PaymentFail />} />
