@@ -67,7 +67,7 @@ const Property = () => {
   }, [])
 
   useEffect(() => {
-    const debouncedFetchData = debounce(fetchData, 300); // Adjust debounce delay as needed
+    const debouncedFetchData = debounce(fetchData, 2000);
     debouncedFetchData();
   }, [searchTerm, sortOption, selectedCategory, currentPage]);
 
