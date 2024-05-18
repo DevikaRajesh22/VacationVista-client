@@ -67,13 +67,20 @@ const Property = () => {
   }, [])
 
   useEffect(() => {
-    fetchData();
+    const debouncedFetchData = debounce(fetchData, 300); // Adjust debounce delay as needed
+    debouncedFetchData();
   }, [searchTerm, sortOption, selectedCategory, currentPage]);
 
   const fetchData = async () => {
     try {
       setLoadingProperties(true);
-      const res = await fetchProperties(searchTerm, sortOption, selectedCategory, currentPage, itemsPerPage);
+      const res = await fetchProperties(
+        searchTerm,
+        sortOption,
+        selectedCategory,
+        currentPage,
+        itemsPerPage
+      );
       if (res?.data.success) {
         setProperties(res.data.properties);
         setTotalPages(Math.floor(res.data.totalProperties / itemsPerPage));
@@ -81,7 +88,7 @@ const Property = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoadingProperties(false)
+      setLoadingProperties(false);
     }
   };
 
@@ -96,6 +103,22 @@ const Property = () => {
   const handleClickPage = (page: number) => {
     setCurrentPage(page);
   };
+
+  const debounce = <T extends (...args: unknown[]) => void>(
+    func: T,
+    delay: number
+  ): ((...args: Parameters<T>) => void) => {
+    let timer: ReturnType<typeof setTimeout> | null = null;
+  
+    return (...args: Parameters<T>) => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        func(...args);
+        timer = null;
+      }, delay);
+    };
+  };
+  
 
   return (
     <section className="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
