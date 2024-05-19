@@ -50,7 +50,7 @@ const Login = () => {
         >
           <div className="w-72">
             {/* <!-- Heading --> */}
-            <Link to='/' className='text-xl font-bold text-blue-900'>VACATION VISTA</Link>
+            <Link to='/' className='text-xl font-bold text-blue-900'>VACATION VISTA</Link><br></br>
             <small className="text-gray-400">
               Welcome back! Please enter your details
             </small>
