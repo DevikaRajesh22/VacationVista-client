@@ -17,7 +17,7 @@ Vacation Vista is an online platform that connects travelers with property owner
 
 ## Getting Started
 
-To get started with Vacation Vista, simply visit our website at [vacationvistaclient.vercel.app](vacationvistaclient.vercel.app). Sign up for an account to start browsing properties, messaging owners, and booking your next vacation!
+To get started with Vacation Vista, simply visit our website at [vacationvistaclient.vercel.app](https://vacationvistaclient.vercel.app/). Sign up for an account to start browsing properties, messaging owners, and booking your next vacation!
 
 ## Contributing
 
