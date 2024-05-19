@@ -8,7 +8,7 @@ const RequestPage = () => {
         <SidebarWithLogo />
       </div>
       <div className="mt-20">
-        <Request/>
+        <Request />
       </div>
     </div>
   )

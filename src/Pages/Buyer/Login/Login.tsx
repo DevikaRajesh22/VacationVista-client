@@ -54,7 +54,6 @@ const Login = () => {
             <small className="text-gray-400">
               Welcome back! Please enter your details
             </small>
-
             {/* <!-- Form --> */}
             <form className="mt-4" onSubmit={handleSubmit}>
               <div className="mb-3">
@@ -69,7 +68,6 @@ const Login = () => {
                   className="block w-full rounded-md border border-gray-300 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700 py-1 px-1.5 text-gray-900"
                 />
               </div>
-
               <div className="mb-3">
                 <label className="mb-2 block text-xs font-semibold">
                   Password
@@ -92,7 +90,6 @@ const Login = () => {
                 <GoogleAuthSignUp buyerLogin={true} buyer={true} />
               </div>
             </form>
-
             {/* <!-- Footer --> */}
             <div className="text-center">
               <span className="text-xs text-gray-400 font-semibold">

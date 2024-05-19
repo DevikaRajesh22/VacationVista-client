@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {property} from '../../Api/admin'
+import { property } from '../../Api/admin'
 
 interface Property {
   id: string,
@@ -14,19 +14,19 @@ interface Property {
 const Trend = () => {
   const [properties, setProperties] = useState<Property[]>([]);
 
-  useEffect(()=>{
-    const fetchPropertyData=async()=>{
-      try{
+  useEffect(() => {
+    const fetchPropertyData = async () => {
+      try {
         const res = await property()
         if (res?.data.success) {
           setProperties(res.data.getProperty)
         }
-      }catch(error){
+      } catch (error) {
         console.log(error)
       }
     }
     fetchPropertyData()
-  },[]);
+  }, []);
   console.log(properties)
 
   return (

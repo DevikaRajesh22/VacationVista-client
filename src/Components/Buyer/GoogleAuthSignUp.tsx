@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { gsignup,login } from "../../Api/buyer";
+import { gsignup, login } from "../../Api/buyer";
 import { setCredentials } from "../../Store/slice/authSlice";
 
 interface googleAuthProps {
@@ -11,10 +11,10 @@ interface googleAuthProps {
   buyer: boolean;
 }
 
-interface decodeJWT{
-    name:string,
-    email:string,
-    password:string
+interface decodeJWT {
+  name: string,
+  email: string,
+  password: string
 }
 
 const GoogleAuthSignUp = ({ buyerLogin, buyer }: googleAuthProps) => {
@@ -41,8 +41,7 @@ const GoogleAuthSignUp = ({ buyerLogin, buyer }: googleAuthProps) => {
           navigate("/login");
         }
       } else {
-        const res=await login(data.email,data.password)
-        console.log('1',res)
+        const res = await login(data.email, data.password)
         if (!res?.data.success) {
           toast.error("User not found. Please sign up");
           navigate("/signup");
@@ -56,20 +55,20 @@ const GoogleAuthSignUp = ({ buyerLogin, buyer }: googleAuthProps) => {
       //seller login and signup
     }
   };
-  return(
+  return (
     <>
-    <div className="flex justify-center">
-  <div style={{ width: "350px" }}> {/* Adjust width as needed */}
-    <GoogleLogin
-      onSuccess={(credentialsResponse) => {
-        gSignUp(credentialsResponse);
-      }}
-      onError={() => {
-        console.log("login failed");
-      }}
-    />
-  </div>
-</div>
+      <div className="flex justify-center">
+        <div style={{ width: "350px" }}> {/* Adjust width as needed */}
+          <GoogleLogin
+            onSuccess={(credentialsResponse) => {
+              gSignUp(credentialsResponse);
+            }}
+            onError={() => {
+              console.log("login failed");
+            }}
+          />
+        </div>
+      </div>
     </>
   )
 };

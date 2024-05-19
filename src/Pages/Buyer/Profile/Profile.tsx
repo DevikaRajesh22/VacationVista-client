@@ -4,8 +4,8 @@ import BuyerProfile from '../../../Components/Buyer/Profile'
 const Profile = () => {
   return (
     <div className="pt-20">
-        <Navbar/>
-        <BuyerProfile/>
+      <Navbar />
+      <BuyerProfile />
     </div>
   )
 }

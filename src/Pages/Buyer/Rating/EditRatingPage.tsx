@@ -4,9 +4,9 @@ import EditRating from '../../../Components/Buyer/EditRating'
 const EditRatingPage = () => {
   return (
     <div className="pt-20">
-            <Navbar />
-            <EditRating />
-        </div>
+      <Navbar />
+      <EditRating />
+    </div>
   )
 }
 

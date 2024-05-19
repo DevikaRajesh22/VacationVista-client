@@ -4,8 +4,8 @@ import Listing from '../../../Components/Seller/Listing';
 const ListingPage = () => {
   return (
     <div>
-      <Navbar/>
-      <Listing/>
+      <Navbar />
+      <Listing />
     </div>
   )
 }

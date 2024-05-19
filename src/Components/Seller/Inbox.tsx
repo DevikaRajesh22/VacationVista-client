@@ -80,7 +80,7 @@ const Inbox = () => {
       sellerId = payloadObject.id;
       socket.current?.emit('addUser', sellerId);
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {

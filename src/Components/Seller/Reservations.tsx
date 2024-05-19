@@ -30,7 +30,6 @@ interface Booking {
 }
 
 const Reservations = () => {
-    const [properties, setProperties] = useState<Property[]>([]);
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [sellerId, setSellerId] = useState('')
 
@@ -39,7 +38,6 @@ const Reservations = () => {
             try {
                 const res = await sellerList()
                 if (res?.data.success) {
-                    setProperties(res.data.getProperty)
                     setSellerId(res.data.getProperty[0].sellerId)
                 }
             } catch (error) {
@@ -48,7 +46,6 @@ const Reservations = () => {
         }
         fetchPropertyData();
     });
-    console.log(properties)
 
     useEffect(() => {
         const fetchBookingData = async () => {

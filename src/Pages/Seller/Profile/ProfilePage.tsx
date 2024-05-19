@@ -4,8 +4,8 @@ import Profile from '../../../Components/Seller/Profile';
 const ProfilePage = () => {
   return (
     <div>
-      <Navbar/>
-      <Profile/>
+      <Navbar />
+      <Profile />
     </div>
   )
 }

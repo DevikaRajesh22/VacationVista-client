@@ -190,7 +190,7 @@ const SingleProperty: React.FC = () => {
             buyerId = payloadObject.id;
             socket.current?.emit('addUser', buyerId);
         }
-    },[])
+    }, [])
 
     useEffect(() => {
         const fetchMessages = async () => {

@@ -1,17 +1,17 @@
 import { useSelector } from "react-redux"
 import { Navigate, Outlet } from "react-router-dom";
 
-interface RootState{
-    auth:{
-        adminInfo : string
+interface RootState {
+    auth: {
+        adminInfo: string
     }
 }
 
-const AdminLoggedIn = ()=>{
+const AdminLoggedIn = () => {
 
-    const {adminInfo} = useSelector((state:RootState)=>state.auth);
+    const { adminInfo } = useSelector((state: RootState) => state.auth);
     return (
-        adminInfo ? <Outlet/> : < Navigate to='/admin/login' />
+        adminInfo ? <Outlet /> : < Navigate to='/admin/login' />
     )
 }
 

@@ -1,48 +1,48 @@
 import userimg from '../../assets/userimg.png'
-import { useState,useEffect } from 'react';
-import {users} from '../../Api/admin'
+import { useState, useEffect } from 'react';
+import { users } from '../../Api/admin'
 import { blockUser } from '../../Api/admin';
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import {logout} from '../../Store/slice/authSlice'
+import { logout } from '../../Store/slice/authSlice'
 
-interface User{
-  id:string,
-  name:string,
-  email:string,
-  isBlocked:boolean,
-  image:string,
-  phone:string,
+interface User {
+  id: string,
+  name: string,
+  email: string,
+  isBlocked: boolean,
+  image: string,
+  phone: string,
 }
 
 const User = () => {
-  const[user,setUser]=useState<User[]>([])
-  const [block,setBlock]=useState(false)
+  const [user, setUser] = useState<User[]>([])
+  const [block, setBlock] = useState(false)
   const dispatch = useDispatch()
 
-  useEffect(()=>{
-    const fetchUserData=async()=>{
-      try{
-        const res=await users()
-        if(res?.data.success){
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await users()
+        if (res?.data.success) {
           setUser(res.data.getUser)
         }
-      }catch(error){
+      } catch (error) {
         console.log(error)
       }
     }
     fetchUserData()
-  },[block])
+  }, [block])
 
-  const handleBlock=async(id:string)=>{
-    try{
-      const res=await blockUser(id)
-      if(res?.data.success){
+  const handleBlock = async (id: string) => {
+    try {
+      const res = await blockUser(id)
+      if (res?.data.success) {
         dispatch(logout())
         setBlock(!block)
         toast.success('Succcessfully changed access...')
       }
-    }catch(error){
+    } catch (error) {
       console.log(error)
     }
   }
@@ -62,40 +62,40 @@ const User = () => {
               </th>
             </tr>
           </thead>
-          <tbody>{user.map((val)=>{
-            return(
+          <tbody>{user.map((val) => {
+            return (
               <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th
-                scope="row"
-                className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                <img
-                  className="w-10 h-10 rounded-full"
-                  src={val.image?val.image:userimg}
-                  alt="Jese image"
-                />
-              </th>
-              <td className="px-6 py-4">
-                <div className="ps-3">
-                  <div className="text-base text-black font-semibold">
-                   {val.name}
+                <th
+                  scope="row"
+                  className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  <img
+                    className="w-10 h-10 rounded-full"
+                    src={val.image ? val.image : userimg}
+                    alt="Jese image"
+                  />
+                </th>
+                <td className="px-6 py-4">
+                  <div className="ps-3">
+                    <div className="text-base text-black font-semibold">
+                      {val.name}
+                    </div>
+                    <div className="font-normal text-gray-600">
+                      {val.email}
+                    </div>
+                    <div className="font-normal text-gray-600">
+                      {val.phone}
+                    </div>
                   </div>
-                  <div className="font-normal text-gray-600">
-                   {val.email}
+                </td>
+                <td className="px-6 py-4">
+                  <div className="flex space-x-4">
+                    <button className="text-sm px-3 py-1 rounded-md bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:bg-red-600 " onClick={() => handleBlock(val.id)}>
+                      {val.isBlocked ? 'Unblock' : 'Block'}
+                    </button>
                   </div>
-                  <div className="font-normal text-gray-600">
-                   {val.phone}
-                  </div>
-                </div>
-              </td>
-              <td className="px-6 py-4">
-                <div className="flex space-x-4">
-                  <button className="text-sm px-3 py-1 rounded-md bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:bg-red-600 " onClick={()=>handleBlock(val.id)}>
-                  {val.isBlocked ? 'Unblock': 'Block'}
-                  </button>
-                </div>
-              </td>
-            </tr>
+                </td>
+              </tr>
             )
           })}
           </tbody>

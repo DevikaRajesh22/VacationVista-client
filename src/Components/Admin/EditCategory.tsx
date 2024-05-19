@@ -21,7 +21,7 @@ const EditCategory = () => {
             }
         }
         fetchCategory()
-    },[id])
+    }, [id])
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()

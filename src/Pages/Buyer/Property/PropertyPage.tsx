@@ -4,8 +4,8 @@ import Property from '../../../Components/Buyer/Property'
 const PropertyPage = () => {
   return (
     <div className="pt-20">
-        <Navbar/>
-        <Property/>
+      <Navbar />
+      <Property />
     </div>
   )
 }

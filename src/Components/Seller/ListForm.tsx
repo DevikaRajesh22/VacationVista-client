@@ -51,7 +51,7 @@ const ListForm = () => {
     const [safeties, setSafeties] = useState<Safety[]>([]);
     const [image, setImage] = useState<File[]>([]);
 
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
 
     const [categories, setCategories] = useState<Category[]>([])
@@ -105,27 +105,27 @@ const ListForm = () => {
         setSafeties(updatedSafeties)
     }
 
-    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         try {
             e.preventDefault()
-            if(title.trim().length<3){
+            if (title.trim().length < 3) {
                 toast.error('Title should have more than 3 characters !!');
                 return;
-            }else if(address.trim().length<5){
+            } else if (address.trim().length < 5) {
                 toast.error('Please enter valid address !!!');
                 return;
             }
-            const formData=new FormData()
-            formData.append('title',title)
-            formData.append('description',description)
-            formData.append('price',price.toString())
-            formData.append('address',address)
-            formData.append('category',categoryForm)
-            formData.append('type',type)
-            formData.append('guest',guest.toString())
-            formData.append('bedroom',bedroom.toString())
-            formData.append('bathroom',bathroom.toString())
-            formData.append('bed',bed.toString())
+            const formData = new FormData()
+            formData.append('title', title)
+            formData.append('description', description)
+            formData.append('price', price.toString())
+            formData.append('address', address)
+            formData.append('category', categoryForm)
+            formData.append('type', type)
+            formData.append('guest', guest.toString())
+            formData.append('bedroom', bedroom.toString())
+            formData.append('bathroom', bathroom.toString())
+            formData.append('bed', bed.toString())
             amenities.forEach((amenity, index) => {
                 formData.append(`amenities[${index}]`, JSON.stringify(amenity));
             });
@@ -135,11 +135,11 @@ const ListForm = () => {
             image.forEach((file) => {
                 formData.append(`image`, file);
             });
-            const res=await createProperty(formData);
-            if(res?.data.success){
+            const res = await createProperty(formData);
+            if (res?.data.success) {
                 toast.success('Successfully added...')
                 navigate('/seller/dashboard')
-            }else{
+            } else {
                 toast.error('Something went wrong...')
             }
         } catch (error) {

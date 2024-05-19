@@ -3,10 +3,10 @@ import ListForm from '../../../Components/Seller/ListForm'
 
 const NewList = () => {
   return (
-   <div>
-    <Navbar/>
-    <ListForm/>
-   </div>
+    <div>
+      <Navbar />
+      <ListForm />
+    </div>
   )
 }
 

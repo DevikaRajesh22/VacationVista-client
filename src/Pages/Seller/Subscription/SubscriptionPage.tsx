@@ -6,7 +6,7 @@ const SubscriptionPage = () => {
         <div>
             <Navbar />
             <div className='mt-10'>
-            <Subscription />
+                <Subscription />
             </div>
         </div>
     )

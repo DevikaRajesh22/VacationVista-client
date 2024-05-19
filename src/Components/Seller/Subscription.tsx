@@ -22,7 +22,7 @@ interface Seller {
 const Subscription = () => {
     const [seller, setSeller] = useState<Seller>();
     const [sellerId, setSellerId] = useState('');
-    const [subs,setSubs]=useState(false);
+    const [subs, setSubs] = useState(false);
 
     useEffect(() => {
         const fetchSellerData = async () => {
@@ -54,10 +54,10 @@ const Subscription = () => {
 
     const handleCancel = async () => {
         const res = await cancelSubscription(sellerId)
-        if(res?.data.success){
+        if (res?.data.success) {
             setSubs(!subs)
             toast.success('Subscription cancelled..')
-        }else if(!res?.data.success){
+        } else if (!res?.data.success) {
             toast.error('Something went wrong..')
         }
     }

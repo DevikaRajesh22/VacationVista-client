@@ -1,18 +1,18 @@
-.container{
-    
+.container {
+
     justify-content: center;
     align-items: center;
     height: 100px;
     position: relative;
 }
 
-.calender{
+.calender {
     padding: 20px;
     border: 2px solid gray;
     cursor: pointer;
 }
 
-.dateRange{
+.dateRange {
     margin-top: 20px;
     margin-bottom: 30px;
     top: 120px;

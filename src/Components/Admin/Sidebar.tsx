@@ -13,7 +13,7 @@ const SidebarWithLogo = () => {
   const [openSidebar, setOpenSidebar] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const sidebarRef = useRef<HTMLDivElement>(null); 
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = async () => {
     try {
@@ -72,13 +72,12 @@ const SidebarWithLogo = () => {
       <aside
         id="logo-sidebar"
         ref={sidebarRef}
-        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${
-          openSidebar ? '' : '-translate-x-full sm:translate-x-0'
-        }`}
+        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform ${openSidebar ? '' : '-translate-x-full sm:translate-x-0'
+          }`}
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-blue-900 dark:bg-gray-800">
-        <button
+          <button
             onClick={handleCloseSidebar}
             className="absolute top-2 right-2 p-1 text-gray-500 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-200 dark:focus:bg-gray-700"
           >

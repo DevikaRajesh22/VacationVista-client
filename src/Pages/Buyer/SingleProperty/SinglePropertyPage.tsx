@@ -4,8 +4,8 @@ import SingleProperty from "../../../Components/Buyer/SingleProperty"
 const SinglePropertyPage = () => {
   return (
     <div className="pt-20">
-        <Navbar/>
-        <SingleProperty/>
+      <Navbar />
+      <SingleProperty />
     </div>
   )
 }

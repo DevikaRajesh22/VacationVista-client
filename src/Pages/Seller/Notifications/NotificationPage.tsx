@@ -6,7 +6,7 @@ const NotificationPage = () => {
         <div>
             <Navbar />
             <div className='mt-10'>
-            <Notification />
+                <Notification />
             </div>
         </div>
     )

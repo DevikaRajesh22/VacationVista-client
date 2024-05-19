@@ -4,8 +4,8 @@ import EditBuyerProfile from "../../../Components/Buyer/EditBuyerProfile"
 const EditProfile = () => {
   return (
     <div className="pt-20">
-        <Navbar/>
-        <EditBuyerProfile/>
+      <Navbar />
+      <EditBuyerProfile />
     </div>
   )
 }

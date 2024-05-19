@@ -109,7 +109,7 @@ const Property = () => {
     delay: number
   ): ((...args: Parameters<T>) => void) => {
     let timer: ReturnType<typeof setTimeout> | null = null;
-  
+
     return (...args: Parameters<T>) => {
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
@@ -118,7 +118,7 @@ const Property = () => {
       }, delay);
     };
   };
-  
+
 
   return (
     <section className="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">

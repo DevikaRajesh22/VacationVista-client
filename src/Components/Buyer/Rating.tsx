@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { rate } from '../../Api/buyer'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 let buyerId: string | undefined;
 
@@ -12,7 +12,7 @@ const Rating = () => {
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState('');
     const { bookingId } = useParams()
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const buyerData = localStorage.getItem('buyerInfo');

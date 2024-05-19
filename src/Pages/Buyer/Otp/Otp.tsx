@@ -5,7 +5,6 @@ import { verifyOtp, otpResend } from "../../../Api/buyer";
 import { setCredentials } from "../../../Store/slice/authSlice";
 import { useDispatch } from "react-redux";
 import { verifyOtpForgotPassword } from "../../../Api/buyer";
-// import { useParams } from "react-router-dom";
 
 interface forgotPassword {
   buyer: boolean
@@ -17,7 +16,6 @@ const Otp = ({ buyer }: forgotPassword) => {
   const [resendOtp, setResendOtp] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { email } = useParams()
 
 
   useEffect(() => {

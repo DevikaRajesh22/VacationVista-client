@@ -14,7 +14,6 @@ const Signup = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('handle submit seller')
         try {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (name.trim().length < 4) {
@@ -31,7 +30,6 @@ const Signup = () => {
                 return;
             }
             const res = await signup(name, email, password);
-            console.log('hi',res)
             if (res?.data.success) {
                 navigate("/seller/otp");
             } else if (!res?.data.success) {

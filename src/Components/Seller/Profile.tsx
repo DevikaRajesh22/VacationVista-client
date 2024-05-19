@@ -16,7 +16,7 @@ interface Seller {
   phone: string,
   govtId: string,
   creationTime: Date,
-  isVerified:boolean
+  isVerified: boolean
 }
 
 const Profile = () => {
@@ -62,10 +62,10 @@ const Profile = () => {
             alt="Bonnie image"
           />
           <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-            {seller?.name} { seller?.isVerified && <span><FontAwesomeIcon icon={faCheckCircle} style={{ color: 'blue', marginRight: '5px' }} /></span>}
+            {seller?.name} {seller?.isVerified && <span><FontAwesomeIcon icon={faCheckCircle} style={{ color: 'blue', marginRight: '5px' }} /></span>}
           </h5>
           <span className="text-sm text-gray-500 dark:text-gray-400">
-           Email :  {seller?.email}
+            Email :  {seller?.email}
           </span>
           {
             seller?.phone &&

@@ -4,8 +4,8 @@ import EditProperty from '../../../Components/Seller/EditProperty'
 const EditPropertyPage = () => {
   return (
     <div>
-      <Navbar/>
-      <EditProperty/>
+      <Navbar />
+      <EditProperty />
     </div>
   )
 }

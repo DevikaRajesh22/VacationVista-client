@@ -14,7 +14,7 @@ const buyerRoutes = {
     buyerGetMessages: '/chat/getMessages',
     buyerNewMessage: '/chat/newMessage',
     buyerNewImageMessage: '/chat/newImageMessage',
-    buyerNewVideoMessage:'/chat/newVideoMessage',
+    buyerNewVideoMessage: '/chat/newVideoMessage',
     buyerBook: '/book/newBooking',
     buyerGetCheckout: '/book/getCheckout',
     buyerProceedForPayment: '/book/proceedForPayment',

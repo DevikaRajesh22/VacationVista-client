@@ -46,20 +46,20 @@ const Carousel = () => {
                 Start your journey with us...
               </p>
               <Link to='/property'>
-              <button
-                style={{
-                  backgroundColor: "#007FFF",
-                  color: "white",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  letterSpacing: "1px",
-                  padding: "10px 15px",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
-              >
-                Learn More
-              </button>
+                <button
+                  style={{
+                    backgroundColor: "#007FFF",
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    letterSpacing: "1px",
+                    padding: "10px 15px",
+                    border: "none",
+                    borderRadius: "5px",
+                  }}
+                >
+                  Learn More
+                </button>
               </Link>
             </div>
           </div>
@@ -84,20 +84,20 @@ const Carousel = () => {
                 Start your journey with us...
               </p>
               <Link to='/property'>
-              <button
-                style={{
-                  backgroundColor: "#007FFF",
-                  color: "white",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  letterSpacing: "1px",
-                  padding: "10px 15px",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
-              >
-                Learn More
-              </button>
+                <button
+                  style={{
+                    backgroundColor: "#007FFF",
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    letterSpacing: "1px",
+                    padding: "10px 15px",
+                    border: "none",
+                    borderRadius: "5px",
+                  }}
+                >
+                  Learn More
+                </button>
               </Link>
             </div>
           </div>
@@ -122,20 +122,20 @@ const Carousel = () => {
                 Start your journey with us...
               </p>
               <Link to='/property'>
-              <button
-                style={{
-                  backgroundColor: "#007FFF",
-                  color: "white",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  letterSpacing: "1px",
-                  padding: "10px 15px",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
-              >
-                Learn More
-              </button>
+                <button
+                  style={{
+                    backgroundColor: "#007FFF",
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    letterSpacing: "1px",
+                    padding: "10px 15px",
+                    border: "none",
+                    borderRadius: "5px",
+                  }}
+                >
+                  Learn More
+                </button>
               </Link>
             </div>
           </div>
@@ -160,20 +160,20 @@ const Carousel = () => {
                 Start your journey with us...
               </p>
               <Link to='/property'>
-              <button
-                style={{
-                  backgroundColor: "#007FFF",
-                  color: "white",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  letterSpacing: "1px",
-                  padding: "10px 15px",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
-              >
-                Learn More
-              </button>
+                <button
+                  style={{
+                    backgroundColor: "#007FFF",
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    letterSpacing: "1px",
+                    padding: "10px 15px",
+                    border: "none",
+                    borderRadius: "5px",
+                  }}
+                >
+                  Learn More
+                </button>
               </Link>
             </div>
           </div>
@@ -198,20 +198,20 @@ const Carousel = () => {
                 Start your journey with us...
               </p>
               <Link to='/property'>
-              <button
-                style={{
-                  backgroundColor: "#007FFF",
-                  color: "white",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  letterSpacing: "1px",
-                  padding: "10px 15px",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
-              >
-                Learn More
-              </button>
+                <button
+                  style={{
+                    backgroundColor: "#007FFF",
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    letterSpacing: "1px",
+                    padding: "10px 15px",
+                    border: "none",
+                    borderRadius: "5px",
+                  }}
+                >
+                  Learn More
+                </button>
               </Link>
             </div>
           </div>

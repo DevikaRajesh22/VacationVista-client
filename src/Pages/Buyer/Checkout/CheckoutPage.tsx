@@ -4,8 +4,8 @@ import Checkout from '../../../Components/Buyer/Checkout'
 const CheckoutPage = () => {
   return (
     <div className="pt-20">
-        <Navbar/>
-        <Checkout/>
+      <Navbar />
+      <Checkout />
     </div>
   )
 }

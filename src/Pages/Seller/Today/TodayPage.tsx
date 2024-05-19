@@ -4,9 +4,9 @@ import Today from '../../../Components/Seller/Today'
 const TodayPage = () => {
   return (
     <div>
-    <Navbar/>
-    <Today/>
-  </div>
+      <Navbar />
+      <Today />
+    </div>
   )
 }
 

@@ -31,17 +31,17 @@ const Signup = () => {
         return;
       }
       console.log('hi')
-      console.log(name,email,password)
+      console.log(name, email, password)
       const res = await signup(name, email, password);
-      console.log('no',res)
+      console.log('no', res)
       if (res?.data.success) {
         navigate("/otp");
-      }else if(!res?.data.success){
+      } else if (!res?.data.success) {
         toast.error(res?.data.message)
         navigate('/login')
       }
     } catch (error) {
-     console.log(error);
+      console.log(error);
     } finally {
       setError(null);
     }
@@ -120,7 +120,7 @@ const Signup = () => {
                 <button className="mb-1.5 block w-full text-center text-white bg-blue-700 hover:bg-blue-900 px-2 py-1.5 rounded-md">
                   Sign up
                 </button>
-                <GoogleAuthSignUp buyerLogin={false} buyer={true}/>
+                <GoogleAuthSignUp buyerLogin={false} buyer={true} />
               </div>
             </form>
 

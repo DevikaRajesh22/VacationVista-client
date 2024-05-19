@@ -128,7 +128,7 @@ const Review = () => {
                                                         onClick={() => handleReply(val.id)}
                                                         className="font-semibold cursor-pointer leading-8 text-indigo-600 whitespace-nowrap"
                                                     >
-                                                        {val.reply?'':'Reply'}
+                                                        {val.reply ? '' : 'Reply'}
                                                     </a>
                                                 </div>
                                             </div>

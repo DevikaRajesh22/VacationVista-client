@@ -38,8 +38,6 @@ const ChatList = ({ conversation, handleClick, setReceiver }: Props) => {
         }
     }, [sellerInfo])
 
-
-
     useEffect(() => {
         const filteredMember = conversation.members.filter((mem) => mem !== sellerId)
         const fetchData = async () => {

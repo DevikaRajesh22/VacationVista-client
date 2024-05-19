@@ -14,7 +14,7 @@ interface Property {
 
 const Property = () => {
     const [properties, setProperties] = useState<Property[]>([]);
-    const [block,setBlock]=useState(false)
+    const [block, setBlock] = useState(false)
 
     useEffect(() => {
         const fetchPropertyData = async () => {
@@ -29,16 +29,16 @@ const Property = () => {
             }
         }
         fetchPropertyData()
-    },[block]);
+    }, [block]);
 
     const handleHide = async (id: string) => {
         try {
-            const res=await hideProperty(id)
-            console.log('res',res)
-            if(res?.data.success){
+            const res = await hideProperty(id)
+            console.log('res', res)
+            if (res?.data.success) {
                 setBlock(!block)
                 toast.success('Succcessfully changed access...')
-              }
+            }
         } catch (error) {
             console.log(error)
         }
@@ -69,7 +69,7 @@ const Property = () => {
                                     onClick={() => handleHide(val.id)}
                                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-500 rounded-lg hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-700 dark:hover:bg-red-800 dark:focus:ring-red-500"
                                 >
-                                   {val.isBlocked ? 'Show': 'Hide'}
+                                    {val.isBlocked ? 'Show' : 'Hide'}
                                 </button>
 
                             </div>

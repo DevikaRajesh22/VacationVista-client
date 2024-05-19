@@ -4,22 +4,22 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { addReply } from '../../Api/seller'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Reply = () => {
     const [reply, setReply] = useState('');
     const { reviewId } = useParams();
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
         try {
-            if(reply.trim().length<3){
+            if (reply.trim().length < 3) {
                 toast.error('Please enter a valid reply')
                 return
             }
             if (reviewId) {
                 const res = await addReply(reviewId, reply);
-                if(res?.data.success){
+                if (res?.data.success) {
                     toast.success('Successfully added the reply..')
                     navigate('/seller/review')
                 }
@@ -43,7 +43,6 @@ const Reply = () => {
                             <span className="text-lg text-gray-800">
                                 Add a reply
                             </span>
-
                         </div>
                         <div className="w-3/4 flex flex-col">
                             <textarea

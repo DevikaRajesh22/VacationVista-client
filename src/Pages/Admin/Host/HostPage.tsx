@@ -8,7 +8,7 @@ const HostPage = () => {
         <SidebarWithLogo />
       </div>
       <div className="mt-20">
-        <Host/>
+        <Host />
       </div>
     </div>
   )

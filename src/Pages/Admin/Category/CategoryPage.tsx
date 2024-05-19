@@ -4,8 +4,8 @@ import Category from "../../../Components/Admin/Category"
 const CategoryPage = () => {
   return (
     <>
-    <SidebarWithLogo/>
-    <Category/>
+      <SidebarWithLogo />
+      <Category />
     </>
   )
 }

@@ -50,7 +50,7 @@ const Contact = () => {
                       Springfield
                     </p>
                     <p className="text-gray-600 dark:text-slate-400">
-                    United States
+                      United States
                     </p>
                   </div>
                 </li>

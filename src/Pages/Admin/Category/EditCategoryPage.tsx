@@ -4,8 +4,8 @@ import EditCategory from '../../../Components/Admin/EditCategory'
 const CategoryPage = () => {
   return (
     <>
-    <SidebarWithLogo/>
-    <EditCategory/>
+      <SidebarWithLogo />
+      <EditCategory />
     </>
   )
 }

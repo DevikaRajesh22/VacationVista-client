@@ -1,4 +1,3 @@
-import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AdminRoute from './Routes/adminRoute';
 import BuyerRoute from './Routes/buyerRoute';

@@ -8,7 +8,7 @@ const User = () => {
         <SidebarWithLogo />
       </div>
       <div className="mt-20">
-        <Users/>
+        <Users />
       </div>
     </div>
   )
