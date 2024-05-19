@@ -50,8 +50,8 @@ const Login = () => {
         >
           <div className="w-72">
             {/* <!-- Heading --> */}
-            <h1>VACATION VISTA</h1>
-            <h2 className="text-xl font-semibold">Welcome back</h2>
+            <h1 className='twxt-xl font-bold text-blue-900'>VACATION VISTA</h1>
+            <h2 className="text-lg font-semibold">Welcome back</h2>
             <small className="text-gray-400">
               Welcome back! Please enter your details
             </small>
