@@ -66,6 +66,8 @@ const Property = () => {
     fetchData()
   }, [])
 
+  console.log('hi',categories)
+
   useEffect(() => {
     const fetchData = async () => {
       try {
