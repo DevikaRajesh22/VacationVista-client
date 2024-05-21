@@ -54,6 +54,7 @@ const Property = () => {
       try {
         setLoadingCategories(true);
         const res = await category()
+        console.log('res',res)
         if (res?.data.success) {
           setCategories(res.data.getCategory)
         }
@@ -65,8 +66,6 @@ const Property = () => {
     }
     fetchData()
   }, [])
-
-  console.log('hi',categories)
 
   useEffect(() => {
     const fetchData = async () => {
