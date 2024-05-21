@@ -169,7 +169,7 @@ const Property = () => {
                       <option value="Category">Category</option>
                       <option value="All">All Categories</option>
                       {categories.filter((val) => !val.isHidden).map((val) => (
-                        <option key={val.name} value={val.name}>{val.name}</option>
+                        <option>{val.name}</option>
                       ))}
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
