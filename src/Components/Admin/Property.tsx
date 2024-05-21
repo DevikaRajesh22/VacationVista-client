@@ -34,7 +34,6 @@ const Property = () => {
     const handleHide = async (id: string) => {
         try {
             const res = await hideProperty(id)
-            console.log('res', res)
             if (res?.data.success) {
                 setBlock(!block)
                 toast.success('Succcessfully changed access...')

@@ -106,7 +106,6 @@ const Booking = () => {
 
   const bookingDetails = async (bookingId: string) => {
     try {
-      console.log(bookingId)
       navigate(`/bookingDetails/${bookingId}`)
     } catch (error) {
       console.log(error)

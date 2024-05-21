@@ -3,7 +3,6 @@ import sellerEndpoint from '../Service/endpoints/sellerEndpoint'
 
 export const signup = async (name: string, email: string, password: string) => {
     try {
-        console.log('signup api')
         const res = await Api.post(sellerEndpoint.sellerSignup, { name, email, password })
         const token = res.data.token
         localStorage.setItem('sellerotp', token)

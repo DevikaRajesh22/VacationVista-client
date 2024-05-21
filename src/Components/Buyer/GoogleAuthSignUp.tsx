@@ -22,7 +22,6 @@ const GoogleAuthSignUp = ({ buyerLogin, buyer }: googleAuthProps) => {
   const navigate = useNavigate();
   const gSignUp = async (res: CredentialResponse) => {
     const result: decodeJWT = jwtDecode(res.credential as string);
-    console.log(result);
     const data = {
       name: result.name,
       email: result.email,
@@ -32,7 +31,6 @@ const GoogleAuthSignUp = ({ buyerLogin, buyer }: googleAuthProps) => {
     if (buyer) {
       if (!buyerLogin) {
         const response = await gsignup(data.name, data.email, data.password);
-        console.log(response);
         if (!response?.data.data) {
           toast.error("email already exist. Please login");
           navigate("/login");

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { findUserById, getUser } from "../../Api/seller";
+import { getUser } from "../../Api/seller";
 
 let sellerId: string | undefined;
 
@@ -23,7 +23,6 @@ interface User {
 }
 
 const ChatList = ({ conversation, handleClick, setReceiver }: Props) => {
-    const [user, setUser] = useState<User[]>([]);
     const [userId, setUserId] = useState('');
     const [userInfo, setUserInfo] = useState<User>()
     const sellerInfo = useSelector((state: RootState) => state.auth.sellerInfo)
@@ -42,13 +41,10 @@ const ChatList = ({ conversation, handleClick, setReceiver }: Props) => {
         const filteredMember = conversation.members.filter((mem) => mem !== sellerId)
         const fetchData = async () => {
             const id = filteredMember.toString()
-            const res = await findUserById(id)
-            setUser(res?.data.data)
             setUserId(id)
         }
         fetchData()
-    }, [])
-    console.log(user)
+    }, [conversation.members])
 
     const Conversation = (conversationId: string, userId: string) => {
         setReceiver(userId)

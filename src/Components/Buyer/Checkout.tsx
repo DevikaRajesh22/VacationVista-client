@@ -94,10 +94,9 @@ const Checkout = () => {
                 const sessionId = res?.data.data
                 const save = await saveSession(sessionId, booking._id);
                 if (save?.data?.success) {
-                    const result = await stripe?.redirectToCheckout({
+                    await stripe?.redirectToCheckout({
                         sessionId: sessionId
                     })
-                    console.log(result)
                 } else if (!save?.data?.success) {
                     toast.error('Something went wrong..')
                 }

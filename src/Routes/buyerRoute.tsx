@@ -50,8 +50,8 @@ const buyerRoute = () => {
         <Route path='rating/:bookingId' element={<RatingPage />} />
         <Route path='editRating/:bookingId' element={<EditRatingPage />} />
         <Route path='bookingDetails/:bookingId' element={<BookingDetailsPage />} />
-        <Route path='*' element={<Error />} />
       </Route>
+      <Route path='*' element={<Error />} />
     </Routes>
   )
 }

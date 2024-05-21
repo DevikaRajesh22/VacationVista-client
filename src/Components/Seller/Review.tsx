@@ -77,7 +77,6 @@ const Review = () => {
         }
     }
 
-
     return (
         <div className="flex justify-center">
             <section className="py-24 relative">

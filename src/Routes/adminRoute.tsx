@@ -32,8 +32,8 @@ const adminRoute = () => {
         <Route path='booking' element={<BookingPage />} />
         <Route path='request' element={<RequestPage />} />
         <Route path='requestDetails/:id' element={<RequestDetailsPage />} />
-        <Route path='*' element={<Error />} />
       </Route>
+      <Route path='*' element={<Error />} />
     </Routes>
   )
 }

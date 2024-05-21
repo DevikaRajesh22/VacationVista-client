@@ -97,7 +97,7 @@ const EditProperty = () => {
       }
     }
     fetchPropertyData()
-  }, [])
+  }, [id])
 
   const handleAmenityChange = (isChecked: boolean, event: React.ChangeEvent<HTMLInputElement>) => {
     const amenity = { value: event.target.value };

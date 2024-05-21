@@ -44,11 +44,10 @@ const Subscription = () => {
         const res = await proceedForSubscription()
         if (res?.data.success) {
             const sessionId = res?.data.data
-            const result = await stripe?.redirectToCheckout({
+            await stripe?.redirectToCheckout({
                 sessionId: sessionId
             })
             setSubs(!subs)
-            console.log(result)
         }
     }
 

@@ -30,6 +30,7 @@ const buyerRoutes = {
     findRateById: '/buyer/findRateById',
     editRate: '/buyer/editRate',
     getBookingDetails: '/buyer/getBookingDetails',
+    findBuyer: '/buyer/findBuyer',
 }
 
 export default buyerRoutes;

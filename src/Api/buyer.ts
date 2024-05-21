@@ -333,3 +333,12 @@ export const getBookingDetails = async (bookingId: string) => {
         console.log(error)
     }
 }
+
+export const findBuyer = async () => {
+    try {
+        const res = await Api.get(BuyerEndpoint.findBuyer);
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}

@@ -33,7 +33,6 @@ const Category = () => {
     try {
       const res = await hideCategory(id);
       if (res?.data.success) {
-        console.log(hide)
         setHide(!hide)
       }
     } catch (error) {
@@ -50,8 +49,6 @@ const Category = () => {
       console.log(error)
     }
   }
-
-
 
   return (
     <div className="flex min-h-screen justify-center items-center w-full">

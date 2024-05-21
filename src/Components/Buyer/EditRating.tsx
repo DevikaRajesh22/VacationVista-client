@@ -40,7 +40,7 @@ const EditRating = () => {
             }
         }
         fetchRating()
-    }, [])
+    }, [bookingId])
 
     const handleStarClick = (starIndex: number) => {
         setRating(starIndex);

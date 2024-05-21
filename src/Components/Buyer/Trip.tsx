@@ -63,7 +63,6 @@ const Trip = () => {
               return endDate < today && (!booking.isCancelled) && (booking.paymentSuccess);
             });
             setBookings(filteredBookings);
-            console.log(filteredBookings.length / itemsPerPage)
             if (filteredBookings.length / itemsPerPage < 1) {
               setTotalPages(1)
             } else {
@@ -77,8 +76,6 @@ const Trip = () => {
     }
     fetchBookingData()
   }, [buyerId, currentPage])
-
-  console.log('totalPages', totalPages)
 
   const formatDateAndCalculateDays = (startDateString: Date, endDateString: Date) => {
     const startDate = new Date(startDateString);
@@ -122,79 +119,81 @@ const Trip = () => {
             </p>
           </div>
         ) : (
-          <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-            <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-              {bookings.map((val) => {
-                const { startDateFormatted, endDateFormatted, numberOfDays } = formatDateAndCalculateDays(val.startDate, val.endDate);
-                const total = (numberOfDays + 1) * val.propertyId.price
-                return (
-                  <article className="relative flex flex-col overflow-hidden rounded-lg border" key={val.id}>
-                    <div className="aspect-square overflow-hidden">
-                      <img
-                        className="h-full w-full object-cover transition-all duration-300 group-hover:scale-125"
-                        src={val.propertyId.photos[0]}
-                        alt=""
-                      />
-                    </div>
-                    <div className="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
-                      <p className="text-lg text-black font-semibold">{val.propertyId.title}</p>
-                      <p className="text-sm text-black-500 ">{val.propertyId.address}</p>
-                      <h3 className="mb-2 text-sm text-gray-500">{!val.isCancelled ? `Amount paid : ₹${total}` : `Refunded: ₹${total}`}</h3>
-                      {(startDateFormatted == endDateFormatted) ? <p>{startDateFormatted}</p> : <p>{startDateFormatted} to {endDateFormatted}</p>}
-                    </div>
-                    {!val.isCancelled ? <button onClick={(e) => {
-                      e.preventDefault()
-                      handleRating(val.id, val.rating)
-                    }} className="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
-                      <div className="flex w-full items-center justify-center bg-yellow-500 text-xs uppercase transition group-hover:bg-emerald-600 font-bold text-white">
-                        {val.rating ? 'Edit rating' : 'Add rating'}
+          <>
+            <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+              <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
+                {bookings.map((val) => {
+                  const { startDateFormatted, endDateFormatted, numberOfDays } = formatDateAndCalculateDays(val.startDate, val.endDate);
+                  const total = (numberOfDays + 1) * val.propertyId.price
+                  return (
+                    <article className="relative flex flex-col overflow-hidden rounded-lg border" key={val.id}>
+                      <div className="aspect-square overflow-hidden">
+                        <img
+                          className="h-full w-full object-cover transition-all duration-300 group-hover:scale-125"
+                          src={val.propertyId.photos[0]}
+                          alt=""
+                        />
                       </div>
-                    </button>
-                      :
-                      <p className='text-red-500 m-3'>Cancelled</p>
-                    }
-                  </article>
-                )
-              })}
+                      <div className="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
+                        <p className="text-lg text-black font-semibold">{val.propertyId.title}</p>
+                        <p className="text-sm text-black-500 ">{val.propertyId.address}</p>
+                        <h3 className="mb-2 text-sm text-gray-500">{!val.isCancelled ? `Amount paid : ₹${total}` : `Refunded: ₹${total}`}</h3>
+                        {(startDateFormatted == endDateFormatted) ? <p>{startDateFormatted}</p> : <p>{startDateFormatted} to {endDateFormatted}</p>}
+                      </div>
+                      {!val.isCancelled ? <button onClick={(e) => {
+                        e.preventDefault()
+                        handleRating(val.id, val.rating)
+                      }} className="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
+                        <div className="flex w-full items-center justify-center bg-yellow-500 text-xs uppercase transition group-hover:bg-emerald-600 font-bold text-white">
+                          {val.rating ? 'Edit rating' : 'Add rating'}
+                        </div>
+                      </button>
+                        :
+                        <p className='text-red-500 m-3'>Cancelled</p>
+                      }
+                    </article>
+                  )
+                })}
+              </div>
             </div>
-          </div>
+            <div className='flex justify-center m-20'>
+              <nav>
+                <ul className="inline-flex -space-x-px text-sm">
+                  <li>
+                    <button
+                      className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                      onClick={() => handleClickPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </button>
+                  </li>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <li key={page}>
+                      <a
+                        href="#"
+                        className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border ${page === currentPage ? 'border-blue-500' : 'border-gray-300'} hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+                        onClick={() => handleClickPage(page)}
+                      >
+                        {page}
+                      </a>
+                    </li>
+                  ))}
+                  <li>
+                    <button
+                      className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                      onClick={() => handleClickPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </>
         )
       }
-      <div className='flex justify-center m-20'>
-        <nav>
-          <ul className="inline-flex -space-x-px text-sm">
-            <li>
-              <button
-                className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => handleClickPage(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                Previous
-              </button>
-            </li>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <li key={page}>
-                <a
-                  href="#"
-                  className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border ${page === currentPage ? 'border-blue-500' : 'border-gray-300'} hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
-                  onClick={() => handleClickPage(page)}
-                >
-                  {page}
-                </a>
-              </li>
-            ))}
-            <li>
-              <button
-                className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => handleClickPage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                Next
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
     </section>
   )
 }

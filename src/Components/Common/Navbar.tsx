@@ -84,7 +84,7 @@ const Navbar = () => {
               >
                 <img
                   src={image}
-                  className="h-6 w-6 text-black mr-2 rounded-full"
+                  className="h-6 w-6 text-black mr-2 rounded-full object-cover"
                 />
                 {/* User icon with margin */}
                 <span className="text-sm font-medium text-gray-700">

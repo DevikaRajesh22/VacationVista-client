@@ -43,8 +43,8 @@ const sellerRoute = () => {
         <Route path='paymentSuccess' element={<PaymentSuccess />} />
         <Route path='paymentFail' element={<PaymentFail />} />
         <Route path='notification' element={<NotificationPage />} />
-        <Route path='*' element={<Error />} />
       </Route>
+      <Route path='*' element={<Error />} />
     </Routes>
   )
 }

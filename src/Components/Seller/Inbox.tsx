@@ -29,6 +29,7 @@ const Inbox = () => {
   const [receiver, setReceiver] = useState('')
   const [image, setImage] = useState<File | null>(null);
   const [video, setVideo] = useState<File | null>(null);
+  const [hide,setHide]=useState(true);
   const scrollRef = useRef<HTMLDivElement>(null)
   const socket = useRef<Socket | undefined>()
 
@@ -99,6 +100,7 @@ const Inbox = () => {
   }, [messages])
 
   const handleClick = async (conversationId: string) => {
+    setHide(false)
     setConversationId(conversationId)
     const res = await getMessages(conversationId)
     if (res) {
@@ -299,7 +301,7 @@ const Inbox = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
+              {!hide && <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
                 <div>
                   <input
                     type="file"
@@ -327,7 +329,6 @@ const Inbox = () => {
                     </svg>
                   </label>
                 </div>
-
                 <div className="flex-grow ml-4">
                   <div className="relative w-full">
                     {image ?
@@ -368,7 +369,7 @@ const Inbox = () => {
                     </span>
                   </button>
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
         </div>

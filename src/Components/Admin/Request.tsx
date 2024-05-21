@@ -53,8 +53,7 @@ const Request = () => {
     const handleAccept = async (id: string, status: string, sellerId: string) => {
         try {
             const res = await changePropertyStatus(id, status);
-            const response = await addNotification(sellerId, status, id);
-            console.log(response)
+            await addNotification(sellerId, status, id);
             socket?.current?.emit('changeStatus', {
                 sellerId: sellerId,
                 notification: 'Your property has been approved..',
@@ -73,8 +72,7 @@ const Request = () => {
     const handleReject = async (id: string, status: string, sellerId: string) => {
         try {
             const res = await changePropertyStatus(id, status);
-            const response = await addNotification(sellerId, status, id);
-            console.log(response)
+            await addNotification(sellerId, status, id);
             socket?.current?.emit('changeStatus', {
                 sellerId: sellerId,
                 notification: 'Your property has been rejected..',

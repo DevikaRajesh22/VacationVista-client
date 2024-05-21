@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { editProfile } from "../../Api/buyer";
+import { editProfile, findBuyer } from "../../Api/buyer";
 
 
 const EditBuyerProfile = () => {
@@ -47,13 +47,24 @@ const EditBuyerProfile = () => {
     }
   }
 
+  useEffect(() => {
+    const fetchBuyer = async () => {
+      const res = await findBuyer()
+      if(res?.data?.success){
+        setName(res.data.buyerProfile.name)
+        setPhone(res.data.buyerProfile.phone)
+        setGovtId(res.data.buyerProfile.govtId)
+      }
+    }
+    fetchBuyer()
+  }, [])
+
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       setImage(selectedFile)
     }
   }
-
 
   return (
     <div className="flex min-h-screen items-center justify-center">

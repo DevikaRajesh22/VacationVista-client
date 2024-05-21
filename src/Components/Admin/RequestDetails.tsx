@@ -32,7 +32,6 @@ const RequestDetails = () => {
                 console.log(id)
                 if (id) {
                     const res = await singlePropertyList(id)
-                    console.log(res?.data.getProperty)
                     if (res?.data.success) {
                         setSingleProperty(res.data.getProperty)
                         setLargeImage(res.data.getProperty.photos[0])
