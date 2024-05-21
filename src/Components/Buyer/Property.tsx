@@ -135,13 +135,13 @@ const Property = () => {
                   <div className="relative">
                     <select onChange={(e) => {
                       const selectedOption = e.target.value;
-                      if (selectedOption == 'Sort by price') {
+                      if (selectedOption == 'Sort') {
                         setSortOption('')
                       } else {
                         setSortOption(selectedOption)
                       }
                     }} className="h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                      <option>Sort by price</option>
+                      <option>Sort</option>
                       <option>Low to High</option>
                       <option>High to Low</option>
                     </select>
