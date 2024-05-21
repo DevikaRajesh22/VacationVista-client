@@ -145,8 +145,8 @@ const Property = () => {
                       className="h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     >
                       <option value="Sort">Sort</option>
-                      <option value="LowToHigh">Price: Low to High</option>
-                      <option value="HighToLow">Price: High to Low</option>
+                      <option value="Low to High">Price: Low to High</option>
+                      <option value="High to Low">Price: High to Low</option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                       <svg
