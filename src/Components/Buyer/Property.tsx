@@ -54,7 +54,6 @@ const Property = () => {
       try {
         setLoadingCategories(true);
         const res = await category()
-        console.log('res',res)
         if (res?.data.success) {
           setCategories(res.data.getCategory)
         }
